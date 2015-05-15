@@ -21,6 +21,9 @@
 	- Do a 360 degree sweep of the area, counting all trees fit the category
 	- Measure DBH of those trees that were larger than the 10 mark
 	- **Record genus of tree (species if known), DBH, azimuth from cored tree, and distance from cored tree**
+- Collect leaf samples for genetic analyses later on each sampled tree
+  - Obtain ~3-7 fasicles from each tree and store them in an empty tea bag to be placed in a storage container with silica gel
+  - **Record species code, mountain range, date, and collector initials for each sample**
 
 # ******Only 2 trees per species can be sampled per point!****** #
 
