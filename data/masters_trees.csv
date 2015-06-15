@@ -1,14 +1,14 @@
 tag,spcode,lat,lon,elev,DBH,BAF,needles.collected,condition,barkbeetle.attack,mtn,trail.area,date,note
-EL001,PICE,29.27552,103.28918,,22.8,6,Y,alive,NO,CM,basin campground,5/19/2015,off road
-EL002,PIAR,29.26227,103.25591,,9.4,5,Y,alive,NO,CM,pine canyon,5/19/2015,south facing slope
-EL003,PIAR,29.2621,103.2552,,30.9,7,Y,alive,NO,CM,pine canyon,5/19/2015,north facing slope
-EL004,PICE,29.26309,103.25395,,22.9,4,Y,alive,NO,CM,pine canyon,5/19/2015,south facing slope
-EL005,PICE,29.26347,103.2526,,12.5,4,Y,alive,NO,CM,pine canyon,5/19/2015,South by south east facing slope
-EL006,PIAR,29.26311,103.25253,,19.4,8,Y,alive,NO,CM,pine canyon,5/19/2015,
-EL007,PIAR,29.26363,103.25181,,44.3,7,N,alive,NO,CM,pine canyon,5/19/2015,leaves too high to sample. Core without pith
-EL008,PIAR,29.26396,103.25159,,17,8,Y,alive,NO,CM,pine canyon,5/19/2015,
-EL009,PIAR,29.26432,103.25114,,35.8,5,Y,alive,NO,CM,pine canyon,5/19/2015,core broke no pith
-EL010,PICE,29.27429,103.28667,,19.6,5,Y,alive,NO,CM,lost mine,5/20/2015,west facing slope
+EL001,PICE,29.27552,103.28918,1702,22.8,6,Y,alive,NO,CM,basin campground,5/19/2015,off road
+EL002,PIAR,29.26227,103.25591,1636,9.4,5,Y,alive,NO,CM,pine canyon,5/19/2015,south facing slope
+EL003,PIAR,29.2621,103.2552,1698,30.9,7,Y,alive,NO,CM,pine canyon,5/19/2015,north facing slope
+EL004,PICE,29.26309,103.25395,1713,22.9,4,Y,alive,NO,CM,pine canyon,5/19/2015,south facing slope
+EL005,PICE,29.26347,103.2526,1670,12.5,4,Y,alive,NO,CM,pine canyon,5/19/2015,South by south east facing slope
+EL006,PIAR,29.26311,103.25253,1673,19.4,8,Y,alive,NO,CM,pine canyon,5/19/2015,
+EL007,PIAR,29.26363,103.25181,1658,44.3,7,N,alive,NO,CM,pine canyon,5/19/2015,leaves too high to sample. Core without pith
+EL008,PIAR,29.26396,103.25159,1643,17,8,Y,alive,NO,CM,pine canyon,5/19/2015,
+EL009,PIAR,29.26432,103.25114,1645,35.8,5,Y,alive,NO,CM,pine canyon,5/19/2015,core broke no pith
+EL010,PICE,29.27429,103.28667,1729,19.6,5,Y,alive,NO,CM,lost mine,5/20/2015,west facing slope
 EL011,PICE,29.26956,103.26807,2089,32.7,4,Y,alive,NO,CM,lost mine,5/20/2015,
 EL012,PICE,29.26955,103.26897,2080,6.4,5,Y,alive,NO,CM,lost mine,5/20/2015,
 EL013,PICE,29.27088,103.26897,2068,17.8,3,Y,alive,NO,CM,lost mine,5/20/2015,
@@ -16,8 +16,8 @@ EL014,PICE,29.272,103.2705,2024,27.5,5,Y,alive,NO,CM,lost mine,5/20/2015,by trai
 EL015,PICE,29.2714,103.27089,1994,29.5,1,Y,alive,NO,CM,lost mine,5/20/2015,southwest facing slope
 EL016,PICE,29.27065,103.27097,1950,31.4,2,Y,alive,NO,CM,lost mine,5/20/2015,west facing slope
 ELG1,PIPO,31.90173,104.84494,1880,5.1,2,Y,alive,NO,GM,devils hall,6/3/2015,
-ELG002,PIPO,31.90267,104..84861,1891,30.9,5,Y,alive,NO,GM,devils hall,6/3/2015,
-ELG003,PIPO,31.90146,104.84593,,35.3,5,Y,alive,NO,GM,devils hall,6/3/2015,on slope
+ELG002,PIPO,31.90267,104.84861,1891,30.9,5,Y,alive,NO,GM,devils hall,6/3/2015,
+ELG003,PIPO,31.90146,104.84593,1902,35.3,5,Y,alive,NO,GM,devils hall,6/3/2015,on slope
 ELG004,PIPO,31.90145,104.8438,1848,14.8,5,Y,alive,NO,GM,devils hall,6/3/2015,
 ELG005,PIPO,31.89106,104.85873,2620,36.1,0,Y,alive,NO,GM,guadalupe peak,6/4/2015,on slope
 ELG006,PIST3,31.89112,104.85796,2585,16.9,11,Y,alive,NO,GM,guadalupe peak,6/4/2015,on slope
@@ -34,14 +34,14 @@ ELG016,PIED,31.89468,104.84312,2151,10.9,5,Y,alive,NO,GM,guadalupe peak,6/4/2015
 ELG017,PIPO,31.89834,104.82948,1792,38.6,0,Y,alve,NO,GM,pine springs,6/5/2015,river valley
 ELG018,PIPO,31.89865,104.83247,1804,47.5,3,Y,alive,NO,GM,pine springs,6/5/2015,river valley
 ELG019,PIPO,31.89963,104.83417,1802,51.5,2,Y,alive,NO,GM,pine springs,6/5/2015,river valley
-ELG020,PIPO,,,,16.8,3,Y,alive,NO,GM,pine springs,6/5/2015,river valley
+ELG020,PIPO,31.90129,104.83659,1815,16.8,3,Y,alive,NO,GM,pine springs,6/5/2015,river valley
 ELG021,PIED,31.91194,104.84438,2220,24.5,0,Y,alive,NO,GM,tejas trail,6/5/2015,before bowl
 ELG022,PIED,31.91452,104.84682,2326,33.1,4,Y,alive,NO,GM,tejas trail,6/5/2015,before bowl
 ELG023,PIED,31.91559,104.84649,2361,19.6,3,Y,alive,NO,GM,tejas trail,6/5/2015,before bowl
 ELG024,PIED,31.91567,104.84583,2387,14.7,6,Y,alive,NO,GM,tejas trail,6/5/2015,
 ELG025,PIED,31.91621,104.84459,2396,8.3,18,Y,alive,NO,GM,tejas trail,6/5/2015,
 ELG026,PIPO,31.91899,104.84435,2425,40.1,7,Y,alive,NO,GM,tejas trail,6/5/2015,
-ELG027,PIPO,,,,15.2,11,Y,dying,YES,GM,tejas trail,6/5/2015,needles green/yellow
+ELG027,PIPO,31.91933,104.84329,2397,15.2,11,Y,dying,YES,GM,tejas trail,6/5/2015,needles green/yellow
 ELG028,PIST3,31.91991,104.84408,2404,5.2,10,Y,alive,NO,GM,tejas trail,6/5/2015,
 ELG029,PIED,31.91959,104.8437,2407,11.7,6,Y,alive,NO,GM,tejas trail,6/5/2015,
 ELG030,PIPO,31.9199,104.8452,2407,13.3,14,Y,alive,NO,GM,tejas trail,6/5/2015,
