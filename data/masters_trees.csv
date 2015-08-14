@@ -128,13 +128,13 @@ ELD040,PICE,Y,30.68393,104.12349,1843,19.2,7,Y,alive,NO,DM,48 tank road,7/30/201
 ELD041,PIPO,Y,30.68287,104.12334,1844,27.2,10,N,alive,NO,DM,48 tank road,7/30/2015,needles too high
 ELD042,PICE,Y,30.6828,104.12305,1849,16,9,Y,alive,NO,DM,48 tank road,7/30/2015,
 ELD043,PIPO,Y,30.68181,104.14597,1920,18,5,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD044,PICE,Y,30.68162,104.14609,,8.9,10,Y,alive,NO,DM,right  hand loop,7/31/2015,fire scar at bottom
-ELD045,PIPO,Y,30.68078,104.14721,,12.2,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD046,PICE,Y,30.67971,104.14925,,8.6,6,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD044,PICE,Y,30.68162,104.14609,1917,8.9,10,Y,alive,NO,DM,right  hand loop,7/31/2015,fire scar at bottom
+ELD045,PIPO,Y,30.68078,104.14721,1922,12.2,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD046,PICE,Y,30.67971,104.14925,1934,8.6,6,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
 ELD047,PIPO,Y,30.67874,104.15104,1944,10.4,7,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
 ELD048,PICE,Y,30.67817,104.15277,1960,17.8,7,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD049,PIPO,Y,30.67798,104.1537,,12.4,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD050,PICE,Y,30.677,104.15678,,8.6,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD049,PIPO,Y,30.67798,104.1537,1967,12.4,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD050,PICE,Y,30.677,104.15678,1996,8.6,4,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail
 ELD051,PICE,Y,30.67702,104.16309,2020,16.6,11,Y,alive,NO,DM,right  hand loop,7/31/2015,by trail on slope
 ELD052,PIPO,N,30.67613,104.17049,1901,3.1,NA,Y,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
 ELD053,PIPO,Y,30.67617,104.17084,1899,19.6,11,N,alive,NO,DM,right  hand loop,7/31/2015,needles too high
@@ -154,7 +154,7 @@ ELD066,PIST3,Y,30.64285,104.18021,2128,23.2,8,Y,alive,NO,DM,tobe canyon trail,8/
 ELD067,PIST3,Y,30.64259,104.17797,2199,30,5,N,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
 ELD068,PIST3,Y,30.64132,104.17903,2230,15.4,10,N,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
 ELD069,PIST3,Y,30.64133,104.17906,2218,16.8,8,N,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
-ELD070,PIST3,Y,30.6416,104.17902,,8.4,12,Y,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
+ELD070,PIST3,Y,30.6416,104.17902,2208,8.4,12,Y,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
 ELD071,PIST3,Y,30.64174,104.17937,2191,24.6,9,Y,alive,NO,DM,tobe canyon trail,8/1/2015,fire scar at bottom
 ELD072,PIST3,Y,30.64215,104.17967,2167,20.2,10,Y,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
 ELD073,PIST3,Y,30.6415,104.18034,2169,12.8,9,Y,alive,NO,DM,tobe canyon trail,8/1/2015,
@@ -168,7 +168,7 @@ ELD080,PIPO,N,30.65879,104.1637,1924,11.4,NA,Y,alive,NO,DM,tobe canyon trail,8/1
 ELG044,PIED,Y,31.90802,104.80276,1711,28.2,2,Y,alive,NO,GM,frijole trail,8/6/2015,by trail
 ELG045,PIED,Y,31.90938,104.80412,1733,17.4,2,Y,alive,NO,GM,frijole trail,8/6/2015,by trail
 ELG046,PIED,Y,31.91003,104.80389,1719,17.2,1,Y,alive,NO,GM,smith springs trail,8/6/2015,off trail by creek
-ELG047,PIED,Y,,,,23.3,0,Y,alive,NO,GM,smith springs trail,8/6/2015,off road
+ELG047,PIED,Y,31.90509,104.80102,1676,23.3,0,Y,alive,NO,GM,smith springs trail,8/6/2015,off road
 ELG048,PIED,Y,31.90396,104.80098,1647,22.1,0,Y,alive,NO,GM,smith springs trail,8/6/2015,off road
 ELG049,PIED,Y,31.91857,104.86555,2440,9.5,10,Y,alive,NO,GM,pine top campground,8/7/2015,by campsite
 ELG050,PIED,Y,31.9188,104.84557,2444,15.2,10,Y,alive,NO,GM,pine top campground,8/7/2015,by campsite trail
