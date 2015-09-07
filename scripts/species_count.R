@@ -11,6 +11,4 @@ trees <- read.csv("../data/masters_trees.csv")
 ddply(subset(trees, condition=="alive" & core.taken=="Y"), .(mtn, spcode), summarize, N = length(tag))
 
 # needles
-ddply(subset(trees, needles.collected=="Y"), .(mtn, spcode), summarize, N = length(tag))
-# DWS: note that you should really use boolean variables for boolean data. Why
-# is needles.collected not TRUE/FALSE?
+ddply(subset(trees, needles.collected=="TRUE"), .(mtn, spcode), summarize, N = length(tag))
