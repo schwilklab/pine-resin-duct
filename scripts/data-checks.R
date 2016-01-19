@@ -14,7 +14,7 @@ update.packages()
 trees <- read.csv("../data/masters_trees.csv")
 
 # cores
-ddply(subset(trees, condition=="alive" & core.taken=="Y" & pith=="Y"), 
+ddply(subset(trees, core.taken=="Y" & pith=="Y"), 
       .(mtn, spcode), summarize, N = length(tag))
 
 # needles
