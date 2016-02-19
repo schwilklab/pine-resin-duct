@@ -1,0 +1,7 @@
+year,x-coordinate,y-coordinate,
+,,,
+variable,type,units,description
+(blank),numeric,,Tree ring number
+x,numeric,inches,x-coordinate for yearly tree ring
+y,numeric,inches,y-coordinate for yearly tree ring
+resin.duct.count,numeric,,number of resin ducts present for corresponding ring
