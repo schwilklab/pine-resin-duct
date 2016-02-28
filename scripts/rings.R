@@ -21,6 +21,11 @@ ring_data = data.frame()
 for (f in ring_files) {
     df <- read.csv(file.path("./data/tree_ring_coordinates", f))
     names(df) <- c("ring", "x", "y", "resin.duct.count")
+    for (x in length(df)) {
+      df$temporary<- sort(df$ring, decreasing=TRUE)
+      df$calendar.year<- (2017)-df$temporary
+    }
+    # Creates temporary column to create calendar year
     df$tag <- strsplit(f, "\\.")[[1]][1]
     # "ring number/id" is count from center of bole.
     df$ring.dist <- sdist(df$x[1],df$y[1], df$x, df$y)*2.54
@@ -30,5 +35,14 @@ for (f in ring_files) {
     ring_data <- rbind.fill(ring_data, df)
 }
 
+ring_data$temporary<- NULL
+# removes temporary column
+
 # clean up
-rm(ring_files, df, f)
+rm(ring_files, df, f, x)
+
+# Exploring data
+ggplot(ring_data, aes(calendar.year, resin.duct.count)) +
+  geom_point()
+# This doesn't tell a large story without ring area data.
+
