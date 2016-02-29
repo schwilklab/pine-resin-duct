@@ -28,4 +28,4 @@ anova(baf.lm)
 
 # There is a difference between species.  Looking at figure to get better idea
 ggplot(trees, aes(spcode, BAF, color=mtn)) +
-  geom_point()
+  geom_violin()
