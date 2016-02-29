@@ -8,7 +8,6 @@ rm(list=ls())
 # Load programs
 library(plyr)
 library(ggplot2)
-update.packages()
 
 # read tree data
 trees <- read.csv("../data/masters_trees.csv")
