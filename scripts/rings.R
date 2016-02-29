@@ -6,6 +6,7 @@
 # widths and areas. Provides data frame "ring_data" to global namespace.
 
 library(plyr)
+trees <- read.csv("./data/masters_trees.csv") #needed for tree age
 
 sdist <- function(x1,y1,x2,y2) {
     sqrt( (x1-x2)^2 + (y1-y2)^2)
@@ -46,3 +47,8 @@ ggplot(ring_data, aes(calendar.year, resin.duct.count)) +
   geom_point()
 # This doesn't tell a large story without ring area data.
 
+# Calculate age for each tree that was analyzed and creates a new
+# dataset
+age<- ddply(subset(ring_data), .(tag), summarize, Age = length(ring))
+trees.analyzed<- merge(trees, age, by= "tag")
+rm(age, trees)
