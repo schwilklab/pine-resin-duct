@@ -27,33 +27,23 @@ for (f in ring_files) {
     df <- read.csv(file.path("../data/tree_ring_coordinates", f),
                    stringsAsFactors=FALSE)
     names(df) <- c("ring", "x", "y", "resin.duct.count")
-    for (x in length(df)) {
-      df$temporary<- sort(df$ring, decreasing=TRUE)
-      df$calendar.year<- (2017)-df$temporary
-    }
-    # Creates temporary column to create calendar year
     df$tag <- strsplit(f, "\\.")[[1]][1]
-    # "ring number/id" is count from center of bole.
-    df$ring.dist <- sdist(df$x[1],df$y[1], df$x, df$y)*2.54
-    # Converting value obtained from inches to cm
-    df$ring.width <- get_widths(df$ring.dist)
-    df <- df[-nrow(df),]
-    ring_data <- rbind.fill(ring_data, df)
+    x1 <- df$x[1]
+    y1 <- df$y[1]
+    df <- df %>% mutate(calendar.year=SAMPLE_YEAR + ring - max(ring), #or +1?
+                        age=max(ring)-ring,
+                        # Convert value obtained from inches to cm
+                        ring.dist=sdist(x1, y1, x, y)*2.54,
+                        ring.width=get_widths(ring.dist))
+    ring_data <- rbind(ring_data, df)
 }
-
-ring_data$temporary<- NULL
-# removes temporary column
 
 # clean up
 rm(ring_files, df, f, x)
+ring_data <- ring_data %>% subset(!is.na(ring.width)) %>%
+    inner_join(trees)
 
 # Exploring data
-ggplot(ring_data, aes(calendar.year, resin.duct.count)) +
-  geom_point()
-# This doesn't tell a large story without ring area data.
-
-# Calculate age for each tree that was analyzed and creates a new
-# dataset
-age<- ddply(subset(ring_data), .(tag), summarize, Age = length(ring))
-trees.analyzed<- merge(trees, age, by= "tag")
-rm(age, trees)
+ggplot(ring_data, aes(age, resin.duct.count/ring.width)) +
+    geom_point() +
+    facet_grid(spcode ~ .)
