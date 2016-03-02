@@ -1,7 +1,5 @@
-year,x-coordinate,y-coordinate,
-,,,
-variable,type,units,description
-(blank),numeric,,Tree ring number
-x,numeric,inches,x-coordinate for yearly tree ring
-y,numeric,inches,y-coordinate for yearly tree ring
-resin.duct.count,numeric,,number of resin ducts present for corresponding ring
+"variable","type","units","description"
+"(blank)","numeric",,"Tree ring number starting at the center.  "
+"x","numeric","inches","x-coordinate. Values are associated with the coordinates for the beginning of a ring."
+"y","numeric","inches","y-coordinate. Values are associated with the coordinates for the beginning of a ring."
+"resin.duct.count","numeric",,"Number of resin ducts present for corresponding ring"

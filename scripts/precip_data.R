@@ -8,8 +8,7 @@ library(stringr)
 library(ggplot2)
 
 # Load .csv file from dropbox
-monthly_precip_data <- read.csv("https://www.dropbox.com/s/iqi7e4n8sietwtu/precip_data.
-                        csv?dl=1")
+monthly_precip_data <- read.csv("https://www.dropbox.com/s/iqi7e4n8sietwtu/precip_data.csv?dl=1")
 # Remove numbers for months in TPCP column
 str_sub(monthly_precip_data$DATE, 5, -1) <- "";
 monthly_precip_data$year <- as.integer(str_sub(monthly_precip_data$DATE, 1, 4))
