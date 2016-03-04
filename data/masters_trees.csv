@@ -46,18 +46,18 @@ ELG028,PIST3,Y,Y,31.91991,104.84408,2404,5.2,10,TRUE,alive,NO,GM,tejas trail,6/5
 ELG029,PIED,Y,Y,31.91959,104.8437,2407,11.7,6,TRUE,alive,NO,GM,tejas trail,6/5/2015,
 ELG030,PIPO,Y,N,31.9199,104.8452,2407,13.3,14,TRUE,alive,NO,GM,tejas trail,6/5/2015,
 ELG031,PIST3,Y,Y,31.92042,104.84306,2406,22.4,11,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG032,PIPO,Y,Y,31.96128,104.84453,2338,33.4,8,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG033,PIST3,Y,Y,31.96029,104.8422,2340,9.9,13,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG034,PIED,Y,Y,31.9619,104.8.803,2368,21.3,2,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG035,PIPO,Y,Y,31.9629,104.83709,2373,28.7,2,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,some red needles.  No sign of bark beetle attack
-ELG036,PIST3,Y,Y,31.96775,104.83104,2347,18.5,7,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG037,PIST3,Y,Y,31.9673,104.83128,2360,14.9,11,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG038,PIST3,Y,N,31.96809,104.83203,2365,30.2,5,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG039,PIST3,Y,Y,31.96881,104.83023,2361,19.6,6,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG040,PIST3,Y,Y,31.96967,104.83007,2379,8.9,12,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG041,PIST3,Y,Y,31.97025,104.8298,2382,20.7,10,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,close to pith
-ELG042,PIST3,Y,Y,31.97091,104.82928,2378,21.7,12,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
-ELG043,PIST3,Y,Y,31.97143,104.82833,2380,15.6,14,TRUE,alive,NO,GM,mckitrick canyon trail,6/20/2015,
+ELG032,PIPO,Y,Y,31.96128,104.84453,2338,33.4,8,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG033,PIST3,Y,Y,31.96029,104.8422,2340,9.9,13,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG034,PIED,Y,Y,31.9619,104.83803,2368,21.3,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG035,PIPO,Y,Y,31.9629,104.83709,2373,28.7,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,some red needles.  No sign of bark beetle attack
+ELG036,PIST3,Y,Y,31.96775,104.83104,2347,18.5,7,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG037,PIST3,Y,Y,31.9673,104.83128,2360,14.9,11,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG038,PIST3,Y,N,31.96809,104.83203,2365,30.2,5,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG039,PIST3,Y,Y,31.96881,104.83023,2361,19.6,6,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG040,PIST3,Y,Y,31.96967,104.83007,2379,8.9,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG041,PIST3,Y,Y,31.97025,104.8298,2382,20.7,10,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,close to pith
+ELG042,PIST3,Y,Y,31.97091,104.82928,2378,21.7,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG043,PIST3,Y,Y,31.97143,104.82833,2380,15.6,14,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
 ELC001,PICE,Y,N,29.26847,103.30408,1633,28.8,3,TRUE,alive,NO,CM,chisos basin,6/24/2015,tree is curved
 ELC002,PICE,Y,N,29.26816,103.30521,1626,33.9,2,TRUE,alive,NO,CM,chisos basin,6/24/2015,
 ELC003,PICE,Y,Y,29.26671,103.30466,1648,17.6,4,TRUE,alive,NO,CM,chisos basin,6/24/2015,
@@ -170,7 +170,7 @@ ELG045,PIED,Y,Y,31.90938,104.80412,1733,17.4,2,TRUE,alive,NO,GM,frijole trail,8/
 ELG046,PIED,Y,Y,31.91003,104.80389,1719,17.2,1,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off trail by creek
 ELG047,PIED,Y,Y,31.90509,104.80102,1676,23.3,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
 ELG048,PIED,Y,Y,31.90396,104.80098,1647,22.1,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
-ELG049,PIED,Y,Y,31.91857,104.86555,2440,9.5,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite
+ELG049,PIED,Y,Y,31.91857,104.84555,2440,9.5,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite
 ELG050,PIED,Y,Y,31.9188,104.84557,2444,15.2,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite trail
 ELG051,PIPO,Y,Y,31.92044,104.84314,2392,16.8,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
 ELG052,PIST3,Y,Y,31.92119,104.84309,2409,14.9,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
