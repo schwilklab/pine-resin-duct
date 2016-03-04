@@ -12,13 +12,20 @@ library(ggplot2)
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
-                    # distinguish. The code should porbably actually check the
+                    # distinguish. The code should probably actually check the
                     # sample date in trees.csv, but this is ok for now if all
                     # were sampled in mid-late summer 2015.
 
 sdist <- function(x1,y1,x2,y2) {
     sqrt( (x1-x2)^2 + (y1-y2)^2)
 }
+
+# Shifts the values in a single column by amount specified
+shift<- function(x, n){
+  c(x[-(seq(n))], rep(NA, n))
+}
+
+get.area <- function()
 
 # Obtain the distance between rings. Coordinates are associated with the inner
 # boundary of a ring, so we obtain values for rows n:(n-1).
@@ -39,6 +46,13 @@ read_ring_coord_file <- function(filename) {
                         # Convert coordinate pixels from inches to cm
                         ring.dist=sdist(x1, y1, x, y)*2.54,
                         ring.width=get_widths(ring.dist))
+    df$radius= shift(df$ring.dist, 1)
+    ## This is where I think I need to write code to calculate ring area.
+    ## I believe my equation is wrong, though, so I will talk to you
+    ## about this tomorrow during our meeting.
+    ## x.1 <- ()
+    ## x.2 <- ()
+    ##df <- df %>% mutate()
     return(subset(df, !is.na(ring.width)) ) # throw away last row in each df
 }
 
