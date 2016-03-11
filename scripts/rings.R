@@ -16,6 +16,8 @@ SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # sample date in trees.csv, but this is ok for now if all
                     # were sampled in mid-late summer 2015.
 
+BORER_WIDTH = 1.2
+
 sdist <- function(x1,y1,x2,y2) {
     sqrt( (x1-x2)^2 + (y1-y2)^2)
 }
@@ -35,7 +37,7 @@ get_widths <- function(distances) {
 # Calculates width of the core based on radius. There are a few rings that
 # have a smaller radius than the core width, so this is necessary for
 # accurate ring area calculations.
-core.widths <- function (radius2, core.width = 1.2) {
+core.widths <- function (radius2, core.width = BORER_WIDTH) {
   diameter <- 2 * radius2
   if (diameter > core.width) {
     diameter = core.width
@@ -54,9 +56,10 @@ read_ring_coord_file <- function(filename) {
     df <- df %>% mutate(calendar.year=SAMPLE_YEAR + ring - max(ring) + 1,
                         age=max(ring)-ring,
                         # Convert coordinate pixels from inches to cm
-                        ring.dist=sdist(x1, y1, x, y)*2.54,
-                        ring.width=get_widths(ring.dist))
-    df$radius= shift(df$ring.dist, 1)
+                        r1=sdist(x1, y1, x, y)*2.54,
+                        ring.width=get_widths(r1),
+                        r2 = r1+ring.width)
+
     return(subset(df, !is.na(ring.width)) ) # throw away last row in each df
 }
 
@@ -85,6 +88,10 @@ ggplot(ring_data, aes(age, resin.duct.count/ring.width, color=mtn)) +
 ## calculating area, but I don't think my code is very effiicent.
 ## Will continue to work on this.
 
+
+
+
+
 tag.list <- unique(ring_data$tag)
 ring.area <- data.frame (tag = ring_data$tag, calendar.year= ring_data$calendar.year,
                          area = rep(NA, length(ring_data$tag)))
@@ -107,6 +114,40 @@ for (i in length(tag.list)) {
       core.width-acs1+acs2
   }
 }
+
+core.area <- function(C, r1, r2) {
+
+    # special case for ring less than core size:
+    if(2*r2 < C) {
+        return((2*pi*r2^2 - 2*pi*r1^2)/2)
+    }
+    
+    
+    cen.ang1 <-  2*asin(C/(2*r1))
+    cen.ang2 <-  2*asin(C/(2*r2))
+    # special case
+    if (r1 < C) {
+       # return 
+         C * (r2-r1) - (2*pi*r1^2)/2  + acs2
+    } else {
+        acs1 <- (r1^2/2)*(cen.ang1-(sin(cen.ang1)))
+    }
+    
+    acs2 <- (r2^2/2)*(cen.ang2-(sin(cen.ang2)))
+    rarea <- C * (r2-r1) -acs1 + acs2
+    return(rarea)
+}
+
+#ring_data <- ring_data %>% mutate(ring.area = core.area(BORER_WIDTH, r1, r2))
+
+
+ring_data$ring.area <- NA
+for(i in 1:length(ring_data$r1)) {
+    ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
+}
+
+    
+
 
 # Testing to make sure equation works. This can be deleted once I am
 # able to run the actual code.
