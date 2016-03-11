@@ -25,12 +25,22 @@ shift<- function(x, n){
   c(x[-(seq(n))], rep(NA, n))
 }
 
-get.area <- function()
 
 # Obtain the distance between rings. Coordinates are associated with the inner
 # boundary of a ring, so we obtain values for rows n:(n-1).
 get_widths <- function(distances) {
     c(distances[2:length(distances)], NA) - distances
+}
+
+# Calculates width of the core based on radius. There are a few rings that
+# have a smaller radius than the core width, so this is necessary for
+# accurate ring area calculations.
+core.widths <- function (radius2, core.width = 1.2) {
+  diameter <- 2 * radius2
+  if (diameter > core.width) {
+    diameter = core.width
+  }
+  return(diameter)
 }
 
 # Reads a ring coordinate file and returns a data frame with several new
@@ -47,12 +57,6 @@ read_ring_coord_file <- function(filename) {
                         ring.dist=sdist(x1, y1, x, y)*2.54,
                         ring.width=get_widths(ring.dist))
     df$radius= shift(df$ring.dist, 1)
-    ## This is where I think I need to write code to calculate ring area.
-    ## I believe my equation is wrong, though, so I will talk to you
-    ## about this tomorrow during our meeting.
-    ## x.1 <- ()
-    ## x.2 <- ()
-    ##df <- df %>% mutate()
     return(subset(df, !is.na(ring.width)) ) # throw away last row in each df
 }
 
@@ -75,3 +79,49 @@ ggplot(ring_data, aes(age, resin.duct.count/ring.width, color=mtn)) +
     geom_point() +
     scale_y_log10() +
     facet_grid(spcode ~ .)
+
+## Code for calculating area ring.area.  There's an error in my 
+## function that I wrote for core.widths.  I think I am close to 
+## calculating area, but I don't think my code is very effiicent.
+## Will continue to work on this.
+
+tag.list <- unique(ring_data$tag)
+ring.area <- data.frame (tag = ring_data$tag, calendar.year= ring_data$calendar.year,
+                         area = rep(NA, length(ring_data$tag)))
+
+
+for (i in length(tag.list)) {
+  core <- ring_data[ring_data$tag == tag.list[i], ]
+  
+  for (j in length(core$radius)){
+    r1 <- core$ring.dist
+    r2 <- core$radius
+    cw1 <- core.widths(r1)
+    cw2 <- core.widths(r2)
+    core.width <-cw2
+    cen.ang1 <-  2*asin(cw1/(2*r1))
+    cen.ang2 <-  2*asin(cw2/(2*r2))
+    acs1 <- (r1^2/2)*(cen.ang1-(sin(cen.ang1)))
+    acs2 <- (r2^2/2)*(cen.ang2-(sin(cen.ang2)))
+    ring.area$area[ring.area$tag == tag.list[i], i ] <- core$ring.width(j)*
+      core.width-acs1+acs2
+  }
+}
+
+# Testing to make sure equation works. This can be deleted once I am
+# able to run the actual code.
+
+# Example for calculating core are using one tree ring's values
+
+#r1<- 1.31184545 # inner radius (ring.dist)
+#r2<- 1.33662176 # outer radius
+#cw1<- core.widths(r1) # core width radius 1
+#cw2<- core.widths(r2) # core width radius 2
+#core.width<- cw2 # core width for area calculation
+#cen.ang2<- 2*asin(cw2/(2*r2)) #radians
+#cen.ang1<- 2*asin(cw1/(2*r1)) #radians
+#ring.width<- .02477631 # ring width
+#acs1<- (r1^2/2)*(cen.ang1-(sin(cen.ang1))) #area under curve 1
+#acs2<- (r2^2/2)*(cen.ang2-(sin(cen.ang2))) #area under curve 2
+#ring.area<- ring.width*core.width -acs1+acs2
+#ring.area.simple<- ring.width*core.width # no under curve area
