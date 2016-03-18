@@ -1,211 +1,211 @@
 tag,spcode,core.taken,pith,lat,lon,elev,DBH,BAF,needles.collected,condition,barkbeetle.attack,mtn,trail.area,date,note
-EL001,PICE,Y,N,29.27552,103.28918,1702,22.8,6,TRUE,alive,NO,CM,basin campground,5/19/2015,off road
-EL002,PIAR5,Y,Y,29.26227,103.25591,1636,9.4,5,TRUE,alive,NO,CM,pine canyon,5/19/2015,south facing slope
-EL003,PIAR5,Y,Y,29.2621,103.2552,1698,30.9,7,TRUE,alive,NO,CM,pine canyon,5/19/2015,north facing slope
-EL004,PICE,Y,Y,29.26309,103.25395,1713,22.9,4,TRUE,alive,NO,CM,pine canyon,5/19/2015,south facing slope
-EL005,PICE,Y,Y,29.26347,103.2526,1670,12.5,4,TRUE,alive,NO,CM,pine canyon,5/19/2015,South by south east facing slope
-EL006,PIAR5,Y,N,29.26311,103.25253,1673,19.4,8,TRUE,alive,NO,CM,pine canyon,5/19/2015,close to pith
-EL007,PIAR5,Y,N,29.26363,103.25181,1658,44.3,7,FALSE,alive,NO,CM,pine canyon,5/19/2015,leaves too high to sample. Core without pith
-EL008,PIAR5,Y,Y,29.26396,103.25159,1643,17,8,TRUE,alive,NO,CM,pine canyon,10/31/2015,
-EL009,PIAR5,Y,N,29.26432,103.25114,1645,35.8,5,TRUE,alive,NO,CM,pine canyon,5/19/2015,core broke no pith
-EL010,PICE,Y,N,29.27429,103.28667,1729,19.6,5,TRUE,alive,NO,CM,lost mine,5/20/2015,west facing slope
-EL011,PICE,Y,Y,29.26956,103.26807,2089,32.7,4,TRUE,alive,NO,CM,lost mine,5/20/2015,close to pith
-EL012,PICE,Y,Y,29.26955,103.26897,2080,6.4,5,TRUE,alive,NO,CM,lost mine,5/20/2015,
-EL013,PICE,Y,Y,29.27088,103.26897,2068,17.8,3,TRUE,alive,NO,CM,lost mine,5/20/2015,
-EL014,PICE,Y,N,29.272,103.2705,2024,27.5,5,TRUE,alive,NO,CM,lost mine,5/20/2015,by trail. at angle toward trail
-EL015,PICE,Y,N,29.2714,103.27089,1994,29.5,1,TRUE,alive,NO,CM,lost mine,5/20/2015,southwest facing slope
-EL016,PICE,Y,Y,29.27065,103.27097,1950,31.4,2,TRUE,alive,NO,CM,lost mine,5/20/2015,west facing slope
-ELG1,PIPO,Y,Y,31.90173,104.84494,1880,5.1,2,TRUE,alive,NO,GM,devils hall,6/3/2015,
-ELG002,PIPO,Y,Y,31.90267,104.84861,1891,30.9,5,TRUE,alive,NO,GM,devils hall,6/3/2015,
-ELG003,PIPO,Y,Y,31.90146,104.84593,1902,35.3,5,TRUE,alive,NO,GM,devils hall,6/3/2015,on slope
-ELG004,PIPO,Y,Y,31.90145,104.8438,1848,14.8,5,TRUE,alive,NO,GM,devils hall,6/3/2015,
-ELG005,PIPO,Y,N,31.89106,104.85873,2620,36.1,0,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
-ELG006,PIST3,Y,N,31.89112,104.85796,2585,16.9,11,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
-ELG007,PIST3,Y,N,31.89129,104.8582,2575,20.7,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
-ELG008,PIST3,Y,N,31.89136,104.85732,2547,38.3,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,no pith. Tree was rotted past a certain point. Needles looked healthy though.
-ELG009,PIPO,Y,Y,31.89263,104.85363,2483,10.2,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,phoradendron sp. Located on plant
-ELG010,PIPO,Y,Y,31.89118,104.85181,2471,34.1,2,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
-ELG011,PIED,Y,Y,31.89369,104.8484,2409,20.3,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,damage on side facing slope
-ELG012,PIED,Y,Y,31.89561,104.84769,2393,11.7,3,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
-ELG013,PIED,Y,N,31.89367,104.84702,2366,24.2,1,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,
-ELG014,PIED,Y,Y,31.89407,104.84694,2336,14.2,3,TRUE,dying,NO,GM,guadalupe peak,6/4/2015,some needles browning. Something is attacking pines in the area. Probably not bark beetle.
-ELG015,PIED,Y,Y,31.89429,104.8451,2270,11.3,7,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope close to pith
-ELG016,PIED,Y,N,31.89468,104.84312,2151,10.9,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,
-ELG017,PIPO,Y,Y,31.89834,104.82948,1792,38.6,0,TRUE,alve,NO,GM,pine springs,6/5/2015,river valley
-ELG018,PIPO,Y,N,31.89865,104.83247,1804,47.5,3,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
-ELG019,PIPO,Y,Y,31.89963,104.83417,1802,51.5,2,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
-ELG020,PIPO,Y,Y,31.90129,104.83659,1815,16.8,3,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
-ELG021,PIED,Y,Y,31.91194,104.84438,2220,24.5,0,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
-ELG022,PIED,Y,Y,31.91452,104.84682,2326,33.1,4,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
-ELG023,PIED,Y,Y,31.91559,104.84649,2361,19.6,3,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
-ELG024,PIED,Y,Y,31.91567,104.84583,2387,14.7,6,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG025,PIED,Y,N,31.91621,104.84459,2396,8.3,18,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG026,PIPO,Y,N,31.91899,104.84435,2425,40.1,7,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG027,PIPO,Y,Y,31.91933,104.84329,2397,15.2,11,TRUE,dying,YES,GM,tejas trail,6/5/2015,needles green/yellow
-ELG028,PIST3,Y,Y,31.91991,104.84408,2404,5.2,10,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG029,PIED,Y,Y,31.91959,104.8437,2407,11.7,6,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG030,PIPO,Y,N,31.9199,104.8452,2407,13.3,14,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG031,PIST3,Y,Y,31.92042,104.84306,2406,22.4,11,TRUE,alive,NO,GM,tejas trail,6/5/2015,
-ELG032,PIPO,Y,Y,31.96128,104.84453,2338,33.4,8,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG033,PIST3,Y,Y,31.96029,104.8422,2340,9.9,13,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG034,PIED,Y,Y,31.9619,104.83803,2368,21.3,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG035,PIPO,Y,Y,31.9629,104.83709,2373,28.7,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,some red needles.  No sign of bark beetle attack
-ELG036,PIST3,Y,Y,31.96775,104.83104,2347,18.5,7,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG037,PIST3,Y,Y,31.9673,104.83128,2360,14.9,11,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG038,PIST3,Y,N,31.96809,104.83203,2365,30.2,5,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG039,PIST3,Y,Y,31.96881,104.83023,2361,19.6,6,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG040,PIST3,Y,Y,31.96967,104.83007,2379,8.9,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG041,PIST3,Y,Y,31.97025,104.8298,2382,20.7,10,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,close to pith
-ELG042,PIST3,Y,Y,31.97091,104.82928,2378,21.7,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELG043,PIST3,Y,Y,31.97143,104.82833,2380,15.6,14,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
-ELC001,PICE,Y,N,29.26847,103.30408,1633,28.8,3,TRUE,alive,NO,CM,chisos basin,6/24/2015,tree is curved
-ELC002,PICE,Y,N,29.26816,103.30521,1626,33.9,2,TRUE,alive,NO,CM,chisos basin,6/24/2015,
-ELC003,PICE,Y,Y,29.26671,103.30466,1648,17.6,4,TRUE,alive,NO,CM,chisos basin,6/24/2015,
-ELC004,PICE,Y,Y,29.27738,103.30198,1555,18.9,5,TRUE,alive,NO,CM,chisos basin,6/24/2015,
-ELC005,PICE,Y,Y,29.26361,103.29663,1784,16.3,18,TRUE,alive,NO,CM,emory trail,6/25/2015,
-ELC006,PICE,Y,N,29.24729,103.30103,2280,25,12,TRUE,alive,NO,CM,emory trail,6/25/2015,
-ELC007,PICE,Y,Y,29.24347,103.29686,2089,24.1,12,TRUE,alive,NO,CM,south rim trail,6/25/2015,
-ELC008,PICE,Y,N,29.24618,103.29648,2086,16.8,8,TRUE,alive,NO,CM,south rim trail,6/25/2015,
-ELC009,PICE,Y,Y,29.24788,103.29408,2083,26.7,8,TRUE,alive,NO,CM,south rim trail,6/25/2015,
-ELC010,PICE,Y,Y,29.25135,103.29594,2103,13.3,11,TRUE,alive,NO,CM,south rim trail,6/25/2015,
-ELC011,PICE,Y,Y,29.25199,103.29795,2090,26.2,7,TRUE,alive,NO,CM,emory peak,6/25/2015,
-ELC012,PICE,Y,Y,29.2522,103.30091,2015,24.7,11,TRUE,alive,NO,CM,emory peak,6/25/2015,"no pith, middle is rotting"
-ELC013,PICE,Y,Y,29.25488,103.30125,1902,19,10,TRUE,alive,NO,CM,emory trail,6/25/2015,
-ELC014,PIAR5,Y,Y,29.26493,103.2504,1651,37.1,7,FALSE,alive,NO,CM,pine canyon,10/31/2015,could not reach needles
-ELC015,PIAR5,Y,Y,29.26478,103.25054,1654,13.8,15,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC016,PIAR5,Y,N,29.26454,103.25084,1666,19.9,14,FALSE,alive,NO,CM,pine canyon,6/26/2015,
-ELC017,PIAR5,Y,Y,29.26455,103.25114,1653,31,10,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC018,PIAR5,Y,Y,29.26401,103.25114,1637,24.4,5,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC019,PIAR5,Y,Y,29.26376,103.2514,1670,9.6,12,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC020,PIAR5,Y,Y,29.26359,103.25154,1662,34.2,9,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC021,PIAR5,Y,Y,29.2636,103.25233,1663,6.6,13,TRUE,alive,NO,CM,pine canyon,6/26/2015,
-ELC022,PIAR5,Y,Y,29.26305,103.25215,1671,12.7,12,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
-ELC023,PIAR5,Y,Y,29.263,103.25196,1674,15.2,16,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
-ELC024,PIAR5,Y,Y,29.26232,103.25404,1704,21.6,7,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope close to pith
-ELC025,PIAR5,Y,Y,29.26221,103.25416,1700,12.2,11,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
-ELC026,PIAR5,Y,N,29.26249,103.25417,1696,24.7,6,FALSE,alive,NO,CM,pine canyon,6/26/2015,"on slope, middles rotting"
-ELC027,PIAR5,Y,Y,29.26241,103.25542,1716,23.1,9,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
-ELD001,PICE,N,N,30.70068,104.11304,1794,5.8,5,TRUE,alive,NO,DM,mciver center,7/7/2015,no core collected
-ELD002,PICE,Y,Y,30.70102,104.1123,1802,21.7,6,TRUE,alive,NO,DM,mciver center,7/7/2015,
-ELD003,PICE,Y,N,30.70103,104.11068,1809,20,4,FALSE,alive,NO,DM,mciver center,7/7/2015,needles too high
-ELD004,PICE,Y,Y,30.70395,104.11903,1828,11.1,1,TRUE,alive,NO,DM,mciver center,7/7/2015,
-ELD005,PIPO,Y,Y,30.63503,104.17095,2477,18.4,4,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD006,PIST3,Y,Y,30.63533,104.17107,2479,34.2,8,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD007,PICE,Y,N,30.63506,104.17077,2480,34,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD008,PIPO,Y,N,30.63453,104.16941,2480,36.8,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD009,PIPO,Y,Y,30.63505,104.16872,2485,14.5,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD010,PIPO,Y,Y,30.6357,104.16858,2479,35.6,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD011,PIPO,Y,N,30.63707,104.16692,2440,36.8,3,FALSE,alive,NO,DM,bridge gap,7/8/2015,needles too high
-ELD012,PIST3,Y,Y,30.63738,104.1669,2425,26.6,3,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD013,PIST3,Y,Y,30.63774,104.16642,2434,17.2,5,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD014,PIST3,Y,Y,30.63769,104.16579,2425,36.2,4,TRUE,alive,NO,DM,bridge gap,7/8/2015,
-ELD015,PICE,Y,N,30.65131,104.17213,2015,31.5,3,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD016,PICE,Y,Y,30.64685,104.17067,2092,10,6,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD017,PIPO,Y,Y,30.64483,104.16897,2125,17.4,8,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD018,PICE,Y,Y,30.64322,104.16635,2173,20.2,12,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD019,PIST3,Y,N,30.6427,104.16499,2194,11.1,7,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD020,PICE,Y,Y,30.64264,104.16505,2197,11.5,3,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD021,PIPO,Y,N,30.64262,104.16486,2193,21.9,8,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD022,PIPO,Y,Y,30.64275,104.16272,2232,21.9,7,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD023,PIST3,Y,Y,30.64,104.16241,2214,19.4,12,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD024,PIPO,Y,Y,30.64012,104.16212,2215,26.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD025,PIST3,Y,N,30.64051,104.16181,2198,15.2,15,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD026,PIPO,Y,Y,30.64034,104.16139,2204,19.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high close to pith
-ELD027,PIST3,Y,Y,30.6404,104.16136,2197,12.6,11,TRUE,alive,NO,DM,bridge gap,7/9/2015,
-ELD028,PIST3,Y,Y,30.64027,104.16087,2204,16.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD029,PIST3,Y,Y,30.63988,104.16074,2229,17.1,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD030,PIPO,Y,Y,30.65766,104.16764,1938,20.2,3,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD031,PIPO,Y,Y,30.65832,104.16491,1928,8,7,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
-ELD032,PICE,Y,Y,30.69723,104.12132,1802,20.4,9,TRUE,alive,NO,DM,48 tank road,7/30/2015,near trail
-ELD033,PIPO,Y,Y,30.69679,104.12157,1803,19.2,5,TRUE,alive,NO,DM,48 tank road,7/30/2015,fire scar at bottom
-ELD034,PICE,Y,Y,30.69656,104.12264,1798,17,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,on slope
-ELD035,PIPO,Y,Y,30.69613,104.12244,1801,21.6,4,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD036,PICE,Y,Y,30.69562,104.12362,1804,17.6,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD037,PICE,Y,Y,30.69235,104.12413,1821,8.1,11,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD038,PICE,Y,Y,30.69037,104.12576,1822,15.6,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD039,PIPO,Y,Y,30.68657,104.12559,1825,29.6,10,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD040,PICE,Y,Y,30.68393,104.12349,1843,19.2,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD041,PIPO,Y,N,30.68287,104.12334,1844,27.2,10,FALSE,alive,NO,DM,48 tank road,7/30/2015,needles too high
-ELD042,PICE,Y,Y,30.6828,104.12305,1849,16,9,TRUE,alive,NO,DM,48 tank road,7/30/2015,
-ELD043,PIPO,Y,Y,30.68181,104.14597,1920,18,5,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD044,PICE,Y,Y,30.68162,104.14609,1917,8.9,10,TRUE,alive,NO,DM,right  hand loop,7/31/2015,fire scar at bottom
-ELD045,PIPO,Y,Y,30.68078,104.14721,1922,12.2,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD046,PICE,Y,N,30.67971,104.14925,1934,8.6,6,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD047,PIPO,Y,Y,30.67874,104.15104,1944,10.4,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD048,PICE,Y,Y,30.67817,104.15277,1960,17.8,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD049,PIPO,Y,N,30.67798,104.1537,1967,12.4,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD050,PICE,Y,Y,30.677,104.15678,1996,8.6,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
-ELD051,PICE,Y,Y,30.67702,104.16309,2020,16.6,11,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail on slope
-ELD052,PIPO,N,N,30.67613,104.17049,1901,3.1,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
-ELD053,PIPO,Y,Y,30.67617,104.17084,1899,19.6,11,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
-ELD054,PICE,Y,Y,30.6743,104.17107,1923,10.8,5,TRUE,alive,NO,DM,right  hand loop,7/31/2015,
-ELD055,PIPO,Y,N,30.67167,104.17245,1944,13.2,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,
-ELD056,PIPO,N,N,30.67101,104.17294,1942,6.1,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
-ELD057,PICE,Y,Y,30.66989,104.17377,1975,22.8,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,on slope
-ELD058,PIPO,N,N,30.67122,104.17282,1951,11.4,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
-ELD059,PIST3,Y,Y,30.64715,104.17847,2064,23.2,16,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
-ELD060,PIST3,Y,Y,30.64691,104.17847,2050,27.6,16,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
-ELD061,PIPO,N,N,30.64986,104.17642,2007,10.6,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD062,PIPO,N,N,30.64743,104.17802,2041,9.3,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD063,PIPO,Y,Y,30.64645,104.17918,2059,10.3,7,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,voucher specimen collected
-ELD064,PIST3,Y,Y,30.64524,104.17955,2086,30.4,6,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
-ELD065,PIST3,Y,N,30.6427,104.18017,2122,29.6,15,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high and fire scar at bottom
-ELD066,PIST3,Y,Y,30.64285,104.18021,2128,23.2,8,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope and fire scar at bottom close to pith
-ELD067,PIST3,Y,Y,30.64259,104.17797,2199,30,5,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
-ELD068,PIST3,Y,Y,30.64132,104.17903,2230,15.4,10,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
-ELD069,PIST3,Y,Y,30.64133,104.17906,2218,16.8,8,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
-ELD070,PIST3,Y,Y,30.6416,104.17902,2208,8.4,12,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
-ELD071,PIST3,Y,Y,30.64174,104.17937,2191,24.6,9,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,fire scar at bottom
-ELD072,PIST3,Y,Y,30.64215,104.17967,2167,20.2,10,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
-ELD073,PIST3,Y,Y,30.6415,104.18034,2169,12.8,9,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,
-ELD074,PIPO,N,N,30.64148,104.18024,2177,7.7,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD075,PIPO,N,N,30.64259,104.18031,2141,7.5,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD076,PIPO,N,N,30.64399,104.17995,2115,6.9,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD077,PIPO,N,N,30.64479,104.17989,2101,5.2,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD078,PIPO,N,N,30.64562,104.17953,2082,9.5,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD079,PIPO,N,N,30.64807,104.17744,2033,9.6,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELD080,PIPO,N,N,30.65879,104.1637,1924,11.4,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
-ELG044,PIED,Y,Y,31.90802,104.80276,1711,28.2,2,TRUE,alive,NO,GM,frijole trail,8/6/2015,by trail
-ELG045,PIED,Y,Y,31.90938,104.80412,1733,17.4,2,TRUE,alive,NO,GM,frijole trail,8/6/2015,by trail
-ELG046,PIED,Y,Y,31.91003,104.80389,1719,17.2,1,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off trail by creek
-ELG047,PIED,Y,Y,31.90509,104.80102,1676,23.3,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
-ELG048,PIED,Y,Y,31.90396,104.80098,1647,22.1,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
-ELG049,PIED,Y,Y,31.91857,104.84555,2440,9.5,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite
-ELG050,PIED,Y,Y,31.9188,104.84557,2444,15.2,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite trail
-ELG051,PIPO,Y,Y,31.92044,104.84314,2392,16.8,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG052,PIST3,Y,Y,31.92119,104.84309,2409,14.9,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG053,PIPO,Y,N,31.9223,104.84263,2384,9.1,7,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG054,PIST3,Y,Y,31.92234,104.84261,2385,11.6,9,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG055,PIED,Y,Y,31.92379,104.84328,2309,15,6,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG056,PIST3,Y,Y,31.92574,104.84355,2372,11,16,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG057,PIED,Y,Y,31.92601,104.84353,2379,15,9,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG058,PIPO,Y,Y,31.92729,104.84364,2386,21.3,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG059,PIED,Y,Y,31.92779,104.84382,2382,17.1,6,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG060,PIPO,Y,Y,31.92793,104.84385,2376,13.7,7,TRUE,alive,NO,GM,tejas trail,8/7/2015,
-ELG061,PIPO,Y,Y,31.91601,104.84424,2388,22.5,3,TRUE,alive,NO,GM,bowl trail,8/7/2015,
-ELG062,PIST3,Y,Y,31.91625,104.84396,2391,10,8,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG063,PIST3,Y,Y,31.91618,104.84132,2427,18.7,9,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG064,PIPO,Y,Y,31.91594,104.84127,2429,13.7,7,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG065,PIST3,Y,Y,31.91552,104.83995,2421,9.3,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG066,PIPO,Y,Y,31.91552,104.8387,2420,11.9,10,FALSE,dying,YES,GM,bowl trail,8/8/2015,bark beetle attack no needles taken
-ELG067,PIST3,Y,Y,31.91555,104.83866,2420,14.6,10,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG068,PIST3,Y,Y,31.91558,104.8374,2420,15.8,7,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG069,PIST3,Y,Y,31.91603,104.83617,2420,14.3,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG070,PIPO,Y,Y,31.91686,104.83455,2432,13.8,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
-ELG071,PIPO,Y,Y,31.99435,104.83267,1866,34.2,18,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,fire scar at bottom
-ELG072,PIPO,Y,Y,31.99333,104.83269,1924,22.2,9,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,
-ELG073,PIPO,Y,Y,31.99238,104.83343,1914,29.1,14,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,
-ELG074,PIPO,Y,Y,31.99197,104.83437,1909,17.3,12,TRUE,alive,NO,GM,dog canyon campsite,9/11/2015,on slope
-ELG075,PIPO,Y,Y,31.9892,104.83404,1919,11.4,5,TRUE,alive,NO,GM,dog canyon campsite,9/11/2015,on slope
-ELC029,PICE,Y,Y,29.27699,103.30701,1513,33.2,9,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC030,PICE,Y,Y,29.27519,103.3064,1540,23.9,4,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC031,PICE,Y,Y,29.2741,103.30559,1565,26.2,1,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC032,PICE,Y,Y,29.27284,103.3034,1611,28,0,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC033,PICE,Y,Y,29.27255,103.30312,1621,24.1,7,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC034,PICE,Y,Y,29.27224,103.30329,1632,5.4,4,FALSE,alive,NO,CM,window trail,10/30/2015,
-ELC035,PIAR5,Y,Y,29.26414,103.25123,1682,16.2,6,FALSE,alive,NO,CM,window trail,10/31/2015,
-ELC036,PIAR5,Y,Y,29.26395,103.25122,1723,20.7,13,FALSE,alive,NO,CM,pine canyon,10/31/2015,
-ELC037,PIAR5,Y,Y,29.26401,103.25172,1678,8.2,11,FALSE,alive,NO,CM,pine canyon,10/31/2015,
-ELC038,PIAR5,Y,Y,29.26378,103.25168,1687,8.7,16,FALSE,alive,NO,CM,pine canyon,10/31/2015,
-ELC039,PIAR5,Y,Y,29.26352,103.25178,1693,13.2,16,FALSE,alive,NO,CM,pine canyon,10/31/2015,
-ELC040,PIAR5,Y,Y,29.26242,103.25493,1722,17,9,FALSE,alive,NO,CM,pine canyon,10/31/2015,
+EL001,PICE,Y,N,29.27552,-103.28918,1702,22.8,6,TRUE,alive,NO,CM,basin campground,5/19/2015,off road
+EL002,PIAR5,Y,Y,29.26227,-103.25591,1636,9.4,5,TRUE,alive,NO,CM,pine canyon,5/19/2015,south facing slope
+EL003,PIAR5,Y,Y,29.2621,-103.2552,1698,30.9,7,TRUE,alive,NO,CM,pine canyon,5/19/2015,north facing slope
+EL004,PICE,Y,Y,29.26309,-103.25395,1713,22.9,4,TRUE,alive,NO,CM,pine canyon,5/19/2015,south facing slope
+EL005,PICE,Y,Y,29.26347,-103.2526,1670,12.5,4,TRUE,alive,NO,CM,pine canyon,5/19/2015,South by south east facing slope
+EL006,PIAR5,Y,N,29.26311,-103.25253,1673,19.4,8,TRUE,alive,NO,CM,pine canyon,5/19/2015,close to pith
+EL007,PIAR5,Y,N,29.26363,-103.25181,1658,44.3,7,FALSE,alive,NO,CM,pine canyon,5/19/2015,leaves too high to sample. Core without pith
+EL008,PIAR5,Y,Y,29.26396,-103.25159,1643,17,8,TRUE,alive,NO,CM,pine canyon,10/31/2015,
+EL009,PIAR5,Y,N,29.26432,-103.25114,1645,35.8,5,TRUE,alive,NO,CM,pine canyon,5/19/2015,core broke no pith
+EL010,PICE,Y,N,29.27429,-103.28667,1729,19.6,5,TRUE,alive,NO,CM,lost mine,5/20/2015,west facing slope
+EL011,PICE,Y,Y,29.26956,-103.26807,2089,32.7,4,TRUE,alive,NO,CM,lost mine,5/20/2015,close to pith
+EL012,PICE,Y,Y,29.26955,-103.26897,2080,6.4,5,TRUE,alive,NO,CM,lost mine,5/20/2015,
+EL013,PICE,Y,Y,29.27088,-103.26897,2068,17.8,3,TRUE,alive,NO,CM,lost mine,5/20/2015,
+EL014,PICE,Y,N,29.272,-103.2705,2024,27.5,5,TRUE,alive,NO,CM,lost mine,5/20/2015,by trail. at angle toward trail
+EL015,PICE,Y,N,29.2714,-103.27089,1994,29.5,1,TRUE,alive,NO,CM,lost mine,5/20/2015,southwest facing slope
+EL016,PICE,Y,Y,29.27065,-103.27097,1950,31.4,2,TRUE,alive,NO,CM,lost mine,5/20/2015,west facing slope
+ELG1,PIPO,Y,Y,31.90173,-104.84494,1880,5.1,2,TRUE,alive,NO,GM,devils hall,6/3/2015,
+ELG002,PIPO,Y,Y,31.90267,-104.84861,1891,30.9,5,TRUE,alive,NO,GM,devils hall,6/3/2015,
+ELG003,PIPO,Y,Y,31.90146,-104.84593,1902,35.3,5,TRUE,alive,NO,GM,devils hall,6/3/2015,on slope
+ELG004,PIPO,Y,Y,31.90145,-104.8438,1848,14.8,5,TRUE,alive,NO,GM,devils hall,6/3/2015,
+ELG005,PIPO,Y,N,31.89106,-104.85873,2620,36.1,0,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
+ELG006,PIST3,Y,N,31.89112,-104.85796,2585,16.9,11,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
+ELG007,PIST3,Y,N,31.89129,-104.8582,2575,20.7,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
+ELG008,PIST3,Y,N,31.89136,-104.85732,2547,38.3,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,no pith. Tree was rotted past a certain point. Needles looked healthy though.
+ELG009,PIPO,Y,Y,31.89263,-104.85363,2483,10.2,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,phoradendron sp. Located on plant
+ELG010,PIPO,Y,Y,31.89118,-104.85181,2471,34.1,2,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
+ELG011,PIED,Y,Y,31.89369,-104.8484,2409,20.3,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,damage on side facing slope
+ELG012,PIED,Y,Y,31.89561,-104.84769,2393,11.7,3,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope
+ELG013,PIED,Y,N,31.89367,-104.84702,2366,24.2,1,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,
+ELG014,PIED,Y,Y,31.89407,-104.84694,2336,14.2,3,TRUE,dying,NO,GM,guadalupe peak,6/4/2015,some needles browning. Something is attacking pines in the area. Probably not bark beetle.
+ELG015,PIED,Y,Y,31.89429,-104.8451,2270,11.3,7,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,on slope close to pith
+ELG016,PIED,Y,N,31.89468,-104.84312,2151,10.9,5,TRUE,alive,NO,GM,guadalupe peak,6/4/2015,
+ELG017,PIPO,Y,Y,31.89834,-104.82948,1792,38.6,0,TRUE,alve,NO,GM,pine springs,6/5/2015,river valley
+ELG018,PIPO,Y,N,31.89865,-104.83247,1804,47.5,3,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
+ELG019,PIPO,Y,Y,31.89963,-104.83417,1802,51.5,2,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
+ELG020,PIPO,Y,Y,31.90129,-104.83659,1815,16.8,3,TRUE,alive,NO,GM,pine springs,6/5/2015,river valley
+ELG021,PIED,Y,Y,31.91194,-104.84438,2220,24.5,0,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
+ELG022,PIED,Y,Y,31.91452,-104.84682,2326,33.1,4,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
+ELG023,PIED,Y,Y,31.91559,-104.84649,2361,19.6,3,TRUE,alive,NO,GM,tejas trail,6/5/2015,before bowl
+ELG024,PIED,Y,Y,31.91567,-104.84583,2387,14.7,6,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG025,PIED,Y,N,31.91621,-104.84459,2396,8.3,18,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG026,PIPO,Y,N,31.91899,-104.84435,2425,40.1,7,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG027,PIPO,Y,Y,31.91933,-104.84329,2397,15.2,11,TRUE,dying,YES,GM,tejas trail,6/5/2015,needles green/yellow
+ELG028,PIST3,Y,Y,31.91991,-104.84408,2404,5.2,10,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG029,PIED,Y,Y,31.91959,-104.8437,2407,11.7,6,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG030,PIPO,Y,N,31.9199,-104.8452,2407,13.3,14,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG031,PIST3,Y,Y,31.92042,-104.84306,2406,22.4,11,TRUE,alive,NO,GM,tejas trail,6/5/2015,
+ELG032,PIPO,Y,Y,31.96128,-104.84453,2338,33.4,8,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG033,PIST3,Y,Y,31.96029,-104.8422,2340,9.9,13,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG034,PIED,Y,Y,31.9619,-104.83803,2368,21.3,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG035,PIPO,Y,Y,31.9629,-104.83709,2373,28.7,2,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,some red needles.  No sign of bark beetle attack
+ELG036,PIST3,Y,Y,31.96775,-104.83104,2347,18.5,7,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG037,PIST3,Y,Y,31.9673,-104.83128,2360,14.9,11,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG038,PIST3,Y,N,31.96809,-104.83203,2365,30.2,5,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG039,PIST3,Y,Y,31.96881,-104.83023,2361,19.6,6,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG040,PIST3,Y,Y,31.96967,-104.83007,2379,8.9,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG041,PIST3,Y,Y,31.97025,-104.8298,2382,20.7,10,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,close to pith
+ELG042,PIST3,Y,Y,31.97091,-104.82928,2378,21.7,12,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELG043,PIST3,Y,Y,31.97143,-104.82833,2380,15.6,14,TRUE,alive,NO,GM,McKittrick canyon trail,6/20/2015,
+ELC001,PICE,Y,N,29.26847,-103.30408,1633,28.8,3,TRUE,alive,NO,CM,chisos basin,6/24/2015,tree is curved
+ELC002,PICE,Y,N,29.26816,-103.30521,1626,33.9,2,TRUE,alive,NO,CM,chisos basin,6/24/2015,
+ELC003,PICE,Y,Y,29.26671,-103.30466,1648,17.6,4,TRUE,alive,NO,CM,chisos basin,6/24/2015,
+ELC004,PICE,Y,Y,29.27738,-103.30198,1555,18.9,5,TRUE,alive,NO,CM,chisos basin,6/24/2015,
+ELC005,PICE,Y,Y,29.26361,-103.29663,1784,16.3,18,TRUE,alive,NO,CM,emory trail,6/25/2015,
+ELC006,PICE,Y,N,29.24729,-103.30103,2280,25,12,TRUE,alive,NO,CM,emory trail,6/25/2015,
+ELC007,PICE,Y,Y,29.24347,-103.29686,2089,24.1,12,TRUE,alive,NO,CM,south rim trail,6/25/2015,
+ELC008,PICE,Y,N,29.24618,-103.29648,2086,16.8,8,TRUE,alive,NO,CM,south rim trail,6/25/2015,
+ELC009,PICE,Y,Y,29.24788,-103.29408,2083,26.7,8,TRUE,alive,NO,CM,south rim trail,6/25/2015,
+ELC010,PICE,Y,Y,29.25135,-103.29594,2103,13.3,11,TRUE,alive,NO,CM,south rim trail,6/25/2015,
+ELC011,PICE,Y,Y,29.25199,-103.29795,2090,26.2,7,TRUE,alive,NO,CM,emory peak,6/25/2015,
+ELC012,PICE,Y,Y,29.2522,-103.30091,2015,24.7,11,TRUE,alive,NO,CM,emory peak,6/25/2015,"no pith, middle is rotting"
+ELC013,PICE,Y,Y,29.25488,-103.30125,1902,19,10,TRUE,alive,NO,CM,emory trail,6/25/2015,
+ELC014,PIAR5,Y,Y,29.26493,-103.2504,1651,37.1,7,FALSE,alive,NO,CM,pine canyon,10/31/2015,could not reach needles
+ELC015,PIAR5,Y,Y,29.26478,-103.25054,1654,13.8,15,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC016,PIAR5,Y,N,29.26454,-103.25084,1666,19.9,14,FALSE,alive,NO,CM,pine canyon,6/26/2015,
+ELC017,PIAR5,Y,Y,29.26455,-103.25114,1653,31,10,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC018,PIAR5,Y,Y,29.26401,-103.25114,1637,24.4,5,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC019,PIAR5,Y,Y,29.26376,-103.2514,1670,9.6,12,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC020,PIAR5,Y,Y,29.26359,-103.25154,1662,34.2,9,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC021,PIAR5,Y,Y,29.2636,-103.25233,1663,6.6,13,TRUE,alive,NO,CM,pine canyon,6/26/2015,
+ELC022,PIAR5,Y,Y,29.26305,-103.25215,1671,12.7,12,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
+ELC023,PIAR5,Y,Y,29.263,-103.25196,1674,15.2,16,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
+ELC024,PIAR5,Y,Y,29.26232,-103.25404,1704,21.6,7,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope close to pith
+ELC025,PIAR5,Y,Y,29.26221,-103.25416,1700,12.2,11,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
+ELC026,PIAR5,Y,N,29.26249,-103.25417,1696,24.7,6,FALSE,alive,NO,CM,pine canyon,6/26/2015,"on slope, middles rotting"
+ELC027,PIAR5,Y,Y,29.26241,-103.25542,1716,23.1,9,TRUE,alive,NO,CM,pine canyon,6/26/2015,on slope
+ELD001,PICE,N,N,30.70068,-104.11304,1794,5.8,5,TRUE,alive,NO,DM,mciver center,7/7/2015,no core collected
+ELD002,PICE,Y,Y,30.70102,-104.1123,1802,21.7,6,TRUE,alive,NO,DM,mciver center,7/7/2015,
+ELD003,PICE,Y,N,30.70103,-104.11068,1809,20,4,FALSE,alive,NO,DM,mciver center,7/7/2015,needles too high
+ELD004,PICE,Y,Y,30.70395,-104.11903,1828,11.1,1,TRUE,alive,NO,DM,mciver center,7/7/2015,
+ELD005,PIPO,Y,Y,30.63503,-104.17095,2477,18.4,4,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD006,PIST3,Y,Y,30.63533,-104.17107,2479,34.2,8,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD007,PICE,Y,N,30.63506,-104.17077,2480,34,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD008,PIPO,Y,N,30.63453,-104.16941,2480,36.8,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD009,PIPO,Y,Y,30.63505,-104.16872,2485,14.5,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD010,PIPO,Y,Y,30.6357,-104.16858,2479,35.6,2,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD011,PIPO,Y,N,30.63707,-104.16692,2440,36.8,3,FALSE,alive,NO,DM,bridge gap,7/8/2015,needles too high
+ELD012,PIST3,Y,Y,30.63738,-104.1669,2425,26.6,3,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD013,PIST3,Y,Y,30.63774,-104.16642,2434,17.2,5,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD014,PIST3,Y,Y,30.63769,-104.16579,2425,36.2,4,TRUE,alive,NO,DM,bridge gap,7/8/2015,
+ELD015,PICE,Y,N,30.65131,-104.17213,2015,31.5,3,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD016,PICE,Y,Y,30.64685,-104.17067,2092,10,6,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD017,PIPO,Y,Y,30.64483,-104.16897,2125,17.4,8,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD018,PICE,Y,Y,30.64322,-104.16635,2173,20.2,12,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD019,PIST3,Y,N,30.6427,-104.16499,2194,11.1,7,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD020,PICE,Y,Y,30.64264,-104.16505,2197,11.5,3,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD021,PIPO,Y,N,30.64262,-104.16486,2193,21.9,8,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD022,PIPO,Y,Y,30.64275,-104.16272,2232,21.9,7,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD023,PIST3,Y,Y,30.64,-104.16241,2214,19.4,12,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD024,PIPO,Y,Y,30.64012,-104.16212,2215,26.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD025,PIST3,Y,N,30.64051,-104.16181,2198,15.2,15,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD026,PIPO,Y,Y,30.64034,-104.16139,2204,19.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high close to pith
+ELD027,PIST3,Y,Y,30.6404,-104.16136,2197,12.6,11,TRUE,alive,NO,DM,bridge gap,7/9/2015,
+ELD028,PIST3,Y,Y,30.64027,-104.16087,2204,16.6,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD029,PIST3,Y,Y,30.63988,-104.16074,2229,17.1,14,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD030,PIPO,Y,Y,30.65766,-104.16764,1938,20.2,3,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD031,PIPO,Y,Y,30.65832,-104.16491,1928,8,7,FALSE,alive,NO,DM,bridge gap,7/9/2015,needles too high
+ELD032,PICE,Y,Y,30.69723,-104.12132,1802,20.4,9,TRUE,alive,NO,DM,48 tank road,7/30/2015,near trail
+ELD033,PIPO,Y,Y,30.69679,-104.12157,1803,19.2,5,TRUE,alive,NO,DM,48 tank road,7/30/2015,fire scar at bottom
+ELD034,PICE,Y,Y,30.69656,-104.12264,1798,17,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,on slope
+ELD035,PIPO,Y,Y,30.69613,-104.12244,1801,21.6,4,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD036,PICE,Y,Y,30.69562,-104.12362,1804,17.6,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD037,PICE,Y,Y,30.69235,-104.12413,1821,8.1,11,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD038,PICE,Y,Y,30.69037,-104.12576,1822,15.6,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD039,PIPO,Y,Y,30.68657,-104.12559,1825,29.6,10,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD040,PICE,Y,Y,30.68393,-104.12349,1843,19.2,7,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD041,PIPO,Y,N,30.68287,-104.12334,1844,27.2,10,FALSE,alive,NO,DM,48 tank road,7/30/2015,needles too high
+ELD042,PICE,Y,Y,30.6828,-104.12305,1849,16,9,TRUE,alive,NO,DM,48 tank road,7/30/2015,
+ELD043,PIPO,Y,Y,30.68181,-104.14597,1920,18,5,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD044,PICE,Y,Y,30.68162,-104.14609,1917,8.9,10,TRUE,alive,NO,DM,right  hand loop,7/31/2015,fire scar at bottom
+ELD045,PIPO,Y,Y,30.68078,-104.14721,1922,12.2,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD046,PICE,Y,N,30.67971,-104.14925,1934,8.6,6,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD047,PIPO,Y,Y,30.67874,-104.15104,1944,10.4,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD048,PICE,Y,Y,30.67817,-104.15277,1960,17.8,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD049,PIPO,Y,N,30.67798,-104.1537,1967,12.4,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD050,PICE,Y,Y,30.677,-104.15678,1996,8.6,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail
+ELD051,PICE,Y,Y,30.67702,-104.16309,2020,16.6,11,TRUE,alive,NO,DM,right  hand loop,7/31/2015,by trail on slope
+ELD052,PIPO,N,N,30.67613,-104.17049,1901,3.1,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
+ELD053,PIPO,Y,Y,30.67617,-104.17084,1899,19.6,11,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
+ELD054,PICE,Y,Y,30.6743,-104.17107,1923,10.8,5,TRUE,alive,NO,DM,right  hand loop,7/31/2015,
+ELD055,PIPO,Y,N,30.67167,-104.17245,1944,13.2,4,TRUE,alive,NO,DM,right  hand loop,7/31/2015,
+ELD056,PIPO,N,N,30.67101,-104.17294,1942,6.1,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
+ELD057,PICE,Y,Y,30.66989,-104.17377,1975,22.8,7,TRUE,alive,NO,DM,right  hand loop,7/31/2015,on slope
+ELD058,PIPO,N,N,30.67122,-104.17282,1951,11.4,NA,TRUE,alive,NO,DM,right  hand loop,7/31/2015,for needles no core taken
+ELD059,PIST3,Y,Y,30.64715,-104.17847,2064,23.2,16,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
+ELD060,PIST3,Y,Y,30.64691,-104.17847,2050,27.6,16,FALSE,alive,NO,DM,right  hand loop,7/31/2015,needles too high
+ELD061,PIPO,N,N,30.64986,-104.17642,2007,10.6,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD062,PIPO,N,N,30.64743,-104.17802,2041,9.3,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD063,PIPO,Y,Y,30.64645,-104.17918,2059,10.3,7,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,voucher specimen collected
+ELD064,PIST3,Y,Y,30.64524,-104.17955,2086,30.4,6,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
+ELD065,PIST3,Y,N,30.6427,-104.18017,2122,29.6,15,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high and fire scar at bottom
+ELD066,PIST3,Y,Y,30.64285,-104.18021,2128,23.2,8,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope and fire scar at bottom close to pith
+ELD067,PIST3,Y,Y,30.64259,-104.17797,2199,30,5,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
+ELD068,PIST3,Y,Y,30.64132,-104.17903,2230,15.4,10,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
+ELD069,PIST3,Y,Y,30.64133,-104.17906,2218,16.8,8,FALSE,alive,NO,DM,tobe canyon trail,8/1/2015,needles too high
+ELD070,PIST3,Y,Y,30.6416,-104.17902,2208,8.4,12,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
+ELD071,PIST3,Y,Y,30.64174,-104.17937,2191,24.6,9,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,fire scar at bottom
+ELD072,PIST3,Y,Y,30.64215,-104.17967,2167,20.2,10,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,on slope
+ELD073,PIST3,Y,Y,30.6415,-104.18034,2169,12.8,9,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,
+ELD074,PIPO,N,N,30.64148,-104.18024,2177,7.7,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD075,PIPO,N,N,30.64259,-104.18031,2141,7.5,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD076,PIPO,N,N,30.64399,-104.17995,2115,6.9,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD077,PIPO,N,N,30.64479,-104.17989,2101,5.2,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD078,PIPO,N,N,30.64562,-104.17953,2082,9.5,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD079,PIPO,N,N,30.64807,-104.17744,2033,9.6,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELD080,PIPO,N,N,30.65879,-104.1637,1924,11.4,NA,TRUE,alive,NO,DM,tobe canyon trail,8/1/2015,for needles no core taken
+ELG044,PIED,Y,Y,31.90802,-104.80276,1711,28.2,2,TRUE,alive,NO,GM,frijole trail,8/6/2015,by trail
+ELG045,PIED,Y,Y,31.90938,-104.80412,1733,17.4,2,TRUE,alive,NO,GM,frijole trail,8/6/2015,by trail
+ELG046,PIED,Y,Y,31.91003,-104.80389,1719,17.2,1,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off trail by creek
+ELG047,PIED,Y,Y,31.90509,-104.80102,1676,23.3,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
+ELG048,PIED,Y,Y,31.90396,-104.80098,1647,22.1,0,TRUE,alive,NO,GM,smith springs trail,8/6/2015,off road
+ELG049,PIED,Y,Y,31.91857,-104.84555,2440,9.5,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite
+ELG050,PIED,Y,Y,31.9188,-104.84557,2444,15.2,10,TRUE,alive,NO,GM,pine top campground,8/7/2015,by campsite trail
+ELG051,PIPO,Y,Y,31.92044,-104.84314,2392,16.8,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG052,PIST3,Y,Y,31.92119,-104.84309,2409,14.9,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG053,PIPO,Y,N,31.9223,-104.84263,2384,9.1,7,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG054,PIST3,Y,Y,31.92234,-104.84261,2385,11.6,9,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG055,PIED,Y,Y,31.92379,-104.84328,2309,15,6,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG056,PIST3,Y,Y,31.92574,-104.84355,2372,11,16,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG057,PIED,Y,Y,31.92601,-104.84353,2379,15,9,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG058,PIPO,Y,Y,31.92729,-104.84364,2386,21.3,11,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG059,PIED,Y,Y,31.92779,-104.84382,2382,17.1,6,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG060,PIPO,Y,Y,31.92793,-104.84385,2376,13.7,7,TRUE,alive,NO,GM,tejas trail,8/7/2015,
+ELG061,PIPO,Y,Y,31.91601,-104.84424,2388,22.5,3,TRUE,alive,NO,GM,bowl trail,8/7/2015,
+ELG062,PIST3,Y,Y,31.91625,-104.84396,2391,10,8,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG063,PIST3,Y,Y,31.91618,-104.84132,2427,18.7,9,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG064,PIPO,Y,Y,31.91594,-104.84127,2429,13.7,7,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG065,PIST3,Y,Y,31.91552,-104.83995,2421,9.3,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG066,PIPO,Y,Y,31.91552,-104.8387,2420,11.9,10,FALSE,dying,YES,GM,bowl trail,8/8/2015,bark beetle attack no needles taken
+ELG067,PIST3,Y,Y,31.91555,-104.83866,2420,14.6,10,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG068,PIST3,Y,Y,31.91558,-104.8374,2420,15.8,7,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG069,PIST3,Y,Y,31.91603,-104.83617,2420,14.3,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG070,PIPO,Y,Y,31.91686,-104.83455,2432,13.8,5,TRUE,alive,NO,GM,bowl trail,8/8/2015,
+ELG071,PIPO,Y,Y,31.99435,-104.83267,1866,34.2,18,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,fire scar at bottom
+ELG072,PIPO,Y,Y,31.99333,-104.83269,1924,22.2,9,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,
+ELG073,PIPO,Y,Y,31.99238,-104.83343,1914,29.1,14,FALSE,alive,NO,GM,dog canyon campsite,9/11/2015,
+ELG074,PIPO,Y,Y,31.99197,-104.83437,1909,17.3,12,TRUE,alive,NO,GM,dog canyon campsite,9/11/2015,on slope
+ELG075,PIPO,Y,Y,31.9892,-104.83404,1919,11.4,5,TRUE,alive,NO,GM,dog canyon campsite,9/11/2015,on slope
+ELC029,PICE,Y,Y,29.27699,-103.30701,1513,33.2,9,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC030,PICE,Y,Y,29.27519,-103.3064,1540,23.9,4,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC031,PICE,Y,Y,29.2741,-103.30559,1565,26.2,1,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC032,PICE,Y,Y,29.27284,-103.3034,1611,28,0,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC033,PICE,Y,Y,29.27255,-103.30312,1621,24.1,7,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC034,PICE,Y,Y,29.27224,-103.30329,1632,5.4,4,FALSE,alive,NO,CM,window trail,10/30/2015,
+ELC035,PIAR5,Y,Y,29.26414,-103.25123,1682,16.2,6,FALSE,alive,NO,CM,window trail,10/31/2015,
+ELC036,PIAR5,Y,Y,29.26395,-103.25122,1723,20.7,13,FALSE,alive,NO,CM,pine canyon,10/31/2015,
+ELC037,PIAR5,Y,Y,29.26401,-103.25172,1678,8.2,11,FALSE,alive,NO,CM,pine canyon,10/31/2015,
+ELC038,PIAR5,Y,Y,29.26378,-103.25168,1687,8.7,16,FALSE,alive,NO,CM,pine canyon,10/31/2015,
+ELC039,PIAR5,Y,Y,29.26352,-103.25178,1693,13.2,16,FALSE,alive,NO,CM,pine canyon,10/31/2015,
+ELC040,PIAR5,Y,Y,29.26242,-103.25493,1722,17,9,FALSE,alive,NO,CM,pine canyon,10/31/2015,
