@@ -85,12 +85,25 @@ ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
   ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
 }
-
 # clean up unneeded variables
 rm(ring_files)
 
+
+
 # Exploring data
-ggplot(ring_data, aes(age, resin.duct.count/ring.width, color=mtn)) +
+ggplot(ring_data, aes(age, resin.duct.count/ring.area, color=mtn)) +
     geom_point() +
     scale_y_log10() +
     facet_grid(spcode ~ .)
+
+# f<- ddply(subset(ring_data, resin.duct.count!="NA"), .(spcode, calendar.year, mtn),
+#       summarize, resin.duct.average = (mean(resin.duct.count)/ mean(resin.ducts_area)),
+#       n = length(tag))
+# 
+# ggplot(f, aes(calendar.year, resin.duct.average, color=mtn)) +
+#   geom_jitter()+ 
+#   facet_grid(spcode ~ .)
+# 
+# resin.duct.count.lm <- lm(resin.duct.count~ spcode + spcode:mtn + mtn, data=ring_data)
+# summary(resin.duct.count.lm)
+# anova(resin.duct.count.lm)

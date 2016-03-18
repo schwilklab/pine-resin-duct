@@ -14,8 +14,7 @@ str_sub(monthly_precip_data$DATE, 5, -1) <- "";
 monthly_precip_data$year <- as.integer(str_sub(monthly_precip_data$DATE, 1, 4))
 
 # Summarize monthly precipitation averages to obtain yearly averages
-yearly_precip_data <- (ddply(monthly_precip_data,
-                       .(STATION_NAME, year), summarize, PRECIP = sum(TPCP)))
+yearly_precip_data <- (ddply(monthly_precip_data, .(STATION_NAME, year), summarize, PRECIP = sum(TPCP)))
 head(yearly_precip_data)
 
 ggplot(yearly_precip_data, aes(year, PRECIP)) +
