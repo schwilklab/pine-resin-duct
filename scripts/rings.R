@@ -40,15 +40,15 @@ core.area <- function(cw, r1, r2) {
   if(2*r2 < cw ) {
     return(area.r2 - area.r1)
   }
-  cen.ang1 <-  2*acos((.5*cw)/(r1))
   cen.ang2 <-  2*acos((.5*cw)/(r2))
-  acs1 <- (r1^2/2)*(cen.ang1-(sin(cen.ang1)))
   acs2 <- (r2^2/2)*(cen.ang2-(sin(cen.ang2)))
   # special case where inner ring is less than core size, but outer
   # ring is larger than core size
   if (2*r1 < cw & 2*r2 > cw) {
     return((area.r2- 2*acs2 -area.r1)/2)
   }
+  cen.ang1 <-  2*acos((.5*cw)/(r1))
+  acs1 <- (r1^2/2)*(cen.ang1-(sin(cen.ang1)))
   rarea <- (((area.r2- 2*acs2)- (area.r1- 2*acs1))/2)
   return(rarea)
 }
