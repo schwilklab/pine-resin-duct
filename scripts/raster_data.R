@@ -16,35 +16,36 @@ library(raster)
 source("./data-checks.R")
 source("./rings.R")
 
-# Create dataframes containing tree coordinates in each mountain range
-cm.coordinates<- trees %>% filter(mtn=="CM" & core.taken=="Y" & pith=="Y") %>%
-  dplyr::select(lat, lon)
-dm.coordinates<- trees %>% filter(mtn=="DM" & core.taken=="Y" & pith=="Y") %>%
-  dplyr::select(lat, lon)
-gm.coordinates<- trees %>% filter(mtn=="GM" & core.taken=="Y" & pith=="Y") %>%
-  dplyr::select(lat, lon)
+PROJ_STRING <- "+proj=longlat +ellps=WGS84 +datum=WGS84"
 
-# Now to create a raster stack of the .asc files
+readGrid <- function(filename) {
+    colname <- sub("[.][^.]*$", "", basename(filename))
+    grid <- maptools::readAsciiGrid(filename, colname=colname,
+                                    proj4string=sp::CRS(PROJ_STRING))
+    return(raster::raster(grid))
+}
 
-## Chisos mountains
-## make a list of file names:  
-cm_asc_list<- list.files(path= "../topo_grids/cm", pattern = "*.asc", full.names=TRUE)
-## removing the last two files in list becaues they are not .asc files
-cm_asc_list<- cm_asc_list[c(-17, -18)]
-## turn these into a list of RasterLayer objects  
-cm_raster_stack <- stack(cm_asc_list)
+readGridFolder <- function(fpath) {
+    ## get list of grid files
+    ascii_grids <- list.files(path=fpath, pattern = "*.asc", full.names=TRUE)
+    ## Use filenames without extensions as column names
+    layers <- sapply(ascii_grids, readGrid)
+    names(layers) <- sapply(layers, names) # get colnames for list item names
+    # stack layers
+    topostack <- raster::stack(layers)
+    return(topostack)
+}
 
-# Do this for the remaining mountain ranges:
 
-## Davis mountains
-dm_asc_list<- list.files("../topo_grids/dm", pattern = "*.asc", full.names=TRUE)
-dm_raster_stack <- stack(dm_asc_list)
+cm_raster_stack <- readGridFolder("../topo_grids/CM")
+dm_raster_stack <- readGridFolder("../topo_grids/DM")
+gm_raster_stack <- readGridFolder("../topo_grids/GM")
 
-## Guadalupe mountains
+
 
 ### When I run this, is get an error: 
 ### "Error in compareRaster(rasters) : different extent" This only 
-gm_asc_list<- list.files("../topo_grids/gm", pattern = "*.asc", full.names=TRUE)
+# gm_asc_list<- list.files("../topo_grids/gm", pattern = "*.asc", full.names=TRUE)
 # ldist_ridge2.asc seems to be the culprit since it's extent is different
 # than the rest of the .asc files, but when I remove it, I still get the
 # same error when I try to stack the rasters.  I have manually checked
