@@ -9,9 +9,11 @@
 # into rings.R later on, but until this is perfected, I will keep as a 
 # seperate R file.
 
-library(dplyr)
+
 library(rgdal)
 library(raster)
+library(ggmap)
+library(dplyr)
 
 source("./data-checks.R")
 source("./rings.R")
@@ -36,68 +38,70 @@ readGridFolder <- function(fpath) {
     return(topostack)
 }
 
+extractVals1Mtn <- function(themtn, topostack) {
+    trees.mtn <- trees %>% filter(mtn==themtn & core.taken=="Y" & pith=="Y") %>%
+        dplyr::select(tag, lon, lat)
+    coords <- trees.mtn %>% dplyr::select(lon, lat) %>%
+        SpatialPoints(proj4string=sp::CRS(PROJ_STRING))
+    return(cbind(trees.mtn, raster::extract(topostack, coords)))
+}
 
+
+
+# create raster stacks of topo variables
+# this takes a few minutes! maybe cache?
 cm_raster_stack <- readGridFolder("../topo_grids/CM")
 dm_raster_stack <- readGridFolder("../topo_grids/DM")
 gm_raster_stack <- readGridFolder("../topo_grids/GM")
 
 
 
-### When I run this, is get an error: 
-### "Error in compareRaster(rasters) : different extent" This only 
-# gm_asc_list<- list.files("../topo_grids/gm", pattern = "*.asc", full.names=TRUE)
-# ldist_ridge2.asc seems to be the culprit since it's extent is different
-# than the rest of the .asc files, but when I remove it, I still get the
-# same error when I try to stack the rasters.  I have manually checked
-# each .asc file's extent when converted to a raster layer individually
-# and all of them have the same extent, except ldist_ridge2.asc. I can
-# redefine the extent for all of them, but ldist_ridge2.asc is very 
-# different from the rest of them which would make me lose a lot of
-# information.
+# now subset those topo variables to just our tree locations
+cm_raster_data <- extractVals1Mtn("CM", cm_raster_stack)
+dm_raster_data <- extractVals1Mtn("DM", dm_raster_stack)
+gm_raster_data <- extractVals1Mtn("GM", gm_raster_stack)
 
-# Extent for ldist_ridge2.asc
-# class       : Extent 
-# xmin        : -104.5746 
-# xmax        : -103.6716 
-# ymin        : 30.4486 
-# ymax        : 31.07305 
-
-# Extent for all other gm .asc files
-# class       : Extent 
-# xmin        : -105.1699 
-# xmax        : -104.4852 
-# ymin        : 31.71823 
-# ymax        : 32.18656 
+# a nice big data frame with a row for each tree with all tree-specific data
+trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>%
+    inner_join(bind_rows(cm_raster_data, dm_raster_data, gm_raster_data))
 
 
-#gm_asc_list<- gm_asc_list[c(-6)]
-#gm_raster_stack <- stack(gm_asc_list)
+################################################################
+## Visualization code below
+
+# explore these data
+cm_topo <- data.frame(rasterToPoints(cm_raster_stack))
+ggplot(cm_topo, aes(x=slope, y=radiation, color=elev)) +
+    geom_point()
+
+dm_topo <- data.frame(rasterToPoints(dm_raster_stack))
+ggplot(dm_topo, aes(x=slope, y=radiation, color=elev)) +
+    geom_point()
+
+# Crap, radiation is useless. Need to check with Helen.
+
+## Maps
+
+get_gmap <- function(df) {
+    return(get_map(location = c(left=min(df$lon-0.015),
+                                bottom=min(df$lat-0.015),
+                                right=max(df$lon+0.015),
+                                top=max(df$lat+0.015))))
+}
+
+newmap <- get_gmap(cm_raster_data)
+cm.map <- ggmap(newmap) + geom_point(aes(x=lon, y=lat, size=DBH, color=radiation), data=trees)
+cm.map
 
 
-### Update, when I run this now, I am able to populate a new dataframe,
-### but I only extract NA values from the raster file I create.  Upon
-### further checking, it seems that the raster file that I created
-### does have values associated with it, but I am not extracting any of
-### the values with my coordinates.
-cm_raster_data <- data.frame(cm.coordinates,
-                           raster::extract(cm_raster_stack,cm.coordinates))
-dm_raster_data <- data.frame(dm.coordinates,
-                           raster::extract(dm_raster_stack,dm.coordinates))
-#gm_raster_data <- data.frame(gm.coordinates,
-#                           raster::extract(gm_raster_stack,cm.coordinates))
 
-### Update: when I run this now, I am able to populate a new dataframe,
-### but I only extract NA values from the raster file I create.  Upon
-### further checking, it seems that the raster file that I created
-### does have values associated with it, but it is possible that there 
-### is not available information at those data points.
+# merge information into ring_data, creating a new dataframe. not sure we need
+# to do this. You might summarize by tree first?
+ring_data_all <- left_join(ring_data, trees) # duplicated info
 
-# combine all raster data frames into one
-all_raster_data<- bind_rows(cm_raster_data, dm_raster_data)#,gm_raster_data)
-# merge information into ring_data, creating a new dataframe.
-ring_data_all<- left_join(ring_data, all_raster_data, by = c("lat", "lon"))
+
+ggplot(subset(ring_data_all, spcode = "PIPO"), aes(x=radiation, y = resin.duct.count/ring.area)) +
+    facet_grid(. ~ mtn) + geom_point()
 
 # remove temporary dataframes and files created
-rm(cm.coordinates,dm.coordinates, gm.coordinates, cm_asc_list,
-   dm_asc_list, gm_asc_list, cm_raster_data, dm_raster_data,
-   all_raster_data)
+rm(cm_raster_data, dm_raster_data, gm_raster_data)
