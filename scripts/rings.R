@@ -96,14 +96,11 @@ ggplot(ring_data, aes(age, resin.duct.count/ring.area, color=mtn)) +
     scale_y_log10() +
     facet_grid(spcode ~ .)
 
-# f<- ddply(subset(ring_data, resin.duct.count!="NA"), .(spcode, calendar.year, mtn),
-#       summarize, resin.duct.average = (mean(resin.duct.count)/ mean(resin.ducts_area)),
-#       n = length(tag))
-# 
-# ggplot(f, aes(calendar.year, resin.duct.average, color=mtn)) +
-#   geom_jitter()+ 
-#   facet_grid(spcode ~ .)
-# 
-# resin.duct.count.lm <- lm(resin.duct.count~ spcode + spcode:mtn + mtn, data=ring_data)
-# summary(resin.duct.count.lm)
-# anova(resin.duct.count.lm)
+resinduct.lm <- lm(resin.duct.count~ spcode + mtn + spcode:mtn, data=ring_data)
+summary(resinduct.lm)
+anova(resinduct.lm)
+
+resinarea.lm <- lm((resin.duct.count/ring.area)~ spcode + age + spcode:age, data=ring_data)
+summary(resinarea.lm)
+anova(resinarea.lm)
+

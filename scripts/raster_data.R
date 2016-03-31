@@ -70,6 +70,7 @@ trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>
 ## Visualization code below
 
 # explore these data
+
 cm_topo <- data.frame(rasterToPoints(cm_raster_stack))
 ggplot(cm_topo, aes(x=slope, y=radiation, color=elev)) +
     geom_point()
@@ -90,17 +91,17 @@ get_gmap <- function(df) {
 }
 
 newmap <- get_gmap(cm_raster_data)
-cm.map <- ggmap(newmap) + geom_point(aes(x=lon, y=lat, size=DBH, color=radiation), data=trees)
+cm.map <- ggmap(newmap) + geom_point(aes(x=lon, y=lat, size=DBH, color=elev), data=trees)
 cm.map
 
 
 
 # merge information into ring_data, creating a new dataframe. not sure we need
 # to do this. You might summarize by tree first?
-ring_data_all <- left_join(ring_data, trees) # duplicated info
+ring_data_all <- left_join(ring_data, trees, by = "tag") # duplicated info
 
 
-ggplot(subset(ring_data_all, spcode = "PIPO"), aes(x=radiation, y = resin.duct.count/ring.area)) +
+ggplot(subset(ring_data_all, spcode = "PIPO"), aes(x= radiation, y = resin.duct.count/ring.area)) +
     facet_grid(. ~ mtn) + geom_point()
 
 # remove temporary dataframes and files created
