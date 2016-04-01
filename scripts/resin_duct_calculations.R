@@ -6,54 +6,70 @@
 source("./data-checks.R")
 source("./rings.R")
 
+# Calculate summaries per tree
+trees.sum <- ring_data %>% group_by(tag) %>%
+    summarize(avg.age = mean(age),
+              age.sd = sd(age),
+              age.min = min(age), max.age = max(age),
+              duct.count.mean = mean(resin.duct.count, na.rm= TRUE),
+              duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
+              duct.den.mean = mean(duct.density, na.rm= TRUE),
+              duct.den.sd = sd(duct.density, na.rm= TRUE),
+              ring.width.mean = mean(ring.width),
+              ring.width.sd = sd(ring.width)
+              ) %>% inner_join(trees)
 
-# Creates temporary data frame to obtain average, minimum and maximum
-# ages for each tree species by mountain range
-t<- distinct(ring_data, tag, age ==max(age))
-# EL011 was reported twice.  Presumably due to the same y value for 
-# the first two years. Hard removal of the incorrect row.
-t <- t[-c(7), ]
-
-# Calculate average age, standard deviation and standard error of mean for
-# each species
-tree.ages<-ddply(subset(t), 
-               .(mtn, spcode), plyr::summarize, avg.age = mean(age),
-               sd.age = sd(age), sem.age= sd(age)/sqrt(length(spcode)),
-               min.age = min(age), max.age = max(age))
-
-# Calculate mean resin ducts per year for each individual
-resin.duct.year.tag<- ddply(subset(ring_data), 
-               .(mtn, spcode, tag), plyr::summarize,
-               avg.resin.year = sum((resin.duct.count)/length(tag), na.rm= TRUE),
-               sd = sd(resin.duct.count, na.rm = TRUE),
-               sem= sd(resin.duct.count, na.rm = TRUE)/sqrt(length(tag)))
-
-# Calculate mean resin ducts per year for each species
-resin.duct.year.species<- ddply(subset(ring_data), 
-                       .(mtn, spcode), plyr::summarize,
-                       avg.resin.year = sum((resin.duct.count)/length(tag), na.rm= TRUE),
-                       sd = sd(resin.duct.count, na.rm = TRUE),
-                       sem= sd(resin.duct.count, na.rm = TRUE)/sqrt(length(spcode)))
-
-
-# Plot mean resin duct count per year by tag
-ggplot(resin.duct.year.tag, aes(spcode, avg.resin.year, color=mtn)) +
+# Plot mean resin duct count per year
+ggplot(trees.sum, aes(spcode, duct.count.mean, color=mtn)) +
   geom_violin()+
-  labs(x= "Species", y= "Mean Resin Duct Count Per Year
-       By Species")
+    labs(x= "Species",
+         y= "Mean resin duct count per year")
 
-ggplot(ring_data, aes(spcode, resin.duct.count, color=mtn)) +
-  geom_violin()+
-  labs(x= "Species", y= "Mean Resin Duct Count Per Year
-       By Species")
+# No evidence of strong age effect
+ggplot(ring_data, aes(age, duct.density, color=mtn)) +
+    facet_grid(spcode ~ .) + geom_point() + geom_jitter()
 
-# Plot mean resin duct count per year by species 
-ggplot(resin.duct.year.species, aes(spcode, avg.resin.year, color=mtn)) +
-  geom_pointrange(aes(ymin=avg.resin.year-sem, ymax=avg.resin.year+sem), size = 1)+
-  labs(x= "Species", y= "Mean Resin Duct Count Per Year +/- SEM")
+
+ggplot(trees.sum, aes(spcode, duct.den.mean, color=mtn)) +
+    geom_violin()
+
+#  geom_pointrange(aes(ymin=avg.resin.year-sem, ymax=avg.resin.year+sem), size = 1)+
+#  labs(x= "Species", y= "Mean Resin Duct Count Per Year +/- SEM")
 
 
 # Plot average age for each species by mountain range
 ggplot(avg.age, aes(spcode, avg.age, color=mtn)) + 
   geom_pointrange(aes(ymin=avg.age-sem.age, ymax=avg.age+sem.age), size = 1)+
   labs(x= "Species", y= "Mean Age +/- SEM")
+
+
+# does BAF predict counts?
+ggplot(trees.sum, aes(BAF, duct.count.mean, color=mtn)) +
+    facet_grid(spcode ~ .) +
+    geom_point() +
+    labs(x= "BAF",
+         y= "Mean resin duct count per year")
+# looks like weak signal.  Test with linear model:
+library(nlme)
+baf.mod <- lme(duct.count.mean ~ BAF, random=~1|mtn/spcode, data=trees.sum)
+summary(baf.mod)
+anova(baf.mod)
+# yes, but could easily be just a ring area effect. need to add basal area
+# increment to ring_data and add ring area to summary.
+
+# Lets see if we get result using density:
+baf.mod2 <- lme(duct.den.mean ~ BAF, random=~1|mtn/spcode, data=trees.sum)
+summary(baf.mod2)
+anova(baf.mod2)
+
+# nope, ring widths?
+baf.mod3 <- lme(ring.width.mean ~ BAF, random=~1|mtn/spcode, data=trees.sum)
+summary(baf.mod3)
+anova(baf.mod3)
+# yes:
+ggplot(trees.sum, aes(BAF, ring.width.mean, color=mtn)) +
+    facet_grid(spcode ~ .) +
+    geom_point() +
+    labs(x= "BAF",
+         y= "Mean ring width")
+# ok so that is reassuring
