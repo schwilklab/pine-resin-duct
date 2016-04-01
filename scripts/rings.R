@@ -85,6 +85,7 @@ ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
   ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
 }
+ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 # clean up unneeded variables
 rm(ring_files)
 
