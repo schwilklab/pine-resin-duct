@@ -53,6 +53,13 @@ core.area <- function(cw, r1, r2) {
   return(rarea)
 }
 
+# Simple function to calculate basal area increment
+bai <- function(r1, r2) {
+  area.r1<- (pi*r1^2)
+  area.r2<- (pi*r2^2)
+  barea <- (area.r2- area.r1)
+}
+
 # Reads a ring coordinate file and returns a data frame with several new
 # calculated columns: calendar year, age, ring.dist and ring.width
 read_ring_coord_file <- function(filename) {
@@ -85,6 +92,12 @@ ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
   ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
 }
+
+ring_data$bai <- NA
+for(i in 1:length(ring_data$r1)) {
+  ring_data$bai[i] <- bai(ring_data$r1[i], ring_data$r2[i])
+}
+
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 # clean up unneeded variables
 rm(ring_files)
@@ -92,16 +105,23 @@ rm(ring_files)
 
 
 # Exploring data
-ggplot(ring_data, aes(age, resin.duct.count/ring.area, color=mtn)) +
+
+# Make sure graph-themes.R is loaded, but if not:
+# source("./graph-themes.R")
+
+ggplot(ring_data, aes(age, duct.density, color=mtn)) +
     geom_point() +
     scale_y_log10() +
-    facet_grid(spcode ~ .)
+    facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
+    theme(strip.text.y = element_text(size=5)) +
+    labs(x= "Age (years)",
+         y= "Resin duct density")+
+    scale_color_manual(name= "Mountain range",
+                       labels = mountain_names,
+                       values= mycolours)
 
 resinduct.lm <- lm(resin.duct.count~ spcode + mtn + spcode:mtn, data=ring_data)
 summary(resinduct.lm)
 anova(resinduct.lm)
 
-resinarea.lm <- lm((resin.duct.count/ring.area)~ spcode + age + spcode:age, data=ring_data)
-summary(resinarea.lm)
-anova(resinarea.lm)
 
