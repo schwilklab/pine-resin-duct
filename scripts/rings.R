@@ -10,6 +10,8 @@
 library(dplyr)
 library(ggplot2)
 
+source("./precip_data.R")
+
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
                     # distinguish. The code should probably actually check the
@@ -85,22 +87,47 @@ ring_files <- list.files("../data/tree_ring_coordinates", full.names=TRUE)
 
 # create a list of coordinate dataframes (1 per tree), concatenate these all
 # into one df, then merge (innner_join) with the trees.csv data
-ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
+ring_data_first <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
     inner_join(trees)
 
+# join precipitation values from dataframe created with precip_data.R into
+# previously created dataframe and rename it to ring_data.
+ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
+
+# Calculates distance from each tree to the corresponding sensor
+# in the mountain range.
+ring_data$sensor_dist <- NA
+# lon.x and lat.x are coordinates from the tree, lon.y and lat.y are
+# coordinates from the precipitation sensor
+for(i in 1:nrow(ring_data)) {
+  ring_data$sensor_dist[i] <- gcd.hf(ring_data$lon.x[i], ring_data$lat.x[i], ring_data$lon.y[i], ring_data$lat.y[i])
+}
+
+### Need to write code that looks through dataset and if there are
+### two sensor_dist values associated with one ring on a particular
+### species, then it removes the row with the highest sensor_dist
+### value because the precipiation values associated with that
+### sensor are not as indicative of what is occuring in the area
+### that the tree in question is in.
+
+# Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
   ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
 }
 
+# Calculates new column for basal area index for each year
 ring_data$bai <- NA
 for(i in 1:length(ring_data$r1)) {
   ring_data$bai[i] <- bai(ring_data$r1[i], ring_data$r2[i])
 }
 
+# Creates new column for resin duct density at each year
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
+
+
 # clean up unneeded variables
-rm(ring_files)
+rm(ring_files, ring_data_first)
 
 
 
