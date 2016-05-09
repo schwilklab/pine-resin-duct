@@ -3,7 +3,7 @@
 # is rough and will need to be cleaned up eventually, and possibly have
 # components from it added into an existing .R file.
 
-source("./rings.R")
+source("./read_rings.R")
 source("./graph-themes.R")
 
 # Calculate summaries per tree
