@@ -7,6 +7,7 @@
 
 # Load programs
 library(plyr)
+library(dplyr)
 library(stringr)
 library(ggplot2)
 library(sp)
@@ -38,17 +39,27 @@ str_sub(monthly_precip_data$DATE, 5, -1) <- "";
 monthly_precip_data$calendar.year <- as.integer(str_sub(monthly_precip_data$DATE, 1, 4))
 
 # Summarize monthly precipitation averages to obtain yearly averages
-yearly_precip_data <- (ddply(monthly_precip_data, .(STATION_NAME, calendar.year), summarize, PRECIP = sum(TPCP)))
-head(yearly_precip_data)
+yearly_precip_data1 <- (ddply(monthly_precip_data, .(STATION_NAME, calendar.year), summarize, PRECIP = sum(TPCP)))
+head(yearly_precip_data1)
 
 # Create new dataframe to merge into yearly_precip_data
 station_names<- read.csv("../data/station_names.csv")
 
-# Merge values associated with each station into yearly_precip_data
-yearly_precip_data <- left_join(yearly_precip_data, station_names, by = "STATION_NAME")
+# Convert integers into character
+station_names$STATION_NAME<- as.character(station_names$STATION_NAME)
+station_names$mtn<- as.character(station_names$mtn)
 
+# STATION_NAME is a character in station_names df, but a factor in
+# yearly_precip_data1.  This will cause problems for joining, so here
+# is some code to work around that.
+combined <- sort(union(levels(yearly_precip_data1$STATION_NAME),
+                       levels(station_names$STATION_NAME)))
+
+# Merge values associated with each station into yearly_precip_data
+yearly_precip_data <- left_join(mutate(yearly_precip_data1, STATION_NAME=factor(STATION_NAME, levels=combined)),
+                                mutate(station_names, STATION_NAME=factor(STATION_NAME, levels=combined)))
 # Remove station_names
-rm(station_names)
+rm(station_names, yearly_precip_data1, combined)
 
 # Quick plot to see precipitation trends for each range
 ggplot(yearly_precip_data, aes(calendar.year, PRECIP)) +

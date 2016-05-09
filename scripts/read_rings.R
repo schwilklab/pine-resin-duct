@@ -21,10 +21,10 @@
 #   calculates variables: calendar year, age, ring.dist and ring.width.
 # -Some exploratory analyses
 
-library(dplyr)
-library(ggplot2)
-
+# Sources script that populates yearly precipitation values as well as
+# loading relevant packages for analyses.
 source("./read_precip_data.R")
+
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
@@ -119,7 +119,6 @@ ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
 # ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
 
 ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year"))
-
 
 # Calculates distance from each tree to the corresponding sensor
 # in the mountain range.
