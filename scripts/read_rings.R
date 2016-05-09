@@ -1,16 +1,30 @@
-# rings.R
+# read_rings.R
 
 # Read in tree ring coordinates from individual csv files, calculate ring
 # widths and areas. Provides data frame "ring_data" to global namespace. The
 # tree ring data files include a row for each ring and a final row giving the
 # coordinates of the vascular cambium. So the final row of data is only used to
 # calculate the width associated with the outermost ring (penultimate row of
-# data).
+# data). Also provides "trees" data frame which uses values from raster_data.R
+# to add to data frame.  Make sure raster_data.R is run once to produce .rds 
+# files which will be read here.
+
+# What is produced:
+# -"ring_data"" data frame is added to the global namespace
+# -"trees" data frame is added to the global namespace.  Values obtained
+#   from raster files are added as well from raster_data.R.
+# -"sdist" and "get_widths" function which calculates distance between rings
+# -"core.area" function that calculates the area in between each tree ring,
+#   accounts for special cases as well.
+# -"bai" function calculates basal area increment
+# -"read_ring_coord_file" function reads in ring data csv files and
+#   calculates variables: calendar year, age, ring.dist and ring.width.
+# -Some exploratory analyses
 
 library(dplyr)
 library(ggplot2)
 
-source("./precip_data.R")
+source("./read_precip_data.R")
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
@@ -82,34 +96,50 @@ read_ring_coord_file <- function(filename) {
 # Obtain data from masters_trees.csv to merge with trees.csv data
 trees <- read.csv("../data/masters_trees.csv", stringsAsFactors=FALSE)
 
+# Read .rds files created from raster_data.R script for each mtn range  
+cm_raster_data<- readRDS(file="../results/cm_raster_data.rds")
+dm_raster_data<- readRDS(file="../results/dm_raster_data.rds")
+gm_raster_data<- readRDS(file="../results/gm_raster_data.rds")
+
+# Create new data frame with raster info on all trees as well as other 
+# variables measured and calculated
+trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>%
+  inner_join(bind_rows(cm_raster_data, dm_raster_data, gm_raster_data))
+
 # Creates temporary list of all ring files for later merge
 ring_files <- list.files("../data/tree_ring_coordinates", full.names=TRUE)
 
 # create a list of coordinate dataframes (1 per tree), concatenate these all
 # into one df, then merge (innner_join) with the trees.csv data
-ring_data_first <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
+ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
     inner_join(trees)
 
 # join precipitation values from dataframe created with precip_data.R into
 # previously created dataframe and rename it to ring_data.
-ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
+# ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
+
+ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year"))
+
 
 # Calculates distance from each tree to the corresponding sensor
 # in the mountain range.
-ring_data$sensor_dist <- NA
+ ring_first$sensor_dist <- NA
 # lon.x and lat.x are coordinates from the tree, lon.y and lat.y are
 # coordinates from the precipitation sensor
-for(i in 1:nrow(ring_data)) {
-  ring_data$sensor_dist[i] <- gcd.hf(ring_data$lon.x[i], ring_data$lat.x[i], ring_data$lon.y[i], ring_data$lat.y[i])
+for(i in 1:nrow(ring_first)) {
+   ring_first$sensor_dist[i] <- gcd.hf(ring_first$lon.x[i], ring_first$lat.x[i], ring_first$lon.y[i], ring_first$lat.y[i])
 }
-
-### Need to write code that looks through dataset and if there are
-### two sensor_dist values associated with one ring on a particular
-### species, then it removes the row with the highest sensor_dist
-### value because the precipiation values associated with that
-### sensor are not as indicative of what is occuring in the area
-### that the tree in question is in.
-
+ 
+# temporary dataframe for tree core years that had values for precipitation
+# based on station location
+temp_df<- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
+# temporary dataframe for tree core years that did not have a value for
+# precipitation based on station location
+temp_df2<- filter(ring_first, is.na(ring_first$sensor_dist))
+ 
+# Combine temporary data frames together and arrange them
+ring_data<- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
+ 
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
@@ -125,9 +155,8 @@ for(i in 1:length(ring_data$r1)) {
 # Creates new column for resin duct density at each year
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 
-
 # clean up unneeded variables
-rm(ring_files, ring_data_first)
+rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data, gm_raster_data)
 
 
 

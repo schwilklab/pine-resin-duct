@@ -3,7 +3,6 @@
 # is rough and will need to be cleaned up eventually, and possibly have
 # components from it added into an existing .R file.
 
-source("./data-checks.R")
 source("./rings.R")
 source("./graph-themes.R")
 
@@ -19,7 +18,9 @@ trees.sum <- ring_data %>% group_by(tag) %>%
               ring.width.mean = mean(ring.width),
               ring.width.sd = sd(ring.width),
               bai.mean = mean(bai),
-              bai.sd = sd(bai)
+              bai.sd = sd(bai),
+              precip.mean = mean(PRECIP, na.rm = TRUE),
+              precip.sd = sd(PRECIP, na.rm = TRUE)
               ) %>% inner_join(trees)
 
 # Plot mean resin duct count per year
@@ -115,3 +116,11 @@ anova(age.mod1)
 # quick plot showing duct density plotted by tree age
 ggplot(trees.sum, aes(max.age, duct.den.mean)) +
   geom_point()
+
+baf.mod5 <- lme(duct.den.mean ~ precip.mean, random=~1|mtn/spcode, data=trees.sum)
+summary(baf.mod5)
+anova(baf.mod5)
+
+ggplot(trees.sum, aes(precip.mean, duct.den.mean)) +
+  geom_point()
+

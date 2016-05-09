@@ -1,4 +1,4 @@
-## species_count.R
+## data-checks.R
 ## ---------------
 ## replication counts and data integrity checks
 
@@ -27,6 +27,9 @@ summary(baf.lm)
 anova(baf.lm)
 
 # There is a difference between species.  Looking at figure to get better idea
+
+mycolours <- c("#FF6600", "#CC0000", "#660066", "#000999", "#3366CC", "#00CCFF")
+
 ggplot(trees, aes(spcode, BAF, fill=mtn)) +
   geom_violin()+
   labs(x= "Species", y= "Basal area factor")+
@@ -36,8 +39,6 @@ ggplot(trees, aes(spcode, BAF, fill=mtn)) +
                     labels = mountain_names,
                     values= mycolours)
 
-
-  mycolours <- c("#FF6600", "#CC0000", "#660066", "#000999", "#3366CC", "#00CCFF")
 
 # Linear regression of DBH followed by ANOVA
 dbh.lm <- lm(DBH~ mtn + spcode + spcode:mtn, data=trees)
