@@ -46,7 +46,7 @@ PIST3,slope,bai.mean,0.4119
 PIST3,ldist_valley2,duct.den.mean,0.7784
 PIST3,ldist_valley2,duct.count.mean,0.0445
 PIST3,ldist_valley2,ring.width.mean,0.0627
-PIST3,ldist_valley2,bai.mean+BB26:C49,0.4104
+PIST3,ldist_valley2,bai.mean,0.4104
 ponderosa,BAF,duct.den.mean,0.164
 ponderosa,BAF,duct.count.mean,0.0032
 ponderosa,BAF,ring.width.mean,0.002
