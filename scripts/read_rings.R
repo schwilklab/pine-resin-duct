@@ -154,6 +154,13 @@ for(i in 1:length(ring_data$r1)) {
 # Creates new column for resin duct density at each year
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 
+# Remove some columns that don't pertain to analyses, but are in the
+# original data set relegated to notes.
+cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
+                    "needles.collected", "condition", "barkbeetle.attack",
+                    "trail.area", "note", "lat.y", "lat.x")
+ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = F]
+
 # clean up unneeded variables
 rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data, gm_raster_data)
 

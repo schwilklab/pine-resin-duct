@@ -9,9 +9,10 @@
 # already calculated, check out lme_outputs which contains all of the 
 # information. This can be cleaned up a lot, but it's a start.
 
-source("./read_rings.R")
 source("./graph-themes.R")
+source("./read_rings.R")
 library(nlme)
+library(tidyr)
 
 # Calculate summaries per tree
 trees.sum <- ring_data %>% group_by(tag) %>%
