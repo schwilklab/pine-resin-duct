@@ -158,11 +158,12 @@ ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 # original data set relegated to notes.
 cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
                     "needles.collected", "condition", "barkbeetle.attack",
-                    "trail.area", "note", "lat.y", "lat.x")
+                    "trail.area", "note", "lat.y", "lon.y")
 ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = F]
 
 # clean up unneeded variables
-rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data, gm_raster_data)
+rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data,
+   gm_raster_data, cols.dont.want)
 
 
 
@@ -182,7 +183,7 @@ ggplot(ring_data, aes(age, duct.density, color=mtn)) +
                        labels = mountain_names,
                        values= mycolours)
 
-resinduct.lm <- lm(resin.duct.count~ spcode + mtn + spcode:mtn, data=ring_data)
+resinduct.lm <- lm(duct.density~ spcode + mtn + spcode:mtn, data=ring_data)
 summary(resinduct.lm)
 anova(resinduct.lm)
 
