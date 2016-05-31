@@ -39,7 +39,7 @@ str_sub(monthly_precip_data$DATE, 5, -1) <- "";
 monthly_precip_data$calendar.year <- as.integer(str_sub(monthly_precip_data$DATE, 1, 4))
 
 # Summarize monthly precipitation averages to obtain yearly averages
-yearly_precip_data1 <- (ddply(monthly_precip_data, .(STATION_NAME, calendar.year), summarize, PRECIP = sum(TPCP)))
+yearly_precip_data1 <- (ddply(monthly_precip_data, .(STATION_NAME, calendar.year), summarize, PRECIP = sum(TPCP), num_mnths = length(calendar.year)))
 head(yearly_precip_data1)
 
 # Create new dataframe to merge into yearly_precip_data
@@ -58,10 +58,20 @@ combined <- sort(union(levels(yearly_precip_data1$STATION_NAME),
 # Merge values associated with each station into yearly_precip_data
 yearly_precip_data <- left_join(mutate(yearly_precip_data1, STATION_NAME=factor(STATION_NAME, levels=combined)),
                                 mutate(station_names, STATION_NAME=factor(STATION_NAME, levels=combined)))
-# Remove station_names
+
+# Remove station_names ad other temporary values
 rm(station_names, yearly_precip_data1, combined)
 
 # Quick plot to see precipitation trends for each range
-ggplot(yearly_precip_data, aes(calendar.year, PRECIP)) +
-           geom_line() +
-           facet_grid(STATION_NAME ~ .)
+ggplot(yearly_precip_data, aes(calendar.year, PRECIP, color=STATION_NAME)) +
+           geom_line()+
+           facet_grid(mtn ~ .)
+
+# Some years have less than 12 months of data.  This is what it looks
+# like if I subset the years that have all 12 months.
+
+yearly_precip_data_12mnths<- filter(yearly_precip_data, num_mnths==12)
+
+ggplot(yearly_precip_data_12mnths, aes(calendar.year, PRECIP, color=STATION_NAME)) +
+  geom_line()+
+  facet_grid(mtn ~ .)
