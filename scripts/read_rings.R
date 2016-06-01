@@ -13,6 +13,7 @@
 # -"ring_data"" data frame is added to the global namespace
 # -"trees" data frame is added to the global namespace.  Values obtained
 #   from raster files are added as well from raster_data.R.
+# -"trees.sum" data frame is added to the global namespace
 # -"sdist" and "get_widths" function which calculates distance between rings
 # -"core.area" function that calculates the area in between each tree ring,
 #   accounts for special cases as well.
@@ -164,6 +165,23 @@ ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = F]
 # clean up unneeded variables
 rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data,
    gm_raster_data, cols.dont.want)
+
+# Calculate summaries per tree
+trees.sum <- ring_data %>% group_by(tag) %>%
+  summarize(avg.age = mean(age),
+            age.sd = sd(age),
+            age.min = min(age), max.age = max(age),
+            duct.count.mean = mean(resin.duct.count, na.rm= TRUE),
+            duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
+            duct.den.mean = mean(duct.density, na.rm= TRUE),
+            duct.den.sd = sd(duct.density, na.rm= TRUE),
+            ring.width.mean = mean(ring.width),
+            ring.width.sd = sd(ring.width),
+            bai.mean = mean(bai),
+            bai.sd = sd(bai),
+            precip.mean = mean(PRECIP, na.rm = TRUE),
+            precip.sd = sd(PRECIP, na.rm = TRUE)
+  ) %>% inner_join(trees)
 
 
 

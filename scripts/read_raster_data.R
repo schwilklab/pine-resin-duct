@@ -10,7 +10,7 @@
 # change, since all data is stored as a .rds file in the scripts.
 
 # What is produced:
-# -Three functions used to create raster files and extracy relevant
+# -Three functions used to create raster files and extract relevant
 #  raster information for each tree location
 # -Raster stack files for each mountain range
 # -Raster values for all tagged trees that reside within raster data
