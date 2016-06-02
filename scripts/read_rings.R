@@ -129,16 +129,24 @@ ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year
 for(i in 1:nrow(ring_first)) {
    ring_first$sensor_dist[i] <- gcd.hf(ring_first$lon.x[i], ring_first$lat.x[i], ring_first$lon.y[i], ring_first$lat.y[i])
 }
+
+# lat approach
+# tree coords are x, station coords are y
+## ring_first <- mutate(ring_first, sensor_dist =  gcd.hf(ring_first$lon.x,
+##                                                        ring_first$lat.x,
+##                                                        ring_first$lon.y,
+##                                                        ring_first$lat.y))
+
  
 # temporary dataframe for tree core years that had values for precipitation
 # based on station location
-temp_df<- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
+temp_df <- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
 # temporary dataframe for tree core years that did not have a value for
 # precipitation based on station location
-temp_df2<- filter(ring_first, is.na(ring_first$sensor_dist))
+temp_df2 <- filter(ring_first, is.na(ring_first$sensor_dist))
  
 # Combine temporary data frames together and arrange them
-ring_data<- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
+ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
  
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
@@ -160,7 +168,7 @@ ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
                     "needles.collected", "condition", "barkbeetle.attack",
                     "trail.area", "note", "lat.y", "lon.y")
-ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = F]
+ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 
 # clean up unneeded variables
 rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data,
@@ -188,7 +196,7 @@ trees.sum <- ring_data %>% group_by(tag) %>%
 # Exploring data
 
 # Make sure graph-themes.R is loaded, but if not:
-# source("./graph-themes.R")
+source("./graph-themes.R")
 
 ggplot(ring_data, aes(age, duct.density, color=mtn)) +
     geom_point() +
@@ -201,7 +209,7 @@ ggplot(ring_data, aes(age, duct.density, color=mtn)) +
                        labels = mountain_names,
                        values= mycolours)
 
-resinduct.lm <- lm(duct.density~ spcode + mtn + spcode:mtn, data=ring_data)
+resinduct.lm <- lm(duct.density ~ spcode + mtn + spcode:mtn, data=ring_data)
 summary(resinduct.lm)
 anova(resinduct.lm)
 
