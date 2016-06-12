@@ -1,0 +1,20 @@
+variable,type,units,description
+Division,numeric,,"Unique identifier for area of Texas, 5 indicates Trans Pecos region"
+YearMonth,numeric,,"Unique identifier starting with the year, followed by the specific month"
+    PCP,numeric,inches,Precipitation index
+   TAVG,numeric,degrees (F),Average temperature
+PDSI,numeric,,Palmer Drought Severity Index
+PHDI,numeric,,Palmer Hydrological Drought Index
+ZNDX,numeric,,Palmer Z-Index
+PMDI,numeric,,Modified Palmer Drought Severity Index
+CDD,numeric,,Cooling Degree Days
+HDD,numeric,,Heating Degree Days
+SP01,numeric,,Standard Precipitation Index for 1 month
+SP02,numeric,,Standard Precipitation Index for 2 months
+SP03,numeric,,Standard Precipitation Index for 3 months
+SP06,numeric,,Standard Precipitation Index for 6 months
+SP09,numeric,,Standard Precipitation Index for 9 months
+SP12,numeric,,Standard Precipitation Index for 12 months
+SP24,numeric,,Standard Precipitation Index for 24 months
+TMIN,numeric,degrees (F),Minimum Temperature in farenheit
+TMAX,numeric,degrees (F),Maximum Temperature in farenheit
