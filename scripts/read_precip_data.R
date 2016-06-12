@@ -1,9 +1,24 @@
 ## read_precip_data.R
 ## -------------
-## Precipitation data from four weather stations.  Code extracts the 
+## Precipitation data from multiple weather stations.  Code extracts the 
 ## values and creates a new data set obtaining the precipitation 
 ## amount present at each station per year.  Values will be used to
 ## populate values into dataset in rings.R.
+
+# What is produced:
+#
+# -"deg2rad" function which converts degrees to radians
+# -"gcd.hf" function which calculates the distance between two sets of 
+#   coordinates
+# 
+# -"monthly_precip_data" data frame which is used to calculate yearly values
+# -"yearly_precip_data" data frame which contains annual precipitation rates
+#   for each station that has 12 months of data
+# -"monthly_drought_values" data frame which is used to calculate yearly values
+# -"yearly_drought_values" data frame which contains annual precipitation values
+#   for the Trans Pecos boundary as defined by NOAA.  Also contains Palmer
+#   drought severity index values and modified Palmer drought severity index 
+#   values averaged by monthly values.
 
 # Load programs
 library(plyr)
@@ -59,6 +74,8 @@ combined <- sort(union(levels(yearly_precip_data1$STATION_NAME),
 yearly_precip_data <- left_join(mutate(yearly_precip_data1, STATION_NAME=factor(STATION_NAME, levels=combined)),
                                 mutate(station_names, STATION_NAME=factor(STATION_NAME, levels=combined)))
 
+# Only select years that have 12 months of data
+yearly_precip_data<- filter(yearly_precip_data, num_mnths==12)
 # Remove station_names ad other temporary values
 rm(station_names, yearly_precip_data1, combined)
 
@@ -67,11 +84,23 @@ ggplot(yearly_precip_data, aes(calendar.year, PRECIP, color=STATION_NAME)) +
            geom_line()+
            facet_grid(mtn ~ .)
 
-# Some years have less than 12 months of data.  This is what it looks
-# like if I subset the years that have all 12 months.
+# Palmer drought values for Trans Pecos region. Values are specific to
+# Trans-Pecos area defined by the boundaries observed by NOAA.  Link
+# to the map of the encolsed area is: http://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=indices&layers=01&node=gis
+# Data obtained from http://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp#)
 
-yearly_precip_data_12mnths<- filter(yearly_precip_data, num_mnths==12)
+# Read .csv file
+monthly_drought_values<- read.csv("../data/drought_values_transpecos.csv")
+# Remove month from dataframe
+str_sub(monthly_drought_values$YearMonth, 5, -1) <- "";
+# Create a new column with calendar.year to be used to merge into ring_data
+# from script in read_rings.R
+monthly_drought_values$calendar.year <- as.integer(str_sub(drought_values$YearMonth, 1, 4))
+# Combine monthly values and summarize by mean for regional precipitation,
+# also covert precip values to metric.  Calculates the average Palmer Drought
+# Severity Index and Modified version as well.
+yearly_drought_values <- (ddply(monthly_drought_values, .(calendar.year), summarize, regional_precip = (sum(PCP)*2.54),
+                                PDSI = mean(PDSI), PMDI= mean(PMDI)))
 
-ggplot(yearly_precip_data_12mnths, aes(calendar.year, PRECIP, color=STATION_NAME)) +
-  geom_line()+
-  facet_grid(mtn ~ .)
+ggplot(yearly_drought_values, aes(calendar.year, PDSI)) +
+  geom_line()
