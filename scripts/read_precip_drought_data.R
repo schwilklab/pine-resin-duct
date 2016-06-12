@@ -96,7 +96,7 @@ monthly_drought_values<- read.csv("../data/drought_values_transpecos.csv")
 str_sub(monthly_drought_values$YearMonth, 5, -1) <- "";
 # Create a new column with calendar.year to be used to merge into ring_data
 # from script in read_rings.R
-monthly_drought_values$calendar.year <- as.integer(str_sub(drought_values$YearMonth, 1, 4))
+monthly_drought_values$calendar.year <- as.integer(str_sub(monthly_drought_values$YearMonth, 1, 4))
 # Combine monthly values and summarize by mean for regional precipitation,
 # also covert precip values to metric.  Calculates the average Palmer Drought
 # Severity Index and Modified version as well.

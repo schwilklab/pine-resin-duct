@@ -24,7 +24,7 @@
 
 # Sources script that populates yearly precipitation values as well as
 # loading relevant packages for analyses.
-source("./read_precip_data.R")
+source("./read_precip_drought_data.R")
 
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
