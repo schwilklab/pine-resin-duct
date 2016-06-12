@@ -1,9 +1,10 @@
-## read_precip_data.R
+## read_precip_drought_data.R
 ## -------------
 ## Precipitation data from multiple weather stations.  Code extracts the 
 ## values and creates a new data set obtaining the precipitation 
 ## amount present at each station per year.  Values will be used to
-## populate values into dataset in rings.R.
+## populate values into dataset in rings.R. Also added regional 
+## drought data.
 
 # What is produced:
 #
