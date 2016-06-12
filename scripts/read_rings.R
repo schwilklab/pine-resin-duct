@@ -147,7 +147,8 @@ temp_df2 <- filter(ring_first, is.na(ring_first$sensor_dist))
  
 # Combine temporary data frames together and arrange them
 ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
- 
+ring_data<- left_join(ring_data, yearly_drought_values, by= "calendar.year")
+
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
@@ -198,7 +199,7 @@ trees.sum <- ring_data %>% group_by(tag) %>%
 # Make sure graph-themes.R is loaded, but if not:
 source("./graph-themes.R")
 
-ggplot(ring_data, aes(age, duct.density, color=mtn)) +
+ggplot(ring_data, aes(ring, duct.density, color=mtn)) +
     geom_point() +
     scale_y_log10() +
     facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
