@@ -89,6 +89,7 @@ ggplot(yearly_precip_data, aes(calendar.year, PRECIP, color=STATION_NAME)) +
 # Trans-Pecos area defined by the boundaries observed by NOAA.  Link
 # to the map of the encolsed area is: http://gis.ncdc.noaa.gov/map/viewer/#app=cdo&cfg=cdo&theme=indices&layers=01&node=gis
 # Data obtained from http://www7.ncdc.noaa.gov/CDO/CDODivisionalSelect.jsp#)
+# Further explanation for drought values is located here: http://www.ncdc.noaa.gov/temp-and-precip/drought/historical-palmers/overview
 
 # Read .csv file
 monthly_drought_values<- read.csv("../data/drought_values_transpecos.csv")
