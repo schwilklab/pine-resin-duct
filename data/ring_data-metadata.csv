@@ -1,0 +1,35 @@
+variable,type,units,description
+ring,numeric,,"Refers to the order of which rings are made on the tree with 1 being the first ring to n, being the last ring at time of sample"
+resin.duct.count,numeric,,Number of resin ducts present in a given ring on a tree core
+tag,string,,Unique tags for each tree sampled
+calendar.year,numeric,years,The year of which the aforementioned ring was created
+age,numeric,,"The age of each ring relative to when the tree was sampled.  Earlier rings will be the oldest, with the last ring created being 1 year old."
+ring.width,numeric,centimeters,The width of the specific tree ring in centimeters
+spcode,string,,USDA species code
+DBH,numeric,centimeters,Diameter at breast height of trees sampled
+BAF,numeric,,Basal area factor.   Number of trees surrounding sampled tree based on 10-factor gauge criteria.
+mtn,string,,"Mountain range. CM=Chisos, DM=Davis, GM=Guadalupe"
+date,string,,The date the tree was sampled.
+gps.elev,numeric,meters,Elevation where tree was sampled according to GPS.
+lon,numeric,degrees,"Latitude in decimal degrees, Spheroid WGS84"
+lat,numeric,degrees,"Longitude in decimal degrees, Spheroid WGS84"
+elev,numeric,meters,Elevation where tree was sampled according to topographic variables.
+flow_accum,numeric,,Values range from 1-255.  Values are clipped from accumulation grid and uses flow direction grid for calculations.  
+ldist_ridge,numeric,,Reclassified flow accumulation to threshold out values greater than 0.
+ldist_valley,numeric,,Identifies areas of which water flowed into an area.
+ldist_valley2,numeric,,Calculate downstream distance along a flow point
+msd,numeric,,A measure of topographic dissections using multiple sized windows.
+radiation,numeric,,Incoming solar radiation calculated for the whole year with a monthly interval and and hourly interval calculation.
+relelev_l,numeric,,Relative l position channel to divide
+relelev_z,numeric,,N/A
+slope,numeric,degrees,The slope of which a tree is located on.  Reported in degrees.
+z_ridge,numeric,,N/A
+z_valley,numeric,,Value calculated by subtracting the elev layer from the z_layer.
+zdist_ridge,numeric,,N/A
+zdist_valley,numeric,,N/A
+regional_precip,numeric,centimeters,Average yearly rainfall in the trans pecos region.  Values calculated by summing monthly values together
+PDSI,numeric,,Palmer Drought Severity Index: Average yearly values calculated by determining the mean of all 12 months together
+PMDI,numeric,,Modified Palmer Drought Severity Index: Average yearly values calculated by determining the mean of all 12 months together.
+ring.area,numeric,centimeters squared,Total ring area present for each ring in the tree core.
+bai,numeric,,"Basal Area Increment: Amount of growth put on by the tree for each year.  Is not specific to the core, but rather calculates the entire tree."
+duct.density,numeric,,Value calculated by dividing the number of resin ducts present in a ring divided by the area of the ring within the tree core.
