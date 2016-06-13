@@ -4,7 +4,8 @@
 ## values and creates a new data set obtaining the precipitation 
 ## amount present at each station per year.  Values will be used to
 ## populate values into dataset in rings.R. Also added regional 
-## drought data.
+## drought data. See ring_data metadata file for explanation of columns
+## present in the data frame.
 
 # What is produced:
 #
@@ -104,5 +105,5 @@ monthly_drought_values$calendar.year <- as.integer(str_sub(monthly_drought_value
 yearly_drought_values <- (ddply(monthly_drought_values, .(calendar.year), summarize, regional_precip = (sum(PCP)*2.54),
                                 PDSI = mean(PDSI), PMDI= mean(PMDI)))
 
-ggplot(yearly_drought_values, aes(calendar.year, PDSI)) +
+ggplot(yearly_drought_values, aes(calendar.year, PMDI)) +
   geom_line()

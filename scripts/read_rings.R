@@ -115,38 +115,44 @@ ring_files <- list.files("../data/tree_ring_coordinates", full.names=TRUE)
 ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
     inner_join(trees)
 
-# join precipitation values from dataframe created with precip_data.R into
-# previously created dataframe and rename it to ring_data.
-# ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
+# Precipitation data in it's current state cannot be used due to the
+# inconsistencies involved with availability and actual values calculated.
+# Code is still included in the script in case we decide to use it later.
 
-ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year"))
+# # join precipitation values from dataframe created with precip_data.R into
+# # previously created dataframe and rename it to ring_data.
+# # ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
+# 
+# ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year"))
+# 
+# # Calculates distance from each tree to the corresponding sensor
+# # in the mountain range.
+#  ring_first$sensor_dist <- NA
+# # lon.x and lat.x are coordinates from the tree, lon.y and lat.y are
+# # coordinates from the precipitation sensor
+# for(i in 1:nrow(ring_first)) {
+#    ring_first$sensor_dist[i] <- gcd.hf(ring_first$lon.x[i], ring_first$lat.x[i], ring_first$lon.y[i], ring_first$lat.y[i])
+# }
+# 
+# # lat approach
+# # tree coords are x, station coords are y
+# ## ring_first <- mutate(ring_first, sensor_dist =  gcd.hf(ring_first$lon.x,
+# ##                                                        ring_first$lat.x,
+# ##                                                        ring_first$lon.y,
+# ##                                                        ring_first$lat.y))
+# 
+#  
+# # temporary dataframe for tree core years that had values for precipitation
+# # based on station location
+# temp_df <- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
+# # temporary dataframe for tree core years that did not have a value for
+# # precipitation based on station location
+# temp_df2 <- filter(ring_first, is.na(ring_first$sensor_dist))
+#  
+# # Combine temporary data frames together and arrange them
+# ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
 
-# Calculates distance from each tree to the corresponding sensor
-# in the mountain range.
- ring_first$sensor_dist <- NA
-# lon.x and lat.x are coordinates from the tree, lon.y and lat.y are
-# coordinates from the precipitation sensor
-for(i in 1:nrow(ring_first)) {
-   ring_first$sensor_dist[i] <- gcd.hf(ring_first$lon.x[i], ring_first$lat.x[i], ring_first$lon.y[i], ring_first$lat.y[i])
-}
-
-# lat approach
-# tree coords are x, station coords are y
-## ring_first <- mutate(ring_first, sensor_dist =  gcd.hf(ring_first$lon.x,
-##                                                        ring_first$lat.x,
-##                                                        ring_first$lon.y,
-##                                                        ring_first$lat.y))
-
- 
-# temporary dataframe for tree core years that had values for precipitation
-# based on station location
-temp_df <- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
-# temporary dataframe for tree core years that did not have a value for
-# precipitation based on station location
-temp_df2 <- filter(ring_first, is.na(ring_first$sensor_dist))
- 
-# Combine temporary data frames together and arrange them
-ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
+# Add drought values to the data frame.
 ring_data<- left_join(ring_data, yearly_drought_values, by= "calendar.year")
 
 # Calculate ring area and assign value for each year
