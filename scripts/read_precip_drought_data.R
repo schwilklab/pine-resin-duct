@@ -101,9 +101,16 @@ str_sub(monthly_drought_values$YearMonth, 5, -1) <- "";
 monthly_drought_values$calendar.year <- as.integer(str_sub(monthly_drought_values$YearMonth, 1, 4))
 # Combine monthly values and summarize by mean for regional precipitation,
 # also covert precip values to metric.  Calculates the average Palmer Drought
-# Severity Index and Modified version as well.
+# Severity Index and Modified version as well.  Lastly, creates a column
+# with the mean of that years PMDI and the two preceeding years values.
+# Rows with NA's produced are removed afterwardd.
 yearly_drought_values <- (ddply(monthly_drought_values, .(calendar.year), summarize, regional_precip = (sum(PCP)*2.54),
-                                PDSI = mean(PDSI), PMDI= mean(PMDI)))
+                                PDSI = mean(PDSI), PMDI= mean(PMDI))) %>% 
+                          mutate(PMDI_3yrlag = (PMDI + lag(PMDI) +lag(PMDI, 2)) / 3) %>%
+                          filter(!is.na(PMDI_3yrlag))
+
+
 
 ggplot(yearly_drought_values, aes(calendar.year, PMDI)) +
   geom_line()
+
