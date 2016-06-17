@@ -86,7 +86,7 @@ read_ring_coord_file <- function(filename) {
     x1 <- df$x[1]
     y1 <- df$y[1]
     df <- df %>% mutate(calendar.year=SAMPLE_YEAR + ring - max(ring) + 1,
-                        tree.age=max(ring)-ring,
+                        ring.age=max(ring)-ring,
                         # Convert coordinate pixels from inches to cm
                         r1=sdist(x1, y1, x, y)*2.54,
                         ring.width=get_widths(r1),
@@ -205,7 +205,7 @@ trees.sum <- ring_data %>% group_by(tag) %>%
 # Make sure graph-themes.R is loaded, but if not:
 source("./graph-themes.R")
 
-ggplot(ring_data, aes(tree.age, duct.density, color=mtn)) +
+ggplot(ring_data, aes(ring, duct.density, color=mtn)) +
     geom_point() +
     scale_y_log10() +
     facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
