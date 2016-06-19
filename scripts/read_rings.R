@@ -178,14 +178,14 @@ cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
 ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 
 # clean up unneeded variables
-rm(ring_files, ring_first, temp_df, temp_df2, cm_raster_data,dm_raster_data,
-   gm_raster_data, cols.dont.want)
+rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want)
+   # ring_first, temp_df, temp_df2)
 
 # Calculate summaries per tree
 trees.sum <- ring_data %>% group_by(tag) %>%
-  summarize(avg.age = mean(age),
-            age.sd = sd(age),
-            age.min = min(age), max.age = max(age),
+  summarize(avg.age = mean(ring.age),
+            age.sd = sd(ring.age),
+            age.min = min(ring.age), max.age = max(ring.age),
             duct.count.mean = mean(resin.duct.count, na.rm= TRUE),
             duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
             duct.den.mean = mean(duct.density, na.rm= TRUE),
@@ -194,10 +194,9 @@ trees.sum <- ring_data %>% group_by(tag) %>%
             ring.width.sd = sd(ring.width),
             bai.mean = mean(bai),
             bai.sd = sd(bai),
-            precip.mean = mean(PRECIP, na.rm = TRUE),
-            precip.sd = sd(PRECIP, na.rm = TRUE)
+            PMDI.mean = mean(PMDI, na.rm = TRUE),
+            PMDI.sd = sd(PMDI, na.rm = TRUE)
   ) %>% inner_join(trees)
-
 
 
 # Exploring data
@@ -215,9 +214,5 @@ ggplot(ring_data, aes(ring, duct.density, color=mtn)) +
     scale_color_manual(name= "Mountain range",
                        labels = mountain_names,
                        values= mycolours)
-
-resinduct.lm <- lm(duct.density ~ spcode + mtn + spcode:mtn, data=ring_data)
-summary(resinduct.lm)
-anova(resinduct.lm)
 
 
