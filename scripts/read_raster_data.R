@@ -102,6 +102,7 @@ get_gmap <- function(df) {
                                 bottom=min(df$lat-0.015),
                                 right=max(df$lon+0.015),
                                 top=max(df$lat+0.015))))
+    }
 
 
 newmap <- get_gmap(cm_raster_data)
