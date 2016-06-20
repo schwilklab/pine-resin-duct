@@ -45,12 +45,49 @@ anova(resinduct.lm)
 
 # NEED TO SOLVE: Assumes incorrect degrees of freedom for a lot of
 # variables.  Specifcally, regional_precip and PMDI, 
-full.mod <- lme(duct.density ~ ring + BAF + elev + regional_precip + radiation
-                + PMDI_3yrlag + slope + spcode + bai + spcode:ring + mtn,
-                random = ~ 1 | tag, data=mdata, method="ML")
-full.null <-  lme(duct.density ~ 1 , random = ~ 1 | tag, data=mdata, method="ML")
+full.mod <- lme(duct.density ~ ring + BAF + elev + radiation
+                + PMDI_3yrlag  + slope +
+                  spcode + bai + spcode:ring + mtn,
+                ~1|tag, data=mdata, method="ML")
+
+full.null <-  lme(duct.density ~ 1, random = ~ 1|tag,data=mdata, method="ML")
+null2 <-  lme(duct.density ~ ring + elev + radiation + PMDI_3yrlag  + slope +
+                  spcode + bai + spcode:ring + mtn,
+              ~1|tag, data=mdata, method="ML")
+
 
 summary(full.mod)
+anova(full.mod)
+anova(full.mod, full.null)
+anova(full.mod, null2)
 
+
+
+library(MuMIn)
+all.mods <- dredge(full.mod)
+
+all.mods
+
+
+
+
+
+
+
+
+# lmer way
+
+library(lme4)
+full.mod <- lmer(duct.density ~ ring + BAF + elev + radiation
+                 + PMDI_3yrlag + spcode:PMDI_3yrlag + slope + spcode + bai + spcode:ring + mtn +( 1|tag) +
+                   (1|calendar.year),
+                 data=mdata, method="ML")
+
+full.null <-  lmer(duct.density ~ 1 + (1|tag) + (1|calendar.year), data=mdata, method="ML")
+summary(full.mod)
+anova(full.mod)
 anova(full.mod, full.null)
 
+all.mods <- dredge(full.mod)
+
+all.mods
