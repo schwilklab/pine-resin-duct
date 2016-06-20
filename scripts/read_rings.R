@@ -183,7 +183,7 @@ rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want)
 
 # Calculate summaries per tree
 trees.sum <- ring_data %>% group_by(tag) %>%
-  summarize(avg.age = mean(ring.age),
+  dplyr::summarize(avg.age = mean(ring.age),
             age.sd = sd(ring.age),
             age.min = min(ring.age), max.age = max(ring.age),
             duct.count.mean = mean(resin.duct.count, na.rm= TRUE),
@@ -196,7 +196,7 @@ trees.sum <- ring_data %>% group_by(tag) %>%
             bai.sd = sd(bai),
             PMDI.mean = mean(PMDI, na.rm = TRUE),
             PMDI.sd = sd(PMDI, na.rm = TRUE)
-  ) %>% inner_join(trees)
+            ) %>% inner_join(trees)
 
 
 # Exploring data
