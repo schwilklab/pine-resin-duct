@@ -55,7 +55,7 @@ core.area <- function(cw, r1, r2) {
   area.r2<- (pi*r2^2)
   # special case if both rings are less than core size.
   if(2*r2 < cw ) {
-    return(area.r2 - area.r1)
+    return((area.r2 - area.r1)/2)
   }
   cen.ang2 <-  2*acos((.5*cw)/(r2))
   acs2 <- (r2^2/2)*(cen.ang2-(sin(cen.ang2)))
@@ -170,6 +170,8 @@ for(i in 1:length(ring_data$r1)) {
 # Creates new column for resin duct density at each year
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 
+ring_data <- mutate(ring_data, total.duct.count= resin.duct.count*(bai/ring.area))
+
 # Remove some columns that don't pertain to analyses, but are in the
 # original data set relegated to notes.
 cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
@@ -181,21 +183,26 @@ ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want)
    # ring_first, temp_df, temp_df2)
 
+# rename rings column to age
+ring_data<- rename(ring_data, age = ring)
+
 # Calculate summaries per tree
 trees.sum <- ring_data %>% group_by(tag) %>%
-  dplyr::summarize(avg.age = mean(ring.age),
-            age.sd = sd(ring.age),
-            age.min = min(ring.age), max.age = max(ring.age),
-            duct.count.mean = mean(resin.duct.count, na.rm= TRUE),
+  dplyr::summarize(avg.age = mean(age),
+            age.sd = sd(age),
+            age.min = min(age), max.age = max(age),
+            duct.count.mean = mean(resin.duct.count, na.rm = TRUE),
             duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
-            duct.den.mean = mean(duct.density, na.rm= TRUE),
-            duct.den.sd = sd(duct.density, na.rm= TRUE),
+            duct.den.mean = mean(duct.density, na.rm = TRUE),
+            duct.den.sd = sd(duct.density, na.rm = TRUE),
+            total.duct.count.mean = mean(total.duct.count, na.rm = TRUE),
+            total.duct.count.sd = sd(total.duct.count, na.rm = TRUE),
             ring.width.mean = mean(ring.width),
             ring.width.sd = sd(ring.width),
             bai.mean = mean(bai),
             bai.sd = sd(bai),
-            PMDI.mean = mean(PMDI, na.rm = TRUE),
-            PMDI.sd = sd(PMDI, na.rm = TRUE)
+            PMDI.mean = mean(PMDI_3yrlag, na.rm = TRUE),
+            PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
             ) %>% inner_join(trees)
 
 
@@ -204,15 +211,15 @@ trees.sum <- ring_data %>% group_by(tag) %>%
 # Make sure graph-themes.R is loaded, but if not:
 source("./graph-themes.R")
 
-ggplot(ring_data, aes(ring, duct.density, color=mtn)) +
+# Age vs. resin duct density
+ggplot(trees.sum, aes(max.age, duct.den.mean, color=mtn)) +
     geom_point() +
     scale_y_log10() +
     facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
     theme(strip.text.y = element_text(size=5)) +
-    labs(x= "Age (years)",
-         y= "Resin duct density")+
+    labs(x= "age",
+         y= "resin duct density")+
     scale_color_manual(name= "Mountain range",
                        labels = mountain_names,
                        values= mycolours)
-
 
