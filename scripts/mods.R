@@ -9,124 +9,182 @@
 # idea on the relative influence they have as a predictor. Lastly,
 # a null model is produced to compare to.
 
+library(ggplot2)
 library(lme4)
 library(MuMIn)
+library(afex) # for p values in lmer/glmer models. 
+afex_options(method_mixed="LRT") #Bootstrapping can be slow, use hrothgar for that.
 
 source("read_rings.R")
 
 # read data, only select complete cases so no NA's exist
-mdata <- ring_data[complete.cases(ring_data), ]
-# remove the first year of growth since no resin ducts are present in pith
-mdata <- filter(mdata, !(age==1))
-# remove last year of data since these are only partial growth years
-mdata <- filter(mdata, !(calendar.year==2015))
+mdata <- ring_data[complete.cases(ring_data), ] %>%
+  filter(age!=1) %>% # remove the first year of growth since no resin
+                              # ducts are present in pith remove last year of
+                              # data since these are only partial growth years
+  filter(calendar.year != 2015) 
+
+# transforms
+mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / 2*r2*pi,
+                          duct.density.log = log(duct.density+1))
+## Rescale numeric variables ##
+mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date)
+
+
+## Graphical exploration ##
+ggplot(mdata, aes(age, duct.per.circ, group=tag)) +
+  geom_point() +
+  facet_grid(. ~ spcode) +
+  geom_smooth(method="lm")
+
+ggplot(mdata, aes(age, duct.density, group=tag)) +
+  geom_point() +
+  facet_grid(. ~ spcode) +
+  geom_smooth(method="lm")
+
+ggplot(mdata, aes(PMDI_3yrlag, log(duct.density+0.000001), group=tag)) +
+  geom_point() +
+  facet_grid(. ~ spcode) +
+  geom_smooth(method="lm", se=FALSE)
+
+ggplot(mutate(mdata, fpmdi=cut(PMDI_3yrlag, c(-4,-2,0,2,4)) ),
+       aes(age, duct.density, group=tag)) +
+  geom_point() +
+  facet_grid(fpmdi  ~ spcode) +
+  geom_smooth(method="lm", se=FALSE)
+
+## Tree growth ##
+
+## Graphical exploration ##
+ggplot(mdata, aes(age, ring.width, group=tag)) +
+  geom_point() +
+  facet_grid(. ~ spcode) +
+  geom_smooth(method="lm", se=FALSE)
+
+ggplot(mdata, aes(BAF, ring.width, group=tag)) +
+  geom_point() +
+  facet_grid(. ~ spcode) +
+  geom_smooth(method="lm", se=FALSE)
+
+
+
+# NOTE: no indication of radiation or slope (not shown), so ommitting
+growth.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (1|tag), data=mdata, REML=FALSE)
+
+growth.mod.rsi <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s|tag), data=mdata, REML=FALSE)
+
+anova(growth.mod.ri, growth.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+growth.mod.rsi2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
+anova(growth.mod.rsi, growth.mod.rsi2)
+
+# again, much better model.  We need random slopes for age and PMDI
+# use afex::mixed() for p values:
+growth.mod.full <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
+
+summary(growth.mod.full)
+anova(growth.mod.full)
+
+# So let's drop non significant interaction terms
+growth.mod.simple <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s) + elev_s +
+                           (age_s + PMDI_3yrlag | tag), data=mdata, REML=FALSE)
+
+summary(growth.mod.simple)
+anova(growth.mod.simple)
+#lsmeans(growth.mod.simple, pairwise~spcode)
+
+# So species differ in growth rate (PIST3 > PIPO > PIED > PICE > PIAR5), No
+# main effect of age or PMDI, but there are interactions with species
+# (investigate?). slight NEGATIVE effect of elevation on growth.
 
 
 ###### 1. Resin Duct Density ##########
 
-# Create linear models for resin duct density. Show a full model with all
-# predicted variables, and separate models showing each variable by itself to
-# show relative influence of each variable. Also created a null model to
-# compare to.
+# NOTE: no indication of radiation or slope (not shown), so ommitting
+den.mod.ri <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (1|tag), data=mdata, REML=FALSE)
 
-full.duct.mod <- lmer(duct.density ~ age + BAF + elev + radiation
-                 + PMDI_3yrlag + spcode:PMDI_3yrlag + slope +
-                   spcode + bai + spcode:age + mtn +(1|tag) +
-                   (1|calendar.year), data=mdata, REML=FALSE)
+den.mod.rsi <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s|tag), data=mdata, REML=FALSE)
 
-topo.duct.mod <- lmer(duct.density ~ elev + radiation + slope + (1|tag) +
-                      (1|calendar.year), data=mdata, REML=FALSE)
+anova(den.mod.ri, den.mod.rsi) # so random slope for age much better.
 
-age.duct.mod <- lmer(duct.density ~ age + (1|tag) +
-                     (1|calendar.year), data=mdata, REML=FALSE)
+# try random slope for PMDI
+den.mod.rsi2 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
+anova(den.mod.rsi, den.mod.rsi2)
 
-drought.duct.mod <- lmer(duct.density ~ PMDI_3yrlag + (1|tag) +
-                         (1|calendar.year), data=mdata, REML=FALSE)
+# So no need to include random slope for PMDI
 
-species.duct.mod <- lmer(duct.density ~ spcode + (1|tag) +
-                         (1|calendar.year), data=mdata, REML=FALSE)
+den.mod.full <- mixed(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                         (age_s | tag), data=mdata, REML=FALSE)
 
-bai.duct.mod <- lmer(duct.density ~ bai + (1|tag) +
-                     (1|calendar.year), data=mdata, REML=FALSE)
+summary(den.mod.full)
+anova(den.mod.full)
 
-baf.duct.mod <- lmer(duct.density ~ BAF + (1|tag) +
-                     (1|calendar.year), data=mdata, REML=FALSE)
+# So let's drop non significant interaction terms
+den.mod.simple <- mixed(duct.density.log ~ spcode*age_s + PMDI_3yrlag_s +
+                           (age_s | tag), data=mdata, REML=FALSE)
 
-mtn.duct.mod <- lmer(duct.density ~ mtn + (1|tag) +
-                     (1|calendar.year), data=mdata, REML=FALSE)
+summary(den.mod.simple)
+anova(den.mod.simple)
+lsmeans(den.mod.simple, "spcode")
 
-full.duct.null <-  lmer(duct.density ~ 1 + (1|tag) + (1|calendar.year),
-                        data=mdata, REML=FALSE)
+# So species differ in duct density: pinyon pines are greater than the rest.
+# duct density goes down with age, but this efffect differs by species. And
+# duct density goes DOWN with PMDI! (lower duct density in good years) Could be
+# effect of growth, yet now growth on PMDI overall effect.
 
-summary(full.duct.mod)
-anova(full.duct.mod)
-anova(full.duct.mod, topo.duct.mod, age.duct.mod, drought.duct.mod,
-      species.duct.mod, bai.duct.mod, baf.duct.mod, mtn.duct.mod, full.duct.null)
+
 
 
 ###### 2. Resin Duct Count ##########
-
-full.count.mod <- lmer(resin.duct.count ~ age + BAF + elev + radiation
-                      + PMDI_3yrlag + spcode:PMDI_3yrlag + slope +
-                        spcode + bai + spcode:age + mtn +(1|tag) +
-                        (1|calendar.year), data=mdata, REML=FALSE)
-
-topo.count.mod <- lmer(resin.duct.count ~ elev + radiation + slope + (1|tag) +
-                        (1|calendar.year), data=mdata, REML=FALSE)
-
-age.count.mod <- lmer(resin.duct.count ~ age + (1|tag) +
-                       (1|calendar.year), data=mdata, REML=FALSE)
-
-drought.count.mod <- lmer(resin.duct.count ~ PMDI_3yrlag + (1|tag) +
-                           (1|calendar.year), data=mdata, REML=FALSE)
-
-species.count.mod <- lmer(resin.duct.count ~ spcode + (1|tag) +
-                           (1|calendar.year), data=mdata, REML=FALSE)
-
-bai.count.mod <- lmer(resin.duct.count ~ bai + (1|tag) +
-                       (1|calendar.year), data=mdata, REML=FALSE)
-
-baf.count.mod <- lmer(resin.duct.count ~ BAF + (1|tag) +
-                       (1|calendar.year), data=mdata, REML=FALSE)
-
-mtn.count.mod <- lmer(resin.duct.count ~ mtn + (1|tag) +
-                       (1|calendar.year), data=mdata, REML=FALSE)
-
-full.count.null <-  lmer(resin.duct.count ~ 1 + (1|tag) + (1|calendar.year),
-                        data=mdata, REML=FALSE)
-
-summary(full.count.mod)
-anova(full.count.mod)
-anova(full.count.mod, topo.count.mod, age.count.mod, drought.count.mod,
-      species.count.mod, bai.count.mod, baf.count.mod, mtn.count.mod, full.count.null)
+# Use density conclusions as starting point
 
 
-###### 3. Basal Area Index ##########
+count.mod.full1 <- glmer(resin.duct.count ~  spcode*(ring.area_s + age_s)  + PMDI_3yrlag_s +
+                          elev_s + 
+                          (1 | tag),
+                          data=mdata, family=poisson)
 
-full.bai.mod <- lmer(bai ~ age + BAF + elev + radiation
-                       + PMDI_3yrlag + spcode:PMDI_3yrlag + slope +
-                         spcode + spcode:age + mtn +(1|tag) +
-                         (1|calendar.year), data=mdata, REML=FALSE)
+count.mod.full2 <- glmer(resin.duct.count ~  spcode*(ring.area_s + age_s)  + PMDI_3yrlag_s +
+                           elev_s +
+                           (1 + PMDI_3yrlag_s | tag),
+                           data=mdata, family=poisson)
 
-topo.bai.mod <- lmer(bai ~ elev + radiation + slope + (1|tag) +
-                     (1|calendar.year), data=mdata, REML=FALSE)
+## count.mod.full3 <- glmer(resin.duct.count ~  spcode*(ring.area_s + age_s)  + PMDI_3yrlag_s +
+##                            elev_s +
+##                            (age_s | tag),
+##                          data=mdata, family=poisson)
 
-age.bai.mod <- lmer(bai ~ age + (1|tag) + (1|calendar.year), data=mdata, REML=FALSE)
+# fails to converge
 
-drought.bai.mod <- lmer(bai ~ PMDI_3yrlag + (1|tag) + (1|calendar.year),
-                        data=mdata, REML=FALSE)
+anova(count.mod.full1, count.mod.full2)
 
-species.bai.mod <- lmer(bai ~ spcode + (1|tag) + (1|calendar.year),
-                        data=mdata, REML=FALSE)
+summary(count.mod.full2)
+anova(count.mod.full2)
 
-baf.bai.mod <- lmer(bai ~ BAF + (1|tag) + (1|calendar.year), data=mdata, REML=FALSE)
 
-mtn.bai.mod <- lmer(bai ~ mtn + (1|tag) + (1|calendar.year), data=mdata, REML=FALSE)
+count.mod.full <- mixed(resin.duct.count ~  spcode*(ring.area_s + age_s)  + PMDI_3yrlag_s +
+                        elev_s +
+                        (1 + PMDI_3yrlag_s | tag),
+                        data=mdata, family=poisson)
 
-full.bai.null <-  lmer(bai ~ 1 + (1|tag) + (1|calendar.year), data=mdata, REML=FALSE)
+# ack convergence failures on some models
 
-summary(full.bai.mod)
-anova(full.bai.mod)
-anova(full.bai.mod, topo.bai.mod, age.bai.mod, drought.bai.mod,
-      species.bai.mod, baf.bai.mod, mtn.bai.mod, full.bai.null)
+
+# simpler:
+count.mod.simple <- mixed(resin.duct.count ~  spcode*(ring.area_s + age_s) +
+                        (1 + PMDI_3yrlag_s | tag),
+                        data=mdata, family=poisson)
+
+anova(count.mod.simple)
+
+
+# ok, needs work
 
