@@ -112,7 +112,7 @@ ring_files <- list.files("../data/tree_ring_coordinates", full.names=TRUE)
 
 # create a list of coordinate dataframes (1 per tree), concatenate these all
 # into one df, then merge (innner_join) with the trees.csv data
-ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
+ring_data <- bind_rows(lapply(ring_files, read_ring_coord_file)) %>%
     inner_join(trees)
 
 # Precipitation data in it's current state cannot be used due to the
@@ -153,7 +153,7 @@ ring_data <- rbind_all(lapply(ring_files, read_ring_coord_file)) %>%
 # ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
 
 # Add drought values to the data frame.
-ring_data<- left_join(ring_data, yearly_drought_values, by= "calendar.year")
+ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
 
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
@@ -184,7 +184,7 @@ rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want)
    # ring_first, temp_df, temp_df2)
 
 # rename rings column to age
-ring_data<- rename(ring_data, age = ring)
+ring_data <- rename(ring_data, age = ring)
 
 # Calculate summaries per tree
 trees.sum <- ring_data %>% group_by(tag) %>%
@@ -208,18 +208,18 @@ trees.sum <- ring_data %>% group_by(tag) %>%
 
 # Exploring data
 
-# Make sure graph-themes.R is loaded, but if not:
-source("./graph-themes.R")
+## # Make sure graph-themes.R is loaded, but if not:
+## source("./graph-themes.R")
 
-# Age vs. resin duct density
-ggplot(trees.sum, aes(max.age, duct.den.mean, color=mtn)) +
-    geom_point() +
-    scale_y_log10() +
-    facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
-    theme(strip.text.y = element_text(size=5)) +
-    labs(x= "age",
-         y= "resin duct density")+
-    scale_color_manual(name= "Mountain range",
-                       labels = mountain_names,
-                       values= mycolours)
+## # Age vs. resin duct density
+## ggplot(trees.sum, aes(max.age, duct.den.mean, color=mtn)) +
+##     geom_point() +
+##     scale_y_log10() +
+##     facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
+##     theme(strip.text.y = element_text(size=5)) +
+##     labs(x= "age",
+##          y= "resin duct density")+
+##     scale_color_manual(name= "Mountain range",
+##                        labels = mountain_names,
+##                        values= mycolours)
 

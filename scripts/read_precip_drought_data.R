@@ -22,12 +22,10 @@
 #   drought severity index values and modified Palmer drought severity index 
 #   values averaged by monthly values.
 
-# Load programs
-library(plyr)
+# Load packages
 library(dplyr)
 library(stringr)
-library(ggplot2)
-library(sp)
+#library(ggplot2)
 
 # Function to convert degrees to radians
 deg2rad <- function(deg) return(deg*pi/180)
@@ -50,41 +48,33 @@ gcd.hf <- function(long1, lat1, long2, lat2) {
 }
 
 # Load .csv file from dropbox
-monthly_precip_data <- read.csv("https://www.dropbox.com/s/iqi7e4n8sietwtu/precip_data.csv?dl=1")
-# Remove numbers for months in TPCP column
-str_sub(monthly_precip_data$DATE, 5, -1) <- "";
-monthly_precip_data$calendar.year <- as.integer(str_sub(monthly_precip_data$DATE, 1, 4))
+monthly_precip <- read.csv("https://www.dropbox.com/s/iqi7e4n8sietwtu/precip_data.csv?raw=1",
+                           stringsAsFactors=FALSE) %>% mutate(YearMonth = DATE)
+monthly_precip <- monthly_precip %>% mutate(DATE=as.character(DATE),
+                                            calendar.year = as.integer(str_sub(DATE, 1, 4)),
+                                            month = as.integer(str_sub(DATE, 5, -1)))
 
 # Summarize monthly precipitation averages to obtain yearly averages
-yearly_precip_data1 <- (ddply(monthly_precip_data, .(STATION_NAME, calendar.year), summarize, PRECIP = sum(TPCP), num_mnths = length(calendar.year)))
-head(yearly_precip_data1)
+yearly_precip <- monthly_precip %>% group_by(STATION_NAME, calendar.year) %>%
+  summarize( PRECIP = sum(TPCP), num_months = length(calendar.year))
 
 # Create new dataframe to merge into yearly_precip_data
-station_names<- read.csv("../data/station_names.csv")
+stations <- read.csv("../data/wx_stations.csv", stringsAsFactors=FALSE)
 
-# Convert integers into character
-station_names$STATION_NAME<- as.character(station_names$STATION_NAME)
-station_names$mtn<- as.character(station_names$mtn)
-
-# STATION_NAME is a character in station_names df, but a factor in
-# yearly_precip_data1.  This will cause problems for joining, so here
-# is some code to work around that.
-combined <- sort(union(levels(yearly_precip_data1$STATION_NAME),
-                       levels(station_names$STATION_NAME)))
-
-# Merge values associated with each station into yearly_precip_data
-yearly_precip_data <- left_join(mutate(yearly_precip_data1, STATION_NAME=factor(STATION_NAME, levels=combined)),
-                                mutate(station_names, STATION_NAME=factor(STATION_NAME, levels=combined)))
+# Merge values associated with each station into yearly_precip data
+yearly_precip <- left_join(yearly_precip, stations)
 
 # Only select years that have 12 months of data
-yearly_precip_data<- filter(yearly_precip_data, num_mnths==12)
+yearly_precip <- filter(yearly_precip, num_months==12)
+
 # Remove station_names ad other temporary values
-rm(station_names, yearly_precip_data1, combined)
+rm(stations, monthly_precip)
 
 # Quick plot to see precipitation trends for each range
-ggplot(yearly_precip_data, aes(calendar.year, PRECIP, color=STATION_NAME)) +
-           geom_line()+
-           facet_grid(mtn ~ .)
+## ggplot(yearly_precip, aes(calendar.year, PRECIP, color=STATION_NAME)) +
+##   geom_line()+
+##   facet_grid(mtn ~ .)
+
 
 # Palmer drought values for Trans Pecos region. Values are specific to
 # Trans-Pecos area defined by the boundaries observed by NOAA.  Link
@@ -93,24 +83,22 @@ ggplot(yearly_precip_data, aes(calendar.year, PRECIP, color=STATION_NAME)) +
 # Further explanation for drought values is located here: http://www.ncdc.noaa.gov/temp-and-precip/drought/historical-palmers/overview
 
 # Read .csv file
-monthly_drought_values<- read.csv("../data/drought_values_transpecos.csv")
-# Remove month from dataframe
-str_sub(monthly_drought_values$YearMonth, 5, -1) <- "";
-# Create a new column with calendar.year to be used to merge into ring_data
-# from script in read_rings.R
-monthly_drought_values$calendar.year <- as.integer(str_sub(monthly_drought_values$YearMonth, 1, 4))
-# Combine monthly values and summarize by mean for regional precipitation,
-# also covert precip values to metric.  Calculates the average Palmer Drought
-# Severity Index and Modified version as well.  Lastly, creates a column
-# with the mean of that years PMDI and the two preceeding years values.
-# Rows with NA's produced are removed afterwardd.
-yearly_drought_values <- (ddply(monthly_drought_values, .(calendar.year), summarize, regional_precip = (sum(PCP)*2.54),
-                                PDSI = mean(PDSI), PMDI= mean(PMDI))) %>% 
-                          mutate(PMDI_3yrlag = (PMDI + lag(PMDI) +lag(PMDI, 2)) / 3) %>%
-                          filter(!is.na(PMDI_3yrlag))
+monthly_drought <- read.csv("../data/drought_values_transpecos.csv", stringsAsFactors=FALSE)
+monthly_drought <- monthly_drought %>% mutate(YearMonth=as.character(YearMonth),
+                                            calendar.year = as.integer(str_sub(YearMonth, 1, 4)),
+                                            month = as.integer(str_sub(YearMonth, 5, -1)))
 
 
+# Combine monthly values and summarize by mean for regional precipitation, also
+# covert precip values to metric. Calculates the average Palmer Drought
+# Severity Index and Modified version as well. Lastly, creates a column with
+# the mean of that years PMDI and the two preceeding years values. Rows with
+# NA's produced are removed afterwardd.
+yearly_drought <- monthly_drought %>% group_by(calendar.year) %>%
+  summarize(regional_precip = (sum(PCP)*2.54),
+            PDSI = mean(PDSI), PMDI= mean(PMDI)) %>%
+  mutate(PMDI_3yrlag = (PMDI + lag(PMDI) +lag(PMDI, 2)) / 3)
 
-ggplot(yearly_drought_values, aes(calendar.year, PMDI)) +
-  geom_line()
+## ggplot(yearly_drought, aes(calendar.year, PMDI)) +
+##   geom_line()
 

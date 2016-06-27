@@ -12,6 +12,8 @@
 library(lme4)
 library(MuMIn)
 
+source("read_rings.R")
+
 # read data, only select complete cases so no NA's exist
 mdata <- ring_data[complete.cases(ring_data), ]
 # remove the first year of growth since no resin ducts are present in pith
@@ -22,9 +24,9 @@ mdata <- filter(mdata, !(calendar.year==2015))
 
 ###### 1. Resin Duct Density ##########
 
-# Create linear models for resin duct density.  Show a full model with 
-# all predicted variables, and seperate models showing each variable by itself
-# to show relative influence of each variable.  Also created a null model to 
+# Create linear models for resin duct density. Show a full model with all
+# predicted variables, and separate models showing each variable by itself to
+# show relative influence of each variable. Also created a null model to
 # compare to.
 
 full.duct.mod <- lmer(duct.density ~ age + BAF + elev + radiation
