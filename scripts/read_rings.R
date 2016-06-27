@@ -174,7 +174,7 @@ ring_data <- mutate(ring_data, total.duct.count= resin.duct.count*(bai/ring.area
 
 # Remove some columns that don't pertain to analyses, but are in the
 # original data set relegated to notes.
-cols.dont.want <- c("x", "y", "r1", "r2", "core.taken", "pith",
+cols.dont.want <- c("x", "y", "core.taken", "pith",
                     "needles.collected", "condition", "barkbeetle.attack",
                     "trail.area", "note", "lat.y", "lon.y")
 ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
