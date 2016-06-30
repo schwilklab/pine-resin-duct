@@ -3,13 +3,13 @@
 # plots and lme4 models
 
 # Setting up models to determine the best model that explains what
-# is happening with the data. Three different types of models are 
-# produced.  Models looking at resin duct density, count, and bai.
-# For each dependent variable analyzed, a full model is produced
-# which includes all variables, as well as seperate models which
-# include only the indvidual varaibles by themselves to get an 
-# idea on the relative influence they have as a predictor. Lastly,
-# a null model is produced to compare to.
+# is happening with the data. Steps are as follows:
+# 1. Look at all fixed variables when setting up full model.
+# 2. Compare AIC values for regular, random intercept, and random slope.
+#    Select model that has lowest AIC value.
+# 3. Use afex::mixed() to get p values for the fixed effects in the model.
+# 4. Drop non-significant effects based on results from mixed, and do new
+#    model to include only significant effects.
 
 library(ggplot2)
 library(lme4)
@@ -71,8 +71,8 @@ ggplot(mutate(mdata, fpmdi=cut(PMDI_3yrlag, c(-4,-2,0,2,4))),
   geom_point(alpha=0.2) +
   facet_grid(. ~ spcode) +
   geom_smooth(method="lm", se=FALSE)
-# Ok, interesting. we can see that PIAR5 behaves differently : no effec tof age
-# or PMDI opn ring width. For others, there is effect of PMDI in correct
+# Ok, interesting. we can see that PIAR5 behaves differently : no effect of age
+# or PMDI on ring width. For others, there is effect of PMDI in correct
 # direction and also age effect.
 
 ggplot(mutate(mdata, fage=cut(age, c(0,10,20,30,40, 50, 60, 70, 80))),
@@ -82,7 +82,7 @@ ggplot(mutate(mdata, fage=cut(age, c(0,10,20,30,40, 50, 60, 70, 80))),
   geom_smooth(method="lm", se=FALSE)
 
 
-
+################# 1. Ring Width ##########################
 
 # NOTE: no indication of radiation or slope (not shown), so ommitting
 growth.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
@@ -122,12 +122,131 @@ summary(growth.mod.simple)
 anova(growth.mod.simple)
 #lsmeans(growth.mod.simple, pairwise~spcode)
 
-# So species differ in growth rate (PIST3 > PIPO > PIED > PICE > PIAR5), No
-# main effect of age or PMDI, but there are interactions with species
-# (investigate?). slight NEGATIVE effect of elevation on growth.
+# So there's an overall effect of species (see below).  It looks like every species has greater 
+# ring width compared to PIAR5.  No signficant effect of age_s and drought
+# (PMDI_3yrlag_s).  There is a negative effect of elevation, so as elevation
+# increases, ring width decreases.  There also is a significant interaction between
+# species and drought and age values.  It differs between species.
+
+# All values are in relation to PIAR5
+# PICE: age= positive effect. drought= positive effect
+# PIED: age= negative effect. drought= positive effect
+# PIPO: age= negative effect. drought= positive effect
+# PIST3: age= negative effect. drought= positive effect
+
+# So species differ in growth rate (PIST3 > PIPO > PIED > PICE > PIAR5).
 
 
-###### 1. Resin Duct Density ##########
+################### 2. BAI ###########################################
+
+# NOTE: no indication of radiation or slope (not shown), so ommitting
+bai.mod.ri <- lmer(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                     (1|tag), data=mdata, REML=FALSE)
+
+bai.mod.rsi <- lmer(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                      (age_s|tag), data=mdata, REML=FALSE)
+
+anova(bai.mod.ri, bai.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+bai.mod.rsi2 <- lmer(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                       (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
+anova(bai.mod.rsi, bai.mod.rsi2)
+
+# again, much better model.  We need random slopes for age and PMDI
+
+bai.mod.rsi3 <- lmer(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                       (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
+                     data=mdata, REML=FALSE)
+
+anova(bai.mod.rsi2, bai.mod.rsi3)
+
+# Include the calendar year aspect as random
+
+bai.mod.full <- mixed(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+                        (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
+                      data=mdata, REML=FALSE)
+
+summary(bai.mod.full)
+anova(bai.mod.full)
+
+# So let's drop non significant interaction terms
+bai.mod.simple <- mixed(bai_s ~ spcode*(age_s + PMDI_3yrlag_s +BAF_s) +
+                          (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+                        data=mdata, REML=FALSE)
+
+summary(bai.mod.simple)
+anova(bai.mod.simple)
+# lsmeans(bai.mod.simple, pairwise~spcode)
+
+# So species differ in growth rate (PIPO>PIST3>PIED>PICE>PIAR5). There's
+# also a positive  main effect of age.  Drought and competition did not 
+# have a main effect, but there was an interaction effect with species as
+# with age.  I'll list them below.  All are in relation to PIAR5.
+
+# PICE: age= negative, drought= negative, competition= negative
+# PIED: age= positive, drought= positive, competition= positive
+# PIPO: age= positive, drought= positive, competition= negative
+# PIST3: age= positive, drought= positive, competition= negative
+
+
+############### 3. Resin Duct Count #####################
+
+# NOTE: no indication of radiation or slope (not shown), so ommitting
+count.mod.ri <- lmer(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
+                       (1|tag), data=mdata, REML=FALSE)
+
+count.mod.rsi <- lmer(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
+                        (age_s|tag), data=mdata, REML=FALSE)
+
+anova(count.mod.ri, count.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+count.mod.rsi2 <- lmer(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
+                         (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
+
+anova(count.mod.rsi, count.mod.rsi2)
+
+# Random slope is slightly better based on AIC criteria, but not BIC criteria.  Therefore
+# random slope will not be used.
+
+# Calendar year???
+
+count.mod.rsi3 <- lmer(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
+                        (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+
+anova(count.mod.rsi, count.mod.rsi3)
+
+# Random slope is slightly better based on AIC criteria, but not BIC criteria.  Therefore
+# random slope will not be used.
+
+count.mod.full <- mixed(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
+                          (age_s | tag), data=mdata, REML=FALSE)
+
+summary(count.mod.full)
+anova(count.mod.full)
+
+# So let's drop non significant interaction terms
+count.mod.simple <- mixed(total.duct.count_s ~ spcode*(age_s + PMDI_3yrlag_s + bai_s) +
+                            (age_s | tag), data=mdata, REML=FALSE)
+
+summary(count.mod.simple)
+anova(count.mod.simple)
+# lsmeans(count.mod.simple, "spcode")
+
+# So there is a strong species difference in total resin ducts per ring.
+# (PIED>PICE>PIST3>PIPO>PIAR5).  There is a positive effect of age and 
+# bai.  Also, an overall negative effect of drought.  Interaction between
+# species and age, drought, and bai.  I'll show those below.  All are in
+# relation to PIAR5.
+
+# PICE: age= positive, drought= positive, bai= positive
+# PIED: age= positive, drought= positive, bai= positive
+# PIPO: age= positive, drought= negative, bai= negative
+# PIST3: age= positive, drought= negative, bai= positive
+
+
+############### 4. Resin Duct Density #####################
 
 ## Graphical exploration ##
 
@@ -190,30 +309,30 @@ ggplot(mutate(mdata, fage=cut(age, c(0,10,20,30,40, 50, 60, 70, 80))),
 
 
 # NOTE: no indication of radiation or slope (not shown), so ommitting
-den.mod.ri <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+den.mod.ri <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +bai_s) +
                          (1|tag), data=mdata, REML=FALSE)
 
-den.mod.rsi <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+den.mod.rsi <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
                          (age_s|tag), data=mdata, REML=FALSE)
 
 anova(den.mod.ri, den.mod.rsi) # so random slope for age much better.
 
 # try random slope for PMDI
-den.mod.rsi2 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+den.mod.rsi2 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +bai_s) +
                          (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
 anova(den.mod.rsi, den.mod.rsi2)
 
 # So no need to include random slope for PMDI
 
 # try calendar.year random intercept:
-den.mod.rsi3 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+den.mod.rsi3 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
                          (age_s|tag) + (1 | calendar.year), data=mdata, REML=FALSE)
 
 anova(den.mod.rsi, den.mod.rsi3)
 # Ok, so some evidence. I guess it is worth including and we get the degrees of
-# freedom rioght that rway
+# freedom right that way
 
-den.mod.full <- mixed(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+den.mod.full <- mixed(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai_s) +
                          (age_s | tag) + (1|calendar.year), data=mdata, REML=FALSE)
 
 summary(den.mod.full)
@@ -233,7 +352,13 @@ lsmeans(den.mod.simple, "spcode")
 
 
 
-###### 2. Resin Duct Count ##########
+###### 5. Resin Duct Count (glmer method) ##########
+
+#### NOTE: I can't get this to run on my computer.  I get this error message:
+# Error in eval(expr, envir, enclos) : 
+#     negative values not allowed for the 'Poisson' family
+
+
 # Use density conclusions as starting point
 
 
