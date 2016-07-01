@@ -39,6 +39,60 @@ mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -
 
 ## Graphical exploration ##
 
+# what does size over time look liked?
+ggplot(filter(mdata, spcode=="PIST3"), aes(calendar.year, r2)) +
+  geom_point() +
+  facet_wrap(~ tag)
+
+ggplot(filter(mdata, spcode=="PIAR5"), aes(calendar.year, r2)) +
+  geom_point() +
+  facet_wrap(~ tag)
+
+ggplot(filter(mdata, spcode=="PIPO"), aes(calendar.year, r2)) +
+  geom_point() +
+  facet_wrap(~ tag)
+
+
+ggplot(filter(mdata, spcode=="PICE"), aes(calendar.year, r2)) +
+  geom_point() +
+  facet_wrap(~ tag)
+
+ggplot(filter(mdata, spcode=="PIED"), aes(calendar.year, r2)) +
+  geom_point() +
+  facet_wrap(~ tag)
+
+
+
+# and ring width and pmdi?
+ggplot(filter(mdata, spcode=="PIAR5"), aes(PMDI_3yrlag, ring.width)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+
+ggplot(filter(mdata, spcode=="PIST3"), aes(PMDI_3yrlag, ring.width)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+# and ring width and pmdi?
+ggplot(filter(mdata, spcode=="PIPO"), aes(PMDI_3yrlag, ring.width)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+
+ggplot(filter(mdata, spcode=="PICE"), aes(PMDI_3yrlag, ring.width)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+ggplot(filter(mdata, spcode=="PIED"), aes(PMDI, ring.width)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+
 ggplot(mdata, aes(PMDI_3yrlag_s, ring.width_s, group=tag)) +
   geom_point() +
   facet_grid(. ~ spcode) +
@@ -138,6 +192,10 @@ anova(growth.mod.simple)
 
 
 ################### 2. BAI ###########################################
+
+## Graphical exploration ##
+
+
 
 # NOTE: no indication of radiation or slope (not shown), so ommitting
 bai.mod.ri <- lmer(bai_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
