@@ -95,12 +95,12 @@ anova(growth.mod.ri, growth.mod.rsi) # so random slope for age much better.
 
 # try random slope for PMDI
 growth.mod.rsi2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
-                         (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
+                         (age_s+PMDI_3yrlag_s | tag), data=mdata, REML=FALSE)
 anova(growth.mod.rsi, growth.mod.rsi2)
 # again, much better model.  We need random slopes for age and PMDI
 
 growth.mod.rsi3 <-  lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
-                         (age_s+PMDI_3yrlag|tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+                         (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
 
 
 anova(growth.mod.rsi2, growth.mod.rsi3)
@@ -108,14 +108,14 @@ anova(growth.mod.rsi2, growth.mod.rsi3)
 
 # use afex::mixed() for p values:
 growth.mod.full <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) 
-                         (age_s+PMDI_3yrlag|tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+                         (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
 
 summary(growth.mod.full)
 anova(growth.mod.full)
 
 # So let's drop non significant interaction terms
 growth.mod.simple <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s) + elev_s +
-                             (age_s + PMDI_3yrlag | tag) + (1 | calendar.year),
+                             (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year),
                            data=mdata, REML=FALSE)
 
 summary(growth.mod.simple)
@@ -319,7 +319,7 @@ anova(den.mod.ri, den.mod.rsi) # so random slope for age much better.
 
 # try random slope for PMDI
 den.mod.rsi2 <- lmer(duct.density.log ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +bai_s) +
-                         (age_s+PMDI_3yrlag|tag), data=mdata, REML=FALSE)
+                         (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
 anova(den.mod.rsi, den.mod.rsi2)
 
 # So no need to include random slope for PMDI
