@@ -32,15 +32,25 @@ mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -
 
 
 
-b.count.mod1 <- brm(resin.duct.count ~  spcode*(ring.area_s + age_s + BAF_s +
-                                                  PMDI_3yrlag_s + elev_s) +
-                      (age_s+PMDI_3yrlag_s | tag) + (1 | fyear), data=mdata, family="poisson", chains = 3, iter = 2000)
+## b.count.mod1 <- brm(resin.duct.count ~  spcode*(ring.area_s + age_s + BAF_s +
+##                                                   PMDI_3yrlag_s + elev_s) +
+##                       (age_s+PMDI_3yrlag_s | tag) + (1 | fyear), data=mdata, family="poisson", chains = 3, iter = 2000)
 
-saveRDS(b.count.mod1, "../results/b_count_mod1.rds")
+## saveRDS(b.count.mod1, "../results/b_count_mod1.rds")
 
 ##                            elev_s +
 ##                            (age | tag) +
 ##                            (1 | calendar.year),
   ##                          data=mdata, family=poisson)
 
-  
+#b.count.mod1 <- readRDS("../results/b_count_mod1.rds")  
+
+# plot(b.count.mod1)
+# marginal_effects(b.count.mod1)
+
+b.count.mod2 <- brm(resin.duct.count ~  spcode*(ring.area_s + age_s + PMDI_3yrlag_s + elev_s) +
+                      (age_s + PMDI_3yrlag_s + ring.area_s | tag) + (1 | fyear),
+                    data=mdata, family="poisson", chains = 3, iter = 2000)
+
+saveRDS(b.count.mod1, "../results/b_count_mod2.rds")
+
