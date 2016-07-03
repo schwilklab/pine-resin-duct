@@ -28,7 +28,7 @@ mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -
 ##                        (age_s+PMDI_3yrlag_s | tag) + (1 | fyear), data=mdata,
 ##                      chains=3, iter=1200)
 
-## saveRDS(b.growth.mod1, "../results/b_gorwth_mod1.rds")
+## saveRDS(b.growth.mod1, "../results/b_growth_mod1.rds")
 
 
 

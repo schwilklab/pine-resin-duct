@@ -75,7 +75,6 @@ ggplot(filter(mdata, spcode=="PIST3"), aes(PMDI_3yrlag, ring.width)) +
   facet_wrap(~ tag) +
   geom_smooth(method="lm")
 
-# and ring width and pmdi?
 ggplot(filter(mdata, spcode=="PIPO"), aes(PMDI_3yrlag, ring.width)) +
   geom_point() +
   facet_wrap(~ tag) +
