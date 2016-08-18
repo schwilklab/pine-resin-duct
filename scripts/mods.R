@@ -27,7 +27,7 @@ mdata <- ring_data[complete.cases(ring_data), ] %>%
   filter(calendar.year != 2015) 
 
 # transforms
-mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / 2*r2*pi,
+mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                           duct.density.log = log(duct.density+1),
                           fyear = as.factor(calendar.year))
 ## Rescale numeric variables ##
