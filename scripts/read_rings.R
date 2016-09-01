@@ -155,6 +155,12 @@ ring_data <- bind_rows(lapply(ring_files, read_ring_coord_file)) %>%
 # Add drought values to the data frame.
 ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
 
+# Lump common species together into three categories using .csv file
+
+lump_names <- read.csv("../data/general_names.csv", stringsAsFactors=FALSE)
+
+ring_data<- left_join(ring_data, lump_names, by= "spcode")
+
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
 for(i in 1:length(ring_data$r1)) {
@@ -180,7 +186,7 @@ cols.dont.want <- c("x", "y", "core.taken", "pith",
 ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 
 # clean up unneeded variables
-rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want)
+rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want, lump_names)
    # ring_first, temp_df, temp_df2)
 
 # rename rings column to age
