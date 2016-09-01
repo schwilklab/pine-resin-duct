@@ -31,7 +31,7 @@ mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                           duct.density.log = log(duct.density+1),
                           fyear = as.factor(calendar.year))
 ## Rescale numeric variables ##
-mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -fyear)
+mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -fyear, -cmn_name)
 
 
 
