@@ -1,29 +1,17 @@
 # **Field Methods** #
 
-- Travel to coordinates of randomly selected point
-	- Walk in direction of randomly selected number up to 300 m
-- Once a tree is encountered, select a random azimuth to obtain tree core
-	- Core tree to a little past the middle pith.
-	- Wrap core in paper towel and seal with duct tape
-	- **Record name, species, tag number, DBH, location, and date**
-- If evidence of bark beetle attack, estimate attack success
-	- Select random azimuth on tree, and count number of exit holes within the 30X30 cm square.
-		- Repeat 3 times
-	- **Record number of attacks for each density sample**
-- Select a .5X.5 m area within ~3 m of the selected tree
-	- Remove all plant material from the plot
-	- Dig ~15 cm down and place soil inside of ziploc bag
-		- Repeat the process 3 times, using the same bag to collect soil
-	- **Record name, mountain range, tag number, and date**
-- Measure competition surrounding the selected tree
-	- Use Cruz-all, holding it 25 cm from the eye, looking at the height at DBH of surrounding trees
-	- Count all trees that are larger than the 10 mark that are within 10 meters of the selected tree
-	- Do a 360 degree sweep of the area, counting all trees fit the category
-	- Measure DBH of those trees that were larger than the 10 mark
-	- **Record genus of tree (species if known), DBH, azimuth from cored tree, and distance from cored tree**
-- Collect leaf samples for genetic analyses later on each sampled tree
-  - Obtain ~3-7 fasicles from each tree and store them in an empty tea bag to be placed in a storage container with silica gel
-  - **Record species code, mountain range, date, and collector initials for each sample**
+## Tree core collection ##
 
-# ******Only 2 trees per species can be sampled per point!****** #
+The species of interest (Pinus arizonica var. stormiae Martínez, P. cembroides Zucc., P. edulis Engelm., P. ponderosa Lawson & C. Lawson var. scopulorum Engelm., P. strobiformis Engelm.) were chosen based on reconnaissance and previous work done by Dr. Helen Poulos (Poulos et al. 2009, Poulos and Camp 2010).  Trees were identified using Trees & Shrubs of the Trans-Pecos and Adjacent Areas (Powell 1998) and information provided from the PLANTS database (NRCS 2014) with ambiguous individuals being excluded (although species of interest were easily distinguishable by appearance and spatial location).
 
+Individuals of each species were randomly selected using a multi-step process.  Using ArcGIS (ESRI 2008), a uniform random set of points within the elevational distribution recorded for each species were created along trails present in each mountain range (via shape files obtained from National Park Service and Davis Mountain Preserve).  A random direction was then chosen using a random number generator (0 – 360 degrees).  Once the direction was determined, a transect was established, and the first pine tree encountered (within five meters of either side of transect) of the desired species was sampled.  Elevational ranges of pine species overlapped periodically, so if another species was encountered from a transect, the first one encountered was sampled.  Only one individual from each species encountered from a transect was sampled, establishing a representation of genetic diversity amongst taxon.  A maximum distance of 300 meters was used as a cutoff to decide to move to the next point.  Every effort was made to obtain 20 individuals for each taxon and mountain range.
+
+At each tree, multiple variables were recorded in addition to obtaining a tree core.  All individuals were recorded using a unique tag number specific to each mountain range for identification purposes.  Species were recorded by their unique United States Department of Agriculture (USDA) species code, as well as their diameter at breast height (DBH), latitude and longitude coordinates, basal forest stand estimate, if pine needles were obtained, and notable characteristics of the tree (for future identification purposes).  
+
+A Cruz-All was used to estimate the basal forest stand of the surrounding area relative to each tree sampled.  This was used as a proxy to represent the relative amount of competition each individual tree encountered.  The beaded portion of the string was held to the user’s mouth and stretched out fully, where an English Basal Area Factor (BAF) of 10 was used as the cutoff to record trees that were larger than the opening provided.  A 360 degree rotation around the bole of the tree occurred in order to record all trees that were under that category.   A BAF of 10 was used over other factors to be able to exclude the smaller trees that presumably would have a negligible effect on competition, whilst including all trees capable of providing a competitive effect.
+
+Core extraction and preparation methodology was influenced from Kane & Kolb (2010) and Ferrenberg et al. (2014).  A random azimuth on each tree was selected, and a 12mm diameter core was obtained from the outer bark to the inner pith of each tree at approximate breast height (~1.37m).  Trees were cored at a slight upward angle to ensure the hole drained appropriately to increase tree health.  Trees were not plugged afterward due to the possibility of hindering compartmentalization (Norton 1998, Dujesiefken and Rhaesa 1999, Grissino 2003).  All samples were wrapped in paper towels, taped from both ends, labeled with the location of the bark end to determine the outside of the core in case of breakage, and stored inside of a metal container for protection. Each core was marked with date obtained, species code, mountain range, and unique tag on the outside of the paper towel.
+
+## Bark Beetle Collection ##
+
+Three Lindgren 8-funnel traps were randomly placed around dense forested areas of the Guadalupe mountains.  Locations were established by selecting random points along trail layers obtained from the mountain range using ArcGIS (ESRI 2008).  No evidence of bark beetle activity had been officially documented in this mountain range before, so multiple traps were necessary to attempt to understand bark beetle distribution in this mountain range.  Criteria for placement of each trap involved locating a non-attacked tree distant from an established trail, a strong branch and a distance greater than one kilometer separating each bark beetle trap.  GPS location of each trap and establishment time were recorded.
