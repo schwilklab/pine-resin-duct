@@ -157,9 +157,9 @@ ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
 
 # Lump common species together into three categories using .csv file
 
-lump_names <- read.csv("../data/general_names.csv", stringsAsFactors=FALSE)
+lump_names <- read.csv("../data/species_names.csv", stringsAsFactors=FALSE)
 
-ring_data<- left_join(ring_data, lump_names, by= "spcode")
+ring_data<- left_join(ring_data, lump_names$cmn_name, by= "spcode")
 
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
