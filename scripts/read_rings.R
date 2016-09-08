@@ -237,58 +237,9 @@ mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                                         bai.log = log(bai+1),
                                         fyear = as.factor(calendar.year))
 ## Rescale numeric variables ##
-mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date,
+zscore <- function(x) (x - mean(x)) / sd(x)
+mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date,
                                       -fyear, -cmn_name, -species_names)
-
-# All of the scaled values are in class matrix.  Manually changing them to 
-# the class that their non-scaled values are of.  This is inefficient,
-# but I wanted it done right away, and I couldn't figure out an efficient
-# way to do it in R since dplyr won't work on dataframes with matrix class.
-mdata$ring.age_s<- as.numeric(mdata$ring.age_s)
-mdata$r1_s<- as.numeric(mdata$r1_s)
-mdata$ring.width_s<- as.numeric(mdata$ring.width_s)
-mdata$r2_s<- as.numeric(mdata$r2_s)
-mdata$DBH_s<- as.numeric(mdata$DBH_s)
-mdata$lon_s<- as.numeric(mdata$lon_s)
-mdata$lat_s<- as.numeric(mdata$lat_s)
-mdata$elev_s<- as.numeric(mdata$elev_s)
-mdata$flow_accum_s<- as.numeric(mdata$flow_accum_s)
-mdata$ldist_ridge_s<- as.numeric(mdata$ldist_ridge2_s)
-mdata$ldist_valley_s<- as.numeric(mdata$ldist_valley_s)
-mdata$ldist_valley2_s<- as.numeric(mdata$ldist_valley2_s)
-mdata$msd_s<- as.numeric(mdata$msd_s)
-mdata$radiation_s<- as.numeric(mdata$radiation_s)
-mdata$relev_l_s<- as.numeric(mdata$relev_l_s)
-mdata$slope_s<- as.numeric(mdata$slope_s)
-mdata$z_ridge_s<- as.numeric(mdata$z_ridge_s)
-mdata$z_valley_s<- as.numeric(mdata$z_valley_s)
-mdata$zdist_ridge_s<- as.numeric(mdata$zdist_ridge_s)
-mdata$zdist_valley_s<- as.numeric(mdata$zdist_valley_s)
-mdata$regional_precip_s<- as.numeric(mdata$regional_precip_s)
-mdata$PDSI_s<- as.numeric(mdata$PDSI_s)
-mdata$PMDI_s<- as.numeric(mdata$PMDI_s)
-mdata$PMDI_3yrlag_s<- as.numeric(mdata$PMDI_3yrlag_s)
-mdata$ring.area_s<- as.numeric(mdata$ring.area_s)
-mdata$bai_s<- as.numeric(mdata$bai_s)
-mdata$duct.density_s<- as.numeric(mdata$duct.density_s)
-mdata$total.duct.count_s<- as.numeric(mdata$total.duct.count_s)
-mdata$duct.per.circ_s<- as.numeric(mdata$duct.per.circ_s)
-mdata$duct.density.log_s<- as.numeric(mdata$duct.density.log_s)
-mdata$bai.log_s<- as.numeric(mdata$bai.log_s)
-mdata$calendar.year_s<- as.numeric(mdata$calendar.year_s)
-mdata$ldist_ridge2_s<- as.numeric(mdata$ldist_ridge2_s)
-mdata$relelev_shed_s<- as.numeric(mdata$relelev_shed_s)
-mdata$relelev_z_s<- as.numeric(mdata$relelev_z_s)
-mdata$relelev_l_s<- as.numeric(mdata$relelev_l_s)
-mdata$age_s<- as.numeric(mdata$age_s)
-mdata$resin.duct.count_s<- as.numeric(mdata$resin.duct.count_s)
-mdata$ring.age_s<- as.numeric(mdata$ring.age_s)
-mdata$BAF_s<- as.numeric(mdata$BAF_s)
-mdata$gps.elev_s<- as.numeric(mdata$gps.elev_s)
-
-
-
-
 
 # Exploring data
 
