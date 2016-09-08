@@ -20,6 +20,11 @@
 # -"bai" function calculates basal area increment
 # -"read_ring_coord_file" function reads in ring data csv files and
 #   calculates variables: calendar year, age, ring.dist and ring.width.
+# -"mdata" data frame is added to the global namespace and is used as the
+#   dataframe for models.
+# -"mdata_graphs" data frame is added to the global namespace and is used
+#   for graphs. This needed to be created seperately from mdata because
+#   the scaled values were hindering ggplot2 from creating graphs.
 # -Some exploratory analyses
 
 # Sources script that populates yearly precipitation values as well as
@@ -102,6 +107,11 @@ cm_raster_data<- readRDS(file="../results/cm_raster_data.rds")
 dm_raster_data<- readRDS(file="../results/dm_raster_data.rds")
 gm_raster_data<- readRDS(file="../results/gm_raster_data.rds")
 
+# Convert tag from integer to character for merging purposes
+cm_raster_data<- mutate(cm_raster_data, tag=as.character(tag))
+dm_raster_data<- mutate(dm_raster_data, tag=as.character(tag))
+gm_raster_data<- mutate(gm_raster_data, tag=as.character(tag))
+
 # Create new data frame with raster info on all trees as well as other 
 # variables measured and calculated
 trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>%
@@ -159,7 +169,7 @@ ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
 
 lump_names <- read.csv("../data/species_names.csv", stringsAsFactors=FALSE)
 
-ring_data<- left_join(ring_data, lump_names$cmn_name, by= "spcode")
+ring_data<- left_join(ring_data, lump_names, by= "spcode")
 
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
@@ -189,6 +199,7 @@ ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want, lump_names)
    # ring_first, temp_df, temp_df2)
 
+
 # rename rings column to age
 ring_data <- rename(ring_data, age = ring)
 
@@ -210,6 +221,73 @@ trees.sum <- ring_data %>% group_by(tag) %>%
             PMDI.mean = mean(PMDI_3yrlag, na.rm = TRUE),
             PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
             ) %>% inner_join(trees)
+
+# Create new data frames to be used for the models and for graphs.
+
+# read data, only select complete cases so no NA's exist
+mdata <- ring_data[complete.cases(ring_data), ] %>%
+  filter(age!=1) %>% # remove the first year of growth since no resin
+  # ducts are present in pith remove last year of
+  # data since these are only partial growth years
+  filter(calendar.year != 2015) 
+
+# transforms
+mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
+                                        duct.density.log = log(duct.density+1),
+                                        bai.log = log(bai+1),
+                                        fyear = as.factor(calendar.year))
+## Rescale numeric variables ##
+mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date,
+                                      -fyear, -cmn_name, -species_names)
+
+# All of the scaled values are in class matrix.  Manually changing them to 
+# the class that their non-scaled values are of.  This is inefficient,
+# but I wanted it done right away, and I couldn't figure out an efficient
+# way to do it in R since dplyr won't work on dataframes with matrix class.
+mdata$ring.age_s<- as.numeric(mdata$ring.age_s)
+mdata$r1_s<- as.numeric(mdata$r1_s)
+mdata$ring.width_s<- as.numeric(mdata$ring.width_s)
+mdata$r2_s<- as.numeric(mdata$r2_s)
+mdata$DBH_s<- as.numeric(mdata$DBH_s)
+mdata$lon_s<- as.numeric(mdata$lon_s)
+mdata$lat_s<- as.numeric(mdata$lat_s)
+mdata$elev_s<- as.numeric(mdata$elev_s)
+mdata$flow_accum_s<- as.numeric(mdata$flow_accum_s)
+mdata$ldist_ridge_s<- as.numeric(mdata$ldist_ridge2_s)
+mdata$ldist_valley_s<- as.numeric(mdata$ldist_valley_s)
+mdata$ldist_valley2_s<- as.numeric(mdata$ldist_valley2_s)
+mdata$msd_s<- as.numeric(mdata$msd_s)
+mdata$radiation_s<- as.numeric(mdata$radiation_s)
+mdata$relev_l_s<- as.numeric(mdata$relev_l_s)
+mdata$slope_s<- as.numeric(mdata$slope_s)
+mdata$z_ridge_s<- as.numeric(mdata$z_ridge_s)
+mdata$z_valley_s<- as.numeric(mdata$z_valley_s)
+mdata$zdist_ridge_s<- as.numeric(mdata$zdist_ridge_s)
+mdata$zdist_valley_s<- as.numeric(mdata$zdist_valley_s)
+mdata$regional_precip_s<- as.numeric(mdata$regional_precip_s)
+mdata$PDSI_s<- as.numeric(mdata$PDSI_s)
+mdata$PMDI_s<- as.numeric(mdata$PMDI_s)
+mdata$PMDI_3yrlag_s<- as.numeric(mdata$PMDI_3yrlag_s)
+mdata$ring.area_s<- as.numeric(mdata$ring.area_s)
+mdata$bai_s<- as.numeric(mdata$bai_s)
+mdata$duct.density_s<- as.numeric(mdata$duct.density_s)
+mdata$total.duct.count_s<- as.numeric(mdata$total.duct.count_s)
+mdata$duct.per.circ_s<- as.numeric(mdata$duct.per.circ_s)
+mdata$duct.density.log_s<- as.numeric(mdata$duct.density.log_s)
+mdata$bai.log_s<- as.numeric(mdata$bai.log_s)
+mdata$calendar.year_s<- as.numeric(mdata$calendar.year_s)
+mdata$ldist_ridge2_s<- as.numeric(mdata$ldist_ridge2_s)
+mdata$relelev_shed_s<- as.numeric(mdata$relelev_shed_s)
+mdata$relelev_z_s<- as.numeric(mdata$relelev_z_s)
+mdata$relelev_l_s<- as.numeric(mdata$relelev_l_s)
+mdata$age_s<- as.numeric(mdata$age_s)
+mdata$resin.duct.count_s<- as.numeric(mdata$resin.duct.count_s)
+mdata$ring.age_s<- as.numeric(mdata$ring.age_s)
+mdata$BAF_s<- as.numeric(mdata$BAF_s)
+mdata$gps.elev_s<- as.numeric(mdata$gps.elev_s)
+
+
+
 
 
 # Exploring data
