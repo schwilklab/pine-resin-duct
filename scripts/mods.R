@@ -19,22 +19,6 @@ afex_options(method_mixed="LRT") #Bootstrapping can be slow, use hrothgar for th
 
 source("read_rings.R")
 
-# read data, only select complete cases so no NA's exist
-mdata <- ring_data[complete.cases(ring_data), ] %>%
-  filter(age!=1) %>% # remove the first year of growth since no resin
-                              # ducts are present in pith remove last year of
-                              # data since these are only partial growth years
-  filter(calendar.year != 2015) 
-
-# transforms
-mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
-                          duct.density.log = log(duct.density+1),
-                          fyear = as.factor(calendar.year))
-## Rescale numeric variables ##
-mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date, -fyear, -cmn_name)
-
-
-
 ## Tree growth ##
 
 ## Graphical exploration ##
@@ -134,6 +118,8 @@ ggplot(mutate(mdata, fage=cut(age, c(0,10,20,30,40, 50, 60, 70, 80))),
   facet_grid(. ~ spcode) +
   geom_smooth(method="lm", se=FALSE)
 
+
+ggplot(mdata, aes(x=(log(bai+1)))) + geom_density() + facet_grid(. ~ spcode)
 
 ################# 1. Ring Width ##########################
 
