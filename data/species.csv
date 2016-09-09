@@ -1,6 +1,6 @@
-spcode,species_names,subsections
-PIAR5,P. arizonica,Ponderosae
-PICE,P. cembroides,Cembroides
-PIED,P. edulis,Cembroides
-PIPO,P. ponderosa,Ponderosae
-PIST3,P. strobiformis,Strobus
+spcode,species_names,cmn_name
+PIAR5,P. arizonica,Ponderosa
+PICE,P. cembroides,Pinyon
+PIED,P. edulis,Pinyon
+PIPO,P. ponderosa,Ponderosa
+PIST3,P. strobiformis,Strobiformis
