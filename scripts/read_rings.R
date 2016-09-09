@@ -167,7 +167,7 @@ ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
 
 # Lump common species together into three categories using .csv file
 
-lump_names <- read.csv("../data/species_names.csv", stringsAsFactors=FALSE)
+lump_names <- read.csv("../data/species.csv", stringsAsFactors=FALSE)
 
 ring_data<- left_join(ring_data, lump_names, by= "spcode")
 
@@ -238,7 +238,7 @@ mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                                         fyear = as.factor(calendar.year))
 ## Rescale numeric variables ##
 mdata <- mdata %>% mutate_each(funs(s = scale(.)), -tag, -spcode, -mtn, -date,
-                                      -fyear, -cmn_name, -species_names)
+                                      -fyear, -subsections, -species_names)
 
 # All of the scaled values are in class matrix.  Manually changing them to 
 # the class that their non-scaled values are of.  This is inefficient,
