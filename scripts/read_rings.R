@@ -186,41 +186,18 @@ for(i in 1:length(ring_data$r1)) {
 # Creates new column for resin duct density at each year
 ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 
+# Creates new column for predicted total resin duct count per ring
 ring_data <- mutate(ring_data, total.duct.count= resin.duct.count*(bai/ring.area))
 
 # Remove some columns that don't pertain to analyses, but are in the
 # original data set relegated to notes.
-cols.dont.want <- c("x", "y", "core.taken", "pith",
-                    "needles.collected", "condition", "barkbeetle.attack",
-                    "trail.area", "note", "lat.y", "lon.y")
-ring_data <- ring_data[, ! names(ring_data) %in% cols.dont.want, drop = FALSE]
 
-# clean up unneeded variables
-rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, cols.dont.want, lump_names)
-   # ring_first, temp_df, temp_df2)
-
+ring_data <- select(ring_data, -x, -y, -core.taken, -pith, -needles.collected, -condition,
+                    -barkbeetle.attack, -trail.area, -note)
+#                   , -lat.y, -lon.y)
 
 # rename rings column to age
 ring_data <- rename(ring_data, age = ring)
-
-# Calculate summaries per tree
-trees.sum <- ring_data %>% group_by(tag) %>%
-  dplyr::summarize(avg.age = mean(age),
-            age.sd = sd(age),
-            age.min = min(age), max.age = max(age),
-            duct.count.mean = mean(resin.duct.count, na.rm = TRUE),
-            duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
-            duct.den.mean = mean(duct.density, na.rm = TRUE),
-            duct.den.sd = sd(duct.density, na.rm = TRUE),
-            total.duct.count.mean = mean(total.duct.count, na.rm = TRUE),
-            total.duct.count.sd = sd(total.duct.count, na.rm = TRUE),
-            ring.width.mean = mean(ring.width),
-            ring.width.sd = sd(ring.width),
-            bai.mean = mean(bai),
-            bai.sd = sd(bai),
-            PMDI.mean = mean(PMDI_3yrlag, na.rm = TRUE),
-            PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
-            ) %>% inner_join(trees)
 
 # Create new data frames to be used for the models and for graphs.
 
@@ -241,6 +218,41 @@ mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
 zscore <- function(x) (x - mean(x)) / sd(x)       
 mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
                                -fyear, -subsections, -species_names)
+
+# Calculate summaries per tree
+
+# Calculate tree age first using ring_data since that retains all years
+trees.sum <- ring_data %>% group_by(tag) %>%
+  dplyr::summarize(avg.age = mean(age),
+                   age.sd = sd(age),
+                   age.min = min(age), max.age = max(age))
+
+# Next perform summary calculations and combine all data together
+trees.sum <- mdata %>% group_by(tag) %>%
+  dplyr::summarize(duct.count.mean = mean(resin.duct.count, na.rm = TRUE),
+                   duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
+                   duct.den.mean = mean(duct.density, na.rm = TRUE),
+                   duct.den.sd = sd(duct.density, na.rm = TRUE),
+                   total.duct.count.mean = mean(total.duct.count, na.rm = TRUE),
+                   total.duct.count.sd = sd(total.duct.count, na.rm = TRUE),
+                   ring.width.mean = mean(ring.width),
+                   ring.width.sd = sd(ring.width),
+                   bai.mean = mean(bai),
+                   bai.sd = sd(bai),
+                   PMDI.mean = mean(PMDI_3yrlag, na.rm = TRUE),
+                   PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
+                   ) %>% inner_join(trees) %>%
+                   left_join(trees.sum, by= "tag") %>%
+                   left_join(lump_names, by= "spcode") %>%
+                   select(-core.taken, -pith, -needles.collected, -condition,
+                          -barkbeetle.attack, -trail.area, -note)
+
+# Combine tree.sum into mdata for easier graphing purposes
+mdata <- mdata %>% left_join(trees.sum)
+
+# clean up unneeded variables
+rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, lump_names)
+# ring_first, temp_df, temp_df2)
                                
 
 # Exploring data
