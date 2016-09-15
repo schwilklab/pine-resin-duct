@@ -233,6 +233,8 @@ trees.sum <- mdata %>% group_by(tag) %>%
                    duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
                    duct.den.mean = mean(duct.density, na.rm = TRUE),
                    duct.den.sd = sd(duct.density, na.rm = TRUE),
+                   duct.den.log.mean = mean(duct.density.log, na.rm = TRUE),
+                   duct.den.log.sd = sd(duct.density.log, na.rm = TRUE),
                    total.duct.count.mean = mean(total.duct.count, na.rm = TRUE),
                    total.duct.count.sd = sd(total.duct.count, na.rm = TRUE),
                    ring.width.mean = mean(ring.width),
