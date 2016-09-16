@@ -22,271 +22,21 @@ afex_options(method_mixed="LRT") #Bootstrapping can be slow, use hrothgar for th
 source("read_rings.R")
 
 
-################### 1. BAI and individual species ###########################################
-
-
-# random intercept
-bai.mod.ri <- lmer(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                     (1|tag), data=mdata, REML=FALSE)
-
-# random slope and intercept
-bai.mod.rsi <- lmer(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                      (age_s|tag), data=mdata, REML=FALSE)
-
-# test to see which AIC value is better
-anova(bai.mod.ri, bai.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-bai.mod.rsi2 <- lmer(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn  +
-                       (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(bai.mod.rsi, bai.mod.rsi2)
-
-# again, much better model.  We need random slopes for age and PMDI
-
-bai.mod.rsi3 <- lmer(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                       (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
-                     data=mdata, REML=FALSE)
-
-anova(bai.mod.rsi2, bai.mod.rsi3)
-
-# Include the calendar year aspect as random intercept
-
-bai.mod.full <- mixed(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                        (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
-                      data=mdata, REML=FALSE)
-
-summary(bai.mod.full)
-anova(bai.mod.full)
-
-# Species and age have a signficant effect, as well as the interaction
-# between species and age, competition (BAF), and drought.
-# So let's drop non significant interaction terms and create a model with
-# only significant interactions.
-
-bai.mod.simple <- mixed(bai.log_s ~ spcode*(age_s + PMDI_3yrlag_s +BAF_s) +
-                          (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
-                        data=mdata, REML=FALSE)
-
-summary(bai.mod.simple)
-anova(bai.mod.simple)
-# lsmeans(bai.mod.simple, pairwise~spcode)
-
-
-
-################### 2. BAI and grouped species ###########################################
-
-
-# random intercept
-cmn.bai.mod.ri <- lmer(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                         (1|tag), data=mdata, REML=FALSE)
-
-# random slope and intercept
-cmn.bai.mod.rsi <- lmer(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                          (age_s|tag), data=mdata, REML=FALSE)
-
-# test to see which AIC value is better
-anova(cmn.bai.mod.ri, cmn.bai.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-cmn.bai.mod.rsi2 <- lmer(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn  +
-                           (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(cmn.bai.mod.rsi, cmn.bai.mod.rsi2)
-
-# again, much better model.  We need random slopes for age and PMDI
-
-cmn.bai.mod.rsi3 <- lmer(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                           (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
-                         data=mdata, REML=FALSE)
-
-anova(cmn.bai.mod.rsi2, cmn.bai.mod.rsi3)
-
-# Include the calendar year aspect as random intercept
-
-cmn.bai.mod.full <- mixed(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                            (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
-                          data=mdata, REML=FALSE)
-
-summary(cmn.bai.mod.full)
-anova(cmn.bai.mod.full)
-
-# Species and age have a signficant effect, as well as the interaction
-# between species and age, competition (BAF), and drought (possibly).
-# So let's drop non significant interaction terms and create a model with
-# only significant interactions.
-
-cmn.bai.mod.simple <- mixed(bai.log_s ~ subsections*(age_s + PMDI_3yrlag_s +BAF_s) +
-                              (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
-                            data=mdata, REML=FALSE)
-
-summary(cmn.bai.mod.simple)
-anova(cmn.bai.mod.simple)
-# lsmeans(cmn.bai.mod.simple, pairwise~subsections)
-
-# Same thing as listed above, Ponderosa>Strobiformis>Pinyon
-
-
-################### 3. Resin Duct Density and individual species ###########################################
-
-
-den.mod.ri <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                     (1|tag), data=mdata, REML=FALSE)
-
-den.mod.rsi <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                      (age_s|tag), data=mdata, REML=FALSE)
-
-anova(den.mod.ri, den.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-den.mod.rsi2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                       (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(den.mod.rsi, den.mod.rsi2)
-
-# So no need to include random slope for PMDI
-
-# try calendar.year random intercept:
-den.mod.rsi3 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                       (age_s|tag) + (1 | calendar.year), data=mdata, REML=FALSE)
-
-anova(den.mod.rsi, den.mod.rsi3)
-# Ok, so some evidence. I guess it is worth including and we get the degrees of
-# freedom right that way
-
-den.mod.full <- mixed(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                        (age_s | tag) + (1|calendar.year), data=mdata, REML=FALSE)
-
-summary(den.mod.full)
-anova(den.mod.full)
-
-# There is a signficant effect of species and age on duct density.  Interaction
-# between species and age and bai are significant as well.
-# So let's drop non significant interaction terms
-
-den.mod.simple <- mixed(duct.density.log_s ~ spcode*(age_s + bai.log_s) +
-                          (age_s | tag) + (1|calendar.year), data=mdata, REML=FALSE)
-
-summary(den.mod.simple)
-anova(den.mod.simple)
-# lsmeans(den.mod.simple, "spcode")
-
-# Same thing as listed before.  Significant effect of species and age, also
-# interaction between species and age, and bai and age.  
-# PICE>PIED>PIAR5>PIPO>PIST3
-
-
-################### 4. Resin Duct Density and grouped species ###########################################
-
-
-cmn.den.mod.ri <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +bai.log_s) + mtn +
-                         (1|tag), data=mdata, REML=FALSE)
-
-cmn.den.mod.rsi <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                          (age_s|tag), data=mdata, REML=FALSE)
-
-anova(cmn.den.mod.ri, cmn.den.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-cmn.den.mod.rsi2 <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +bai.log_s) + mtn +
-                           (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-
-anova(cmn.den.mod.rsi, cmn.den.mod.rsi2)
-
-# Random slope is not better
-
-# try calendar.year random intercept:
-cmn.den.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                           (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
-
-anova(cmn.den.mod.rsi, cmn.den.mod.rsi3)
-# No evidence indicating that this is better.  The more basic model seems
-# to be the better fit.
-
-cmn.den.mod.full <- mixed(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + bai.log_s) + mtn +
-                            (age_s|tag), data=mdata, REML=FALSE)
-
-summary(cmn.den.mod.full)
-anova(cmn.den.mod.full)
-
-# So let's drop non significant interaction terms
-cmn.den.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + bai.log_s) + mtn +
-                              (age_s|tag), data=mdata, REML=FALSE)
-
-summary(cmn.den.mod.simple)
-anova(cmn.den.mod.simple)
-# lsmeans(cmn.den.mod.simple, "subsections")
-
-# Interesting that there is a signficant interaction between elevation and species in terms 
-# of resin duct density that was not pulled out in individual species.  Also, mountain range
-# has a significant effect when species are lumped together.  Pinyon pines have the highest 
-# resin duct density, then Ponderosa, and then Strobiformis.
-
-
-
-
-
-###################################################################
-####  Run models using ring width instead of BAI.log values #######
-###################################################################
-
-
-
-
-
-################### 1. rw and individual species ###########################################
-
-
-# random intercept
-rw.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                    (1|tag), data=mdata, REML=FALSE)
-
-# random slope and intercept
-rw.mod.rsi <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                     (age_s|tag), data=mdata, REML=FALSE)
-
-# test to see which AIC value is better
-anova(rw.mod.ri, rw.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-rw.mod.rsi2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn  +
-                      (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(rw.mod.rsi, rw.mod.rsi2)
-
-# again, much better model.  We need random slopes for age and PMDI
-
-rw.mod.rsi3 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                      (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
-                    data=mdata, REML=FALSE)
-
-anova(rw.mod.rsi2, rw.mod.rsi3)
-
-# Include the calendar year aspect as random intercept
-
-rw.mod.full <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
-                       (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
-                     data=mdata, REML=FALSE)
-
-summary(rw.mod.full)
-anova(rw.mod.full)
-
-
-
-rw.mod.simple <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s +elev_s) +
-                         (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
-                       data=mdata, REML=FALSE)
-
-summary(rw.mod.simple)
-anova(rw.mod.simple)
-# lsmeans(rw.mod.simple, pairwise~spcode)
-
-# PIST3>PIPO>PIED>PICE>PIAR5
-
-
-
-################### 2. rw and grouped species ###########################################
+################### 1. rw and grouped species ###########################################
 
 
 # random intercept
 cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
                         (1|tag), data=mdata, REML=FALSE)
+
+# species as random intercept as well
+cmn.rw.mod.ri2 <- lmer(ring.width_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                        (1|spcode/tag), data=mdata, REML=FALSE)
+
+anova(cmn.rw.mod.ri, cmn.rw.mod.ri2)
+
+# It looks like AIC values indicate that it is best to not include species as a random
+# intercept.
 
 # random slope and intercept
 cmn.rw.mod.rsi <- lmer(ring.width_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
@@ -330,55 +80,17 @@ anova(cmn.rw.mod.simple)
 # Strobiformis>Ponderosa>Pinyon
 
 
-################### 3. Resin Duct Density and individual species ###########################################
-
-
-rwden.mod.ri <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                       (1|tag), data=mdata, REML=FALSE)
-
-rwden.mod.rsi <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                        (age_s|tag), data=mdata, REML=FALSE)
-
-anova(rwden.mod.ri, rwden.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-rwden.mod.rsi2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                         (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(rwden.mod.rsi, rwden.mod.rsi2)
-
-# So no need to include random slope for PMDI
-
-# try calendar.year random intercept:
-rwden.mod.rsi3 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                         (age_s|tag) + (1 | calendar.year), data=mdata, REML=FALSE)
-
-anova(rwden.mod.rsi, rwden.mod.rsi3)
-# Ok, so some evidence. I guess it is worth including and we get the degrees of
-# freedom right that way
-
-rwden.mod.full <- mixed(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                          (age_s | tag) + (1|calendar.year), data=mdata, REML=FALSE)
-
-summary(rwden.mod.full)
-anova(rwden.mod.full)
-
-
-
-rwden.mod.simple <- mixed(duct.density.log_s ~ spcode*(age_s + ring.width_s) +
-                            (age_s | tag) + (1|calendar.year), data=mdata, REML=FALSE)
-
-summary(rwden.mod.simple)
-anova(rwden.mod.simple)
-# lsmeans(rwden.mod.simple, "spcode")
-
-# PICE>PIED>PIAR5>PIPO>PIST3
-
-
-################### 4. Resin Duct Density and grouped species ###########################################
+################### 2. Resin Duct Density and grouped species ###########################################
 
 
 cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
                            (1|tag), data=mdata, REML=FALSE)
+
+cmn.rwden.mod.ri2 <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                           (1|spcode/tag), data=mdata, REML=FALSE)
+
+anova(cmn.rwden.mod.ri, cmn.rwden.mod.ri2)
+# AIC values indicate that the best model doesn't include species as random effect
 
 cmn.rwden.mod.rsi <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
                             (age_s|tag), data=mdata, REML=FALSE)
@@ -398,14 +110,27 @@ cmn.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag
                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
 
 anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi3)
-# No evidence indicating that this is better.  The more basic model seems
-# to be the better fit.
+# AIC values are the same, but BIC values are better for more simple model.  I'll run it
+# with both examples.
 
 cmn.rwden.mod.full <- mixed(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
                               (age_s|tag), data=mdata, REML=FALSE)
 
 summary(cmn.rwden.mod.full)
 anova(cmn.rwden.mod.full)
+
+cmn.rwden.mod.full2 <- mixed(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+
+summary(cmn.rwden.mod.full2)
+anova(cmn.rwden.mod.full2)
+
+anova(cmn.rwden.mod.full, cmn.rwden.mod.full2)
+# SO both of them have the same AIC values, but the one with the less random effects 
+# indicates a lower BIC value.  In both cases, the same variables come out as being
+# signficant with a small difference in value.  I think a case could be made for 
+# either, and it just matters which one is the best to present in a paper, because they
+# both say the same thing.
 
 # So let's drop non significant interaction terms
 cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s) +
@@ -416,3 +141,281 @@ anova(cmn.rwden.mod.simple)
 # lsmeans(cmn.rwden.mod.simple, "subsections")
 
 # Pinyon>Strobiformis>Ponderosa
+
+
+
+
+
+##########################################################################
+##########################################################################
+# Run models using subsets of the data based on subsections
+
+# I have to create the seperrate dataframes rather than making a call
+# in the model because the scaled values in mdata are based on
+# all trees, so errors occur in the model.  Create two seperate
+# dataframes with ponderosae and cembroides.
+
+# read data, only select complete cases so no NA's exist
+ponderosae_data <- ring_data[complete.cases(ring_data), ] %>%
+  filter(age!=1) %>% # remove the first year of growth since no resin
+  # ducts are present in pith remove last year of
+  # data since these are only partial growth years
+  filter(calendar.year != 2015)  %>%
+  filter(subsections=="Ponderosae") %>%
+  mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
+         duct.density.log = log(duct.density+1),
+         bai.log = log(bai+1),
+         fyear = as.factor(calendar.year)) %>%
+  mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
+              -fyear, -subsections, -species_names)
+
+
+cembroides_data <- ring_data[complete.cases(ring_data), ] %>%
+  filter(age!=1) %>% # remove the first year of growth since no resin
+  # ducts are present in pith remove last year of
+  # data since these are only partial growth years
+  filter(calendar.year != 2015)  %>%
+  filter(subsections=="Cembroides") %>%
+  mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
+         duct.density.log = log(duct.density+1),
+         bai.log = log(bai+1),
+         fyear = as.factor(calendar.year)) %>%
+  mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
+              -fyear, -subsections, -species_names)
+
+
+
+################### 1. rw and ponderosae values ###########################################
+
+
+# random intercept
+pond.rw.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                         (1|tag), data=ponderosae_data, REML=FALSE)
+
+#two random intercepts (tag within species)
+pond.rw.mod.ri2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                          (1|spcode/tag), data=ponderosae_data , REML=FALSE)
+
+anova(pond.rw.mod.ri, pond.rw.mod.ri2)
+# Species as a random effect produces a model that has a greater aic value, 
+# I don't know if this is the best route to take.
+
+# random slope and intercept
+pond.rw.mod.rsi <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                          (age_s|tag), data=ponderosae_data, REML=FALSE)
+
+# test to see which AIC value is better
+anova(pond.rw.mod.ri, pond.rw.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+pond.rw.mod.rsi2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn  +
+                           (age_s+PMDI_3yrlag_s|tag), data=ponderosae_data, REML=FALSE)
+
+anova(pond.rw.mod.rsi, pond.rw.mod.rsi2)
+
+# Second model is better model
+
+pond.rw.mod.rsi3 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                           (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
+                         data=ponderosae_data, REML=FALSE)
+
+anova(pond.rw.mod.rsi2, pond.rw.mod.rsi3)
+
+# Last model specifying random effects is best
+
+pond.rw.mod.full <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                            (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
+                          data=ponderosae_data, REML=FALSE)
+
+summary(pond.rw.mod.full)
+anova(pond.rw.mod.full)
+
+
+
+pond.rw.mod.simple <- mixed(ring.width_s ~ spcode*(PMDI_3yrlag_s + elev_s +  BAF_s) +
+                              (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+                            data=ponderosae_data, REML=FALSE)
+
+summary(pond.rw.mod.simple)
+anova(pond.rw.mod.simple)
+
+# Ok, this is weird.  Now the correct degrees of freedom are being specified for
+# spcode and it is coming out as signficant.  Interaction between pmdi and spcode
+# comes out signficant as well with elevation at .07 and spcode:elev at .09.
+# Not entirely sure what is happening here.
+
+
+
+################### 2. Resin Duct Density and ponderosae values ###########################################
+
+
+pond.rwden.mod.ri <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                            (1|tag), data=ponderosae_data, REML=FALSE)
+
+pond.rwden.mod.ri2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                             (1|spcode/tag), data=ponderosae_data, REML=FALSE)
+
+anova(pond.rwden.mod.ri, pond.rwden.mod.ri2)
+
+# Again, including species as a random effect doesn't seem to be the best
+# thing to do based on AIC values
+
+pond.rwden.mod.rsi <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                             (age_s|tag), data=ponderosae_data, REML=FALSE)
+
+anova(pond.rwden.mod.ri, pond.rwden.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+pond.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                              (age_s+PMDI_3yrlag_s|tag), data=ponderosae_data, REML=FALSE)
+
+anova(pond.rwden.mod.rsi, pond.rwden.mod.rsi2)
+
+# Random slope is not better
+
+# try calendar.year random intercept:
+pond.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=ponderosae_data, REML=FALSE)
+
+anova(pond.rwden.mod.rsi, pond.rwden.mod.rsi3)
+# There is little evidence that this is more effective based on AIC values (difference of 1)
+# but I will include it since it specifies the correct degrees of freedom
+
+pond.rwden.mod.full <- mixed(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                               (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
+                             data=ponderosae_data, REML=FALSE)
+
+# I receive an error messsage when I run this.
+#Warning messages:
+# 1: In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+#  unable to evaluate scaled gradient
+# 2: In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+#  Model failed to converge: degenerate  Hessian with 1 negative eigenvalues
+# 3: In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+#  unable to evaluate scaled gradient
+# 4: In checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv,  :
+#  Model failed to converge: degenerate  Hessian with 1 negative eigenvalues
+
+#### Can't run models ###
+
+
+#summary(pond.rwden.mod.full)
+#anova(pond.rwden.mod.full)
+
+
+
+
+
+################### 2. rw and ponderosae values ###########################################
+
+
+# random intercept
+cemb.rw.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                         (1|tag), data=cembroides_data, REML=FALSE)
+
+#two random intercepts (tag within species)
+cemb.rw.mod.ri2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                          (1|spcode/tag), data=cembroides_data , REML=FALSE)
+
+anova(cemb.rw.mod.ri, cemb.rw.mod.ri2)
+# Species as a random effect produces a model that has a greater aic value, 
+# I don't know if this is the best route to take.
+
+# random slope and intercept
+cemb.rw.mod.rsi <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                          (age_s|tag), data=cembroides_data, REML=FALSE)
+
+# test to see which AIC value is better
+anova(cemb.rw.mod.ri, cemb.rw.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+cemb.rw.mod.rsi2 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn  +
+                           (age_s+PMDI_3yrlag_s|tag), data=cembroides_data, REML=FALSE)
+
+anova(cemb.rw.mod.rsi, cemb.rw.mod.rsi2)
+
+# Second model is better
+
+cemb.rw.mod.rsi3 <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                           (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
+                         data=cembroides_data, REML=FALSE)
+
+anova(cemb.rw.mod.rsi2, cemb.rw.mod.rsi3)
+
+# Again, secod model is better, this is what I will use
+
+cemb.rw.mod.full <- mixed(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) + mtn +
+                            (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
+                          data=cembroides_data, REML=FALSE)
+
+summary(cemb.rw.mod.full)
+anova(cemb.rw.mod.full)
+
+
+
+cemb.rw.mod.simple <- mixed(ring.width_s ~ spcode*(PMDI_3yrlag_s + elev_s +  BAF_s) +
+                              (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+                            data=cembroides_data, REML=FALSE)
+
+summary(cemb.rw.mod.simple)
+anova(cemb.rw.mod.simple)
+
+# Ok, this is weird.  Now the correct degrees of freedom are being specified for
+# spcode and it is coming out as signficant.  PMDI and elevation are also coming
+# out as significant. Interaction between pmdi and spcode
+# comes out signficant as well with elevation and spcode:BAF at .07.
+# Not entirely sure what is happening here.
+# lsmeans(cemb.rw.mod.simple, pairwise~subsections)
+
+# Strobiformis>Ponderosa>Pinyon
+
+
+################### 4. Resin Duct Density and ponderosae values ###########################################
+
+
+cemb.rwden.mod.ri <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                            (1|tag), data=cembroides_data, REML=FALSE)
+
+cemb.rwden.mod.ri2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                             (1|spcode/tag), data=cembroides_data, REML=FALSE)
+
+anova(cemb.rwden.mod.ri, cemb.rwden.mod.ri2)
+
+# Again, including species as a random effect doesn't seem to be the best
+# thing to do based on AIC values
+
+cemb.rwden.mod.rsi <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                             (age_s|tag), data=cembroides_data, REML=FALSE)
+
+anova(cemb.rwden.mod.ri, cemb.rwden.mod.rsi) # so random slope for age much better.
+
+# try random slope for PMDI
+cemb.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
+                              (age_s+PMDI_3yrlag_s|tag), data=cembroides_data, REML=FALSE)
+
+anova(cemb.rwden.mod.rsi, cemb.rwden.mod.rsi2)
+
+# Random slope is not better
+
+# try calendar.year random intercept:
+cemb.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=cembroides_data, REML=FALSE)
+
+anova(cemb.rwden.mod.rsi, cemb.rwden.mod.rsi3)
+# There is evidence that this model is better, this is what I will use.
+
+cemb.rwden.mod.full <- mixed(duct.density.log_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
+                               (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=cembroides_data, REML=FALSE)
+
+summary(cemb.rwden.mod.full)
+anova(cemb.rwden.mod.full)
+
+cemb.rwden.mod.simple <- mixed(duct.density.log_s ~ spcode*(age_s + elev_s + ring.width_s) +
+                                 (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=cembroides_data, REML=FALSE)
+
+summary(cemb.rwden.mod.simple)
+anova(cemb.rwden.mod.simple)
+
+# Again, it's weird that the correct degrees of freedom are now specified with spcode.
+# Spcode is signficant, so is elevation.  Also interaction between species, elev, and
+# ring width is signficant.
