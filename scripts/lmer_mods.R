@@ -70,17 +70,55 @@ anova(cmn.rw.mod.full)
 
 
 cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections*(age_s + PMDI_3yrlag_s) +
-                             (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+                           (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
 # lsmeans(cmn.rw.mod.simple, pairwise~subsections)
 
-# Strobiformis>Ponderosa>Pinyon
+#### Results of model
+
+## Subsections
+
+# P= .0314974
+# Strobus>Ponderosae>Cembroides
+# There is a signficant difference between subsections.  Specifically, 
+# Strobus is greater than Ponderosae which is greater than Cembroides.
+#  It seems that there is a signficant difference between strous and ponderosae
+# and strobus and cembroides. It doesn't look like there is a signficant difference
+# between cembroides and ponderosae in terms of ring width.
+
+## Drought (PMDI_3yrlag)
+
+# P= .0001151
+# This has a signgificant overall effect.  When looked at graphically, you
+# can see that as drought conditions decrease (PMDI increases) ring widths
+# increase.  Pretty strong relationship here.
+
+## Subsections:age
+
+# Strobus>Cembroides>Ponderosae
+# P= 9.382e-05
+# It looks like there is a general overall negative effect. Based on fixed
+# effect estimates shown in the summary, it seems that there is a stronger negative
+# effect with Strobus than cembroides and ponderosae.  Based on t values, it seems that
+# there is a signficant difference between cembroides and ponderosae, as well as strobus
+# and ponderosae.
+
+## Subsections : Drought (Pmdi_3yrlag)
+# Strobus>Cembroides>Ponderosae
+# P= .0035446
+# As mentioned earlier, there is a general overall positive effect that as
+# PMDI values increase, ring width increases.  That effect is least seen with 
+# Ponderosae, but I beleive that is due to Arizonica not being affected by drought
+# drought values since it is located in a canyon area.  Based on t values it looks
+# like there is a signficant differnce between cembroides and strobus, and ponderosae
+# and strobus.  Strobus seems to be the most responsive to drought conditions.
 
 
-################### 2. Resin Duct Density and grouped species ###########################################
+
+################### 2. Resin Duct Density and subsections ###########################################
 
 
 cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s +ring.width_s) + mtn +
@@ -120,7 +158,8 @@ summary(cmn.rwden.mod.full)
 anova(cmn.rwden.mod.full)
 
 cmn.rwden.mod.full2 <- mixed(duct.density.log_s ~ subsections*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + ring.width_s) + mtn +
-                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
+                             data=mdata, REML=FALSE)
 
 summary(cmn.rwden.mod.full2)
 anova(cmn.rwden.mod.full2)
@@ -134,23 +173,73 @@ anova(cmn.rwden.mod.full, cmn.rwden.mod.full2)
 
 # So let's drop non significant interaction terms
 cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s) +
-                                (age_s|tag), data=mdata, REML=FALSE)
+                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
+                              data=mdata, REML=FALSE)
 
 summary(cmn.rwden.mod.simple)
 anova(cmn.rwden.mod.simple)
 # lsmeans(cmn.rwden.mod.simple, "subsections")
 
-# Pinyon>Strobiformis>Ponderosa
+
+# Cembroides>Strobus>Ponderosae
+# So there is a signficant difference between subsections and age. There are
+# aso siignficant interactions between subsections and age, subsections and elev,
+# and subsections and ring width.  I'll go further into those relationships below.
+
+## Subsections
+# Cembroides>Strobus>Ponderosae
+# P= <2.2e-16
+# As previously thought from looking at the data, cembroides trees have a larger 
+# resin duct density than the other two subsections.  It looks like there is a signficant
+# difference between cembroides and ponderosae as well as cembroides an strobus, but
+# not a difference between ponderosae and strobus 
 
 
+## Age
 
+# P= 1.771e-11
+# It appears that resin duct density decreases with age when
+# looking at an overall effect.
+
+
+## Subsections:Age
+# Intercept: Cembroides>Ponderosae>Strobus
+# P= .004628
+# Intitial intercept has cembroides greater than strobus and ponderosae. It appears
+# that there is a signficnat difference between cembroides and ponderosae as well as 
+# cembroides and strobus, but not between ponderosae and strobus.
+
+
+## Subsections:Elevation
+# Intercept: Cembroides>Strobus>Ponderosae
+# P= .042082
+# Initial intercept has cembroides greater than Ponderosae and Strobus. It looks
+# like there is a signficant difference between cembroides and ponderosae as well as
+# cembroides and strobus.  When the mean logged resin duct density per tree is graphed
+# by elevation and seperated by subsection, it shows that cembroides' duct density
+# increases with increased elevation where ponderosae and strobus decrease with elevation.
+
+
+## Subsections:Ring.width
+# Intercept: Strobus>Ponderosae>Cembroides
+# P= 5.634e-09
+# This one is a little complicated.  If you graph each tree's relationship with 
+# ring width and duct density there isn't a clear relationship established.  When
+# the mean ring widths are graphed with the corresponding mean resin duct density for 
+# each tree, a more clear relationship comes out.  Cembroides resin duct density has
+# a strong negative relationship with ring width.  Pondderosae is slightly negative
+# and strobus is slightly positive.  If you look at how these relationships change
+# in respect to age, and interesting relationship comes out.  There is a strong
+# negative relationship with resin duct density and ring width for the first 10 years
+# of a trees life.   After that, the relationship becomes positive, so the greater the
+# ring width, the greater resin duct density.
 
 
 ##########################################################################
 ##########################################################################
 # Run models using subsets of the data based on subsections
 
-# I have to create the seperrate dataframes rather than making a call
+# I have to create the seperate data frames rather than making a call
 # in the model because the scaled values in mdata are based on
 # all trees, so errors occur in the model.  Create two seperate
 # dataframes with ponderosae and cembroides.
