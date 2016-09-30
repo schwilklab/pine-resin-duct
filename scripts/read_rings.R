@@ -212,6 +212,7 @@ mdata <- ring_data[complete.cases(ring_data), ] %>%
 mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                                         duct.density.log = log(duct.density+1),
                                         bai.log = log(bai+1),
+                                        log.rw = log(ring.width+1),
                                         fyear = as.factor(calendar.year))
 
 # Rescale numeric variables
