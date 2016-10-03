@@ -78,7 +78,7 @@ ggplot(filter(mdata, spcode=="PIED"), aes(PMDI, ring.width)) +
 
 ggplot(mdata, aes(PMDI_3yrlag_s, ring.width_s, group=tag)) +
   geom_point() +
-  facet_grid(. ~ subsections) +
+  facet_grid(. ~ spcode) +
   geom_smooth(method="lm")
 
 # little effect for PIAR5, but looks like positive effect for others
