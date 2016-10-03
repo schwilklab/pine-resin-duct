@@ -60,7 +60,7 @@ anova(cmn.rw.mod.rsi2, cmn.rw.mod.rsi3)
 
 # Include the calendar year aspect as random intercept
 
-cmn.rw.mod.full <- mixed(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley_s) + mtn +
+cmn.rw.mod.full <- mixed(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
                          (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
                          data=mdata, REML=FALSE)
 
@@ -70,8 +70,8 @@ anova(cmn.rw.mod.full)
 
 
 
-cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s) +
-                           + subsections:age_s:PMDI_3yrlag_s +
+cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (PMDI_3yrlag_s) + ldist_valley2_s +
+                           + subsections:age_s + subsections:age_s:PMDI_3yrlag_s +
                            (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
@@ -84,8 +84,8 @@ anova(cmn.rw.mod.simple)
 
 # Run the same model as lmer to check heteroscedasticity
 
-# cmn.rw.mod.simple.lmer <- lmer(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s) +
-#                                + subsections:age_s:PMDI_3yrlag_s +
+# cmn.rw.mod.simple.lmer <- lmer(ring.width_s ~ subsections* (PMDI_3yrlag_s + ldist_valley2_s)
+#                                + subsections:age_s + subsections:age_s:PMDI_3yrlag_s +
 #                                (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year),
 #                                data=mdata, REML=FALSE)
 
@@ -172,7 +172,7 @@ anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi3)
 # effects more in order to specify correct degrees of freedom.
 
 cmn.rwden.mod.full <- mixed(duct.density.log_s ~ subsections*((age_s * PMDI_3yrlag_s) +
-                            BAF_s + elev_s +ring.width_s) + mtn +
+                            BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                             data=mdata, REML=FALSE)
 
@@ -181,7 +181,8 @@ anova(cmn.rwden.mod.full)
 
 
 # So let's drop non significant interaction terms
-cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + PMDI_3yrlag_s) +
+cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s) + subsections:elev_s +
+                              subsections:ring.width_s + subsections:PMDI_3yrlag_s +
                               subsections:age_s:PMDI_3yrlag_s +
                               (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                               data=mdata, REML=FALSE)
@@ -199,11 +200,12 @@ anova(cmn.rwden.mod.simple)
 
 # # Create an lmer one to use to test heteroscedasticity
 
-# cmn.rwden.mod.simple.lmer <- lmer(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + PMDI_3yrlag_s) +
-#                                    subsections:age_s:PMDI_3yrlag_s +
-#                                    (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
-#                                    data=mdata, REML=FALSE)
- 
+# cmn.rwden.mod.simple.lmer <- lmer(duct.density.log_s ~ subsections*(age_s) + subsections:elev_s +
+#                                  subsections:ring.width_s + subsections:PMDI_3yrlag_s +
+#                                  subsections:age_s:PMDI_3yrlag_s +
+#                                  (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
+#                                  data=mdata, REML=FALSE)
+# 
 # plot(fitted(cmn.rwden.mod.simple.lmer), residuals(cmn.rwden.mod.simple.lmer),
 #      col="red")
 # abline(h=0, lty=2)
