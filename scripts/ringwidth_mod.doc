@@ -1,0 +1,37 @@
+Linear mixed model fit by maximum likelihood  ['lmerMod']
+Formula: ring.width_s ~ subsections * (PMDI_3yrlag_s) + ldist_valley2_s +  
+    +subsections:age_s + subsections:age_s:PMDI_3yrlag_s + (age_s +  
+    PMDI_3yrlag_s | tag) + (1 | calendar.year)
+   Data: mdata
+
+     AIC      BIC   logLik deviance df.resid 
+ 23955.4  24107.3 -11956.7  23913.4    10219 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.3786 -0.5657 -0.1229  0.4354 10.5401 
+
+Random effects:
+ Groups        Name          Variance Std.Dev. Corr     
+ tag           (Intercept)   0.385323 0.6207            
+               age_s         0.614815 0.7841   0.55     
+               PMDI_3yrlag_s 0.040607 0.2015   0.72 0.18
+ calendar.year (Intercept)   0.008409 0.0917            
+ Residual                    0.535089 0.7315            
+Number of obs: 10240, groups:  tag, 159; calendar.year, 118
+
+Fixed effects:
+                                           Estimate Std. Error t value
+(Intercept)                               -0.195365   0.085949  -2.273
+subsectionsPonderosae                      0.129980   0.125441   1.036
+subsectionsStrobus                         0.311206   0.136294   2.283
+PMDI_3yrlag_s                              0.120790   0.030728   3.931
+ldist_valley2_s                           -0.137197   0.037010  -3.707
+subsectionsPonderosae:PMDI_3yrlag_s       -0.011655   0.041808  -0.279
+subsectionsStrobus:PMDI_3yrlag_s           0.119771   0.047771   2.507
+subsectionsCembroides:age_s               -0.068068   0.107635  -0.632
+subsectionsPonderosae:age_s               -0.642261   0.110916  -5.790
+subsectionsStrobus:age_s                  -0.032926   0.136531  -0.241
+subsectionsCembroides:PMDI_3yrlag_s:age_s  0.001079   0.014509   0.074
+subsectionsPonderosae:PMDI_3yrlag_s:age_s  0.023789   0.017385   1.368
+subsectionsStrobus:PMDI_3yrlag_s:age_s    -0.060786   0.026338  -2.308

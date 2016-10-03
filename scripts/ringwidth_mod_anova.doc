@@ -1,0 +1,16 @@
+Mixed Model Anova Table (Type 3 tests)
+
+Model: ring.width_s ~ subsections * (PMDI_3yrlag_s) + ldist_valley2_s + 
+Model:     +subsections:age_s + subsections:age_s:PMDI_3yrlag_s + (age_s + 
+Model:     PMDI_3yrlag_s | tag) + (1 | calendar.year)
+Data: mdata
+Df full model: 21
+                                Df   Chisq Chi Df Pr(>Chisq)    
+subsections                     19  4.9651      2  0.0835279 .  
+PMDI_3yrlag_s                   20 14.7601      1  0.0001221 ***
+ldist_valley2_s                 20 11.4221      1  0.0007257 ***
+subsections:PMDI_3yrlag_s       19  8.3434      2  0.0154257 *  
+subsections:age_s               18 31.7882      3    5.8e-07 ***
+subsections:PMDI_3yrlag_s:age_s 18  7.8042      3  0.0502357 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

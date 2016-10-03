@@ -1,0 +1,42 @@
+Linear mixed model fit by maximum likelihood  ['lmerMod']
+Formula: duct.density.log_s ~ subsections * (age_s) + subsections:elev_s +  
+    subsections:ring.width_s + subsections:PMDI_3yrlag_s + subsections:age_s:PMDI_3yrlag_s +  
+    (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year)
+   Data: mdata
+
+     AIC      BIC   logLik deviance df.resid 
+ 27199.1  27387.2 -13573.6  27147.1    10214 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-4.6520 -0.2357  0.1282  0.5043  3.2717 
+
+Random effects:
+ Groups        Name          Variance Std.Dev. Corr     
+ tag           (Intercept)   0.054073 0.23254           
+               age_s         0.061769 0.24853  0.43     
+               PMDI_3yrlag_s 0.001952 0.04418  0.10 0.21
+ calendar.year (Intercept)   0.002060 0.04539           
+ Residual                    0.794982 0.89162           
+Number of obs: 10240, groups:  tag, 159; calendar.year, 118
+
+Fixed effects:
+                                          Estimate Std. Error t value
+(Intercept)                                0.29466    0.03772   7.813
+subsectionsPonderosae                     -0.71369    0.05578 -12.794
+subsectionsStrobus                        -0.70342    0.11199  -6.281
+age_s                                     -0.29409    0.04202  -6.999
+subsectionsPonderosae:age_s               -0.02079    0.06198  -0.335
+subsectionsStrobus:age_s                  -0.22778    0.07065  -3.224
+subsectionsCembroides:elev_s               0.01558    0.03326   0.469
+subsectionsPonderosae:elev_s              -0.10609    0.03288  -3.227
+subsectionsStrobus:elev_s                 -0.08407    0.09518  -0.883
+subsectionsCembroides:ring.width_s        -0.02612    0.02366  -1.104
+subsectionsPonderosae:ring.width_s        -0.01345    0.01492  -0.902
+subsectionsStrobus:ring.width_s            0.14830    0.02223   6.671
+subsectionsCembroides:PMDI_3yrlag_s       -0.01542    0.01638  -0.941
+subsectionsPonderosae:PMDI_3yrlag_s       -0.03980    0.01712  -2.324
+subsectionsStrobus:PMDI_3yrlag_s          -0.06855    0.02257  -3.037
+subsectionsCembroides:age_s:PMDI_3yrlag_s -0.01348    0.01259  -1.071
+subsectionsPonderosae:age_s:PMDI_3yrlag_s -0.06242    0.01718  -3.634
+subsectionsStrobus:age_s:PMDI_3yrlag_s    -0.01897    0.02778  -0.683
