@@ -1,0 +1,33 @@
+
+Call:
+lm(formula = resin.duct.count ~ spcode + mtn + spcode:mtn, data = ring_data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+   -12     -5     -1      4     46 
+
+Coefficients: (7 not defined because of singularities)
+                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           6.72       0.17    39.5   <2e-16 ***
+spcodePICE            3.56       0.23    15.7   <2e-16 ***
+spcodePIED            5.22       0.45    11.5   <2e-16 ***
+spcodePIPO            1.13       0.45     2.5     0.01 *  
+spcodePIST3           1.41       0.36     3.9    8e-05 ***
+mtnDM                 1.96       0.25     7.9    3e-15 ***
+mtnGM                 0.01       0.38     0.0     0.97    
+spcodePICE:mtnDM        NA         NA      NA       NA    
+spcodePIED:mtnDM        NA         NA      NA       NA    
+spcodePIPO:mtnDM     -0.22       0.41    -0.5     0.59    
+spcodePIST3:mtnDM       NA         NA      NA       NA    
+spcodePICE:mtnGM        NA         NA      NA       NA    
+spcodePIED:mtnGM        NA         NA      NA       NA    
+spcodePIPO:mtnGM        NA         NA      NA       NA    
+spcodePIST3:mtnGM       NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7 on 10907 degrees of freedom
+  (87 observations deleted due to missingness)
+Multiple R-squared:  0.07,	Adjusted R-squared:  0.07 
+F-statistic: 1e+02 on 7 and 10907 DF,  p-value: <2e-16
+

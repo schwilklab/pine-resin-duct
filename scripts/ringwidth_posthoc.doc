@@ -1,0 +1,20 @@
+$lsmeans
+ subsections         age_s      lsmean         SE df   asymp.LCL   asymp.UCL
+ Cembroides  -2.991045e-17 -0.19536532 0.08594856 NA -0.36382141 -0.02690923
+ Ponderosae  -2.991045e-17 -0.06538521 0.09151274 NA -0.24474689  0.11397646
+ Strobus     -2.991045e-17  0.11584078 0.10917646 NA -0.09814114  0.32982270
+
+Confidence level used: 0.95 
+
+$contrasts
+ contrast                                                              estimate        SE df z.ratio
+ Cembroides,-2.99104486092675e-17 - Ponderosae,-2.99104486092675e-17 -0.1299801 0.1254412 NA  -1.036
+ Cembroides,-2.99104486092675e-17 - Strobus,-2.99104486092675e-17    -0.3112061 0.1362944 NA  -2.283
+ Ponderosae,-2.99104486092675e-17 - Strobus,-2.99104486092675e-17    -0.1812260 0.1427549 NA  -1.269
+ p.value
+  0.5540
+  0.0581
+  0.4125
+
+P value adjustment: tukey method for comparing a family of 3 estimates 
+
