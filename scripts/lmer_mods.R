@@ -78,6 +78,11 @@ cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s) +
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
 
+# Create new dataframe with coefficients from summary
+coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
+# use normal distribution to approximate p-value (not very conservative)
+coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs$t.value)))
+
 # Run post-hoc tests on some significant relationships
 
 # lsmeans(cmn.rw.mod.simple, pairwise~ subsections:age)
@@ -188,6 +193,11 @@ cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s +
 
 summary(cmn.rwden.mod.simple)
 anova(cmn.rwden.mod.simple)
+
+# Create new dataframe with coefficients from summary
+coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
+# use normal distribution to approximate p-value (not very conservative)
+coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs$t.value)))
 
 # Try some post-hoc tests
 
