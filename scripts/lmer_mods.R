@@ -197,7 +197,7 @@ anova(cmn.rwden.mod.simple)
 # Create new dataframe with coefficients from summary
 coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
 # use normal distribution to approximate p-value (not very conservative)
-coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs$t.value)))
+coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs_ductdensity$t.value)))
 
 # Try some post-hoc tests
 
