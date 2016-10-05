@@ -83,6 +83,25 @@ coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
 # use normal distribution to approximate p-value (not very conservative)
 coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs$t.value)))
 
+# Add a new column with calculations with exact slope and intercept and not just relationship
+coefs_ringwidth$Estimate_calc <- length(coefs_ringwidth$Estimate) # will change numbers
+
+# select vector elements by position to do calculations
+
+coefs_ringwidth$Estimate_calc[1] <- coefs_ringwidth$Estimate[1]
+coefs_ringwidth$Estimate_calc[2] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[2]
+coefs_ringwidth$Estimate_calc[3] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[3]
+coefs_ringwidth$Estimate_calc[4] <- coefs_ringwidth$Estimate[4]
+coefs_ringwidth$Estimate_calc[5] <- coefs_ringwidth$Estimate[5]
+coefs_ringwidth$Estimate_calc[6] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[6]
+coefs_ringwidth$Estimate_calc[7] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[7]
+coefs_ringwidth$Estimate_calc[8] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[8]
+coefs_ringwidth$Estimate_calc[9] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[9]
+coefs_ringwidth$Estimate_calc[10] <- coefs_ringwidth$Estimate[10]
+coefs_ringwidth$Estimate_calc[11] <- coefs_ringwidth$Estimate[11]
+coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[12]
+
+
 # Run post-hoc tests on some significant relationships
 
 # lsmeans(cmn.rw.mod.simple, pairwise~ subsections:age)
@@ -198,6 +217,29 @@ anova(cmn.rwden.mod.simple)
 coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
 # use normal distribution to approximate p-value (not very conservative)
 coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs_ductdensity$t.value)))
+
+# Add a new column with calculations with exact slope and intercept and not just relationship
+coefs_ductdensity$Estimate_calc <- length(coefs_ductdensity$Estimate) # will change numbers
+
+# select vector elements by position to do calculations
+coefs_ductdensity$Estimate_calc[1] <- coefs_ductdensity$Estimate[1]
+coefs_ductdensity$Estimate_calc[2] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[2]
+coefs_ductdensity$Estimate_calc[3] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[3]
+coefs_ductdensity$Estimate_calc[4] <- coefs_ductdensity$Estimate[4]
+coefs_ductdensity$Estimate_calc[5] <- coefs_ductdensity$Estimate[5]
+coefs_ductdensity$Estimate_calc[6] <- coefs_ductdensity$Estimate[6]
+coefs_ductdensity$Estimate_calc[7] <- coefs_ductdensity$Estimate[7]
+coefs_ductdensity$Estimate_calc[8] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[8]
+coefs_ductdensity$Estimate_calc[9] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[9]
+coefs_ductdensity$Estimate_calc[10] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[10]
+coefs_ductdensity$Estimate_calc[11] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[11]
+coefs_ductdensity$Estimate_calc[12] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[12]
+coefs_ductdensity$Estimate_calc[13] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[13]
+coefs_ductdensity$Estimate_calc[14] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[14]
+coefs_ductdensity$Estimate_calc[15] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[15]
+coefs_ductdensity$Estimate_calc[16] <- coefs_ductdensity$Estimate[16]
+coefs_ductdensity$Estimate_calc[17] <- coefs_ductdensity$Estimate[17]
+coefs_ductdensity$Estimate_calc[18] <- coefs_ductdensity$Estimate[18]
 
 # Try some post-hoc tests
 
