@@ -25,42 +25,42 @@ source("read_rings.R")
 ################### 1. rw and grouped species ###########################################
 
 
-# random intercept
-cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
-                        (1|tag), data=mdata, REML=FALSE)
-
-# species as random intercept as well
-cmn.rw.mod.ri2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
-                        (1|spcode/tag), data=mdata, REML=FALSE)
-
-anova(cmn.rw.mod.ri, cmn.rw.mod.ri2)
-
-# It looks like AIC values indicate that it is best to not include species as a random
-# intercept.
-
-# random slope and intercept
-cmn.rw.mod.rsi <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
-                         (age_s|tag), data=mdata, REML=FALSE)
-
-# test to see which AIC value is better
-anova(cmn.rw.mod.ri, cmn.rw.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-cmn.rw.mod.rsi2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
-                          (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-anova(cmn.rw.mod.rsi, cmn.rw.mod.rsi2)
-
-# again, much better model.  We need random slopes for age and PMDI
-
-cmn.rw.mod.rsi3 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
-                          (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
-                        data=mdata, REML=FALSE)
-
-anova(cmn.rw.mod.rsi2, cmn.rw.mod.rsi3)
+# # random intercept
+# cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+#                         (1|tag), data=mdata, REML=FALSE)
+# 
+# # species as random intercept as well
+# cmn.rw.mod.ri2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+#                         (1|spcode/tag), data=mdata, REML=FALSE)
+# 
+# anova(cmn.rw.mod.ri, cmn.rw.mod.ri2)
+# 
+# # It looks like AIC values indicate that it is best to not include species as a random
+# # intercept.
+# 
+# # random slope and intercept
+# cmn.rw.mod.rsi <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+#                          (age_s|tag), data=mdata, REML=FALSE)
+# 
+# # test to see which AIC value is better
+# anova(cmn.rw.mod.ri, cmn.rw.mod.rsi) # so random slope for age much better.
+# 
+# # try random slope for PMDI
+# cmn.rw.mod.rsi2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+#                           (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
+# anova(cmn.rw.mod.rsi, cmn.rw.mod.rsi2)
+# 
+# # again, much better model.  We need random slopes for age and PMDI
+# 
+# cmn.rw.mod.rsi3 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+#                           (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
+#                         data=mdata, REML=FALSE)
+# 
+# anova(cmn.rw.mod.rsi2, cmn.rw.mod.rsi3)
 
 # Include the calendar year aspect as random intercept
 
-cmn.rw.mod.full <- mixed(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley_s) + mtn +
+cmn.rw.mod.full <- mixed(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s) + mtn +
                          (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
                          data=mdata, REML=FALSE)
 
@@ -70,8 +70,7 @@ anova(cmn.rw.mod.full)
 
 
 
-cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s) +
-                           + subsections:age_s:PMDI_3yrlag_s +
+cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s + age_s:PMDI_3yrlag_s) +
                            (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
@@ -81,7 +80,7 @@ anova(cmn.rw.mod.simple)
 # Create new dataframe with coefficients from summary
 coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
 # use normal distribution to approximate p-value (not very conservative)
-coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs$t.value)))
+coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs_ringwidth$t.value)))
 
 # Add a new column with calculations with exact slope and intercept and not just relationship
 coefs_ringwidth$Estimate_calc <- length(coefs_ringwidth$Estimate) # will change numbers
@@ -93,24 +92,27 @@ coefs_ringwidth$Estimate_calc[2] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth
 coefs_ringwidth$Estimate_calc[3] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[3]
 coefs_ringwidth$Estimate_calc[4] <- coefs_ringwidth$Estimate[4]
 coefs_ringwidth$Estimate_calc[5] <- coefs_ringwidth$Estimate[5]
-coefs_ringwidth$Estimate_calc[6] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[6]
+coefs_ringwidth$Estimate_calc[6] <- coefs_ringwidth$Estimate[6]
 coefs_ringwidth$Estimate_calc[7] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[7]
-coefs_ringwidth$Estimate_calc[8] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[8]
+coefs_ringwidth$Estimate_calc[8] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[8]
 coefs_ringwidth$Estimate_calc[9] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[9]
-coefs_ringwidth$Estimate_calc[10] <- coefs_ringwidth$Estimate[10]
-coefs_ringwidth$Estimate_calc[11] <- coefs_ringwidth$Estimate[11]
-coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[12]
+coefs_ringwidth$Estimate_calc[10] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[10]
+coefs_ringwidth$Estimate_calc[11] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[11]
+coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[12]
 
 
-# Run post-hoc tests on some significant relationships
+# Post-hoc testing
 
-# lsmeans(cmn.rw.mod.simple, pairwise~ subsections:age)
+
+# Subsection and age
+pairs(lstrends(cmn.rw.mod.simple, "subsections", var="age_s"))
+# Subsection and drought
+pairs(lstrends(cmn.rw.mod.simple, "subsections", var="PMDI_3yrlag_s"))
 
 # Run the same model as lmer to check heteroscedasticity
 
-# cmn.rw.mod.simple.lmer <- lmer(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s) +
-#                                + subsections:age_s:PMDI_3yrlag_s +
-#                                (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year),
+# cmn.rw.mod.simple.lmer <- lmer(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s + age_s:PMDI_3yrlag_s) +
+#                                (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
 #                                data=mdata, REML=FALSE)
 
 # plot(fitted(cmn.rw.mod.simple.lmer), residuals(cmn.rw.mod.simple.lmer),
@@ -165,38 +167,38 @@ coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[12]
 ################### 2. Resin Duct Density and subsections ###########################################
 
 
-cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
-                           (1|tag), data=mdata, REML=FALSE)
+# cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+#                            (1|tag), data=mdata, REML=FALSE)
+# 
+# cmn.rwden.mod.ri2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+#                            (1|spcode/tag), data=mdata, REML=FALSE)
+# 
+# anova(cmn.rwden.mod.ri, cmn.rwden.mod.ri2)
+# # AIC values indicate that the best model doesn't include species as random effect
+# 
+# cmn.rwden.mod.rsi <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+#                             (age_s|tag), data=mdata, REML=FALSE)
+# 
+# anova(cmn.rwden.mod.ri, cmn.rwden.mod.rsi) # so random slope for age much better.
+# 
+# # try random slope for PMDI
+# cmn.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+#                              (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
+# 
+# anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi2)
+# 
+# # Random slope is not better
+# 
+# # try calendar.year random intercept:
+# cmn.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+#                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
+# 
+# anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi3)
+# # AIC values are the same, so I will use the model that specifies the random
+# # effects more in order to specify correct degrees of freedom.
 
-cmn.rwden.mod.ri2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
-                           (1|spcode/tag), data=mdata, REML=FALSE)
-
-anova(cmn.rwden.mod.ri, cmn.rwden.mod.ri2)
-# AIC values indicate that the best model doesn't include species as random effect
-
-cmn.rwden.mod.rsi <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
-                            (age_s|tag), data=mdata, REML=FALSE)
-
-anova(cmn.rwden.mod.ri, cmn.rwden.mod.rsi) # so random slope for age much better.
-
-# try random slope for PMDI
-cmn.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
-                             (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
-
-anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi2)
-
-# Random slope is not better
-
-# try calendar.year random intercept:
-cmn.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
-                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
-
-anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi3)
-# AIC values are the same, so I will use the model that specifies the random
-# effects more in order to specify correct degrees of freedom.
-
-cmn.rwden.mod.full <- mixed(duct.density.log_s ~ subsections*((age_s * PMDI_3yrlag_s) +
-                            BAF_s + elev_s +ring.width_s) + mtn +
+cmn.rwden.mod.full <- mixed(duct.density.log_s ~ subsections*((age_s * (PMDI_3yrlag_s + ring.width_s)) +
+                            BAF_s + elev_s) + mtn +
                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                             data=mdata, REML=FALSE)
 
@@ -205,8 +207,7 @@ anova(cmn.rwden.mod.full)
 
 
 # So let's drop non significant interaction terms
-cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + PMDI_3yrlag_s) +
-                              subsections:age_s:PMDI_3yrlag_s +
+cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + age_s:ring.width_s) +
                               (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                               data=mdata, REML=FALSE)
 
@@ -237,24 +238,26 @@ coefs_ductdensity$Estimate_calc[12] <- coefs_ductdensity$Estimate[6]+ coefs_duct
 coefs_ductdensity$Estimate_calc[13] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[13]
 coefs_ductdensity$Estimate_calc[14] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[14]
 coefs_ductdensity$Estimate_calc[15] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[15]
-coefs_ductdensity$Estimate_calc[16] <- coefs_ductdensity$Estimate[16]
-coefs_ductdensity$Estimate_calc[17] <- coefs_ductdensity$Estimate[17]
-coefs_ductdensity$Estimate_calc[18] <- coefs_ductdensity$Estimate[18]
 
-# Try some post-hoc tests
 
-# lsmeans(cmn.rwden.mod.simple, pairwise~ subsections)
-# lsmeans(cmn.rwden.mod.simple, pairwise~ subsections|ring.width_s)
+# Post-hoc testing
 
-# These produce the same numbers regarding p values.  I don't think
-# I am specifying these correctly.
+# Subsections
+lsmeans(cmn.rwden.mod.simple, pairwise~ subsections)
+# Subsections and age
+pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="age_s"))
+# Subsections and ring width
+pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="ring.width_s"))
+# Subsections and elevation
+pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="elev_s"))
+
 
 # # Create an lmer one to use to test heteroscedasticity
 
-# cmn.rwden.mod.simple.lmer <- lmer(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + PMDI_3yrlag_s) +
-#                                    subsections:age_s:PMDI_3yrlag_s +
-#                                    (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
-#                                    data=mdata, REML=FALSE)
+# cmn.rwden.mod.simple.lmer <- lmer(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + PMDI_3yrlag_s + subsections:age_s:ring.width_s) +
+#                               subsections:age_s:PMDI_3yrlag_s + age_s:ring.width_s+
+#                               (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
+#                               data=mdata, REML=FALSE)
  
 # plot(fitted(cmn.rwden.mod.simple.lmer), residuals(cmn.rwden.mod.simple.lmer),
 #      col="red")
