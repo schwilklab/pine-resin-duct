@@ -215,11 +215,6 @@ mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                                         log.rw = log(ring.width+1),
                                         fyear = as.factor(calendar.year))
 
-# Rescale numeric variables
-zscore <- function(x) (x - mean(x)) / sd(x)       
-mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
-                               -fyear, -subsections, -species_names)
-
 # Calculate summaries per tree
 
 # Calculate tree age first using ring_data since that retains all years
@@ -252,6 +247,11 @@ trees.sum <- mdata %>% group_by(tag) %>%
 
 # Combine tree.sum into mdata for easier graphing purposes
 mdata <- mdata %>% left_join(trees.sum)
+
+# Rescale numeric variables
+zscore <- function(x) (x - mean(x)) / sd(x)       
+mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
+                               -fyear, -subsections, -species_names)
 
 # clean up unneeded variables
 rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, lump_names)

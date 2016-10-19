@@ -103,7 +103,6 @@ coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidt
 
 # Post-hoc testing
 
-
 # Subsection and age
 pairs(lstrends(cmn.rw.mod.simple, "subsections", var="age_s"))
 # Subsection and drought
