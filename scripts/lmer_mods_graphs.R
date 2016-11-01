@@ -58,6 +58,8 @@ age_mod <- lmer(ring.width ~ age_s + (1 + age_s | tag), data=mdata, REML=FALSE)
 mdata$rw_age_resid <- residuals(age_mod)
 rw_year_df <- mdata %>% group_by(subsections, calendar.year) %>%
   summarize(rw_resid = mean(rw_age_resid), pmdi= mean(PMDI_3yrlag))
+
+# figure with each point a calendar year
 ggplot(rw_year_df, aes(pmdi, rw_resid, color=subsections)) + geom_point() +
   geom_smooth(method="lm", se=FALSE) + ylab("Residual ring width after accounting for tree age")
 # Strobus most sensitive to pmdi These residuals are after ccounting for age
