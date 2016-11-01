@@ -77,6 +77,7 @@ cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s + 
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
 
+
 # Create new dataframe with coefficients from summary
 coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
 # use normal distribution to approximate p-value (not very conservative)

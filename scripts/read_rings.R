@@ -249,7 +249,7 @@ trees.sum <- mdata %>% group_by(tag) %>%
 mdata <- mdata %>% left_join(trees.sum)
 
 # Rescale numeric variables
-zscore <- function(x) (x - mean(x)) / sd(x)       
+zscore <- function(x) (x - mean(x)) / sd(x)  
 mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
                                -fyear, -subsections, -species_names)
 
