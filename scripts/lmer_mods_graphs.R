@@ -108,6 +108,15 @@ ggplot(duct_mods_rw, aes(subsections, s, color=spcode)) + geom_point(position="j
 ## It looks like each species is behaving similarily according to their subsection.  There is 
 ## one value in arizonica that is really low, though.
 
+
+
+
+
+
+
+
+
+
 #### Erik's :
 
 source("ggplot-theme.R")
