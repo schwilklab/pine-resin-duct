@@ -28,7 +28,7 @@ ggplot(rw_subs_df, aes(subsections, rw_resid)) + geom_boxplot() +
 
 
 ## Effect of age by subsection
-# center ages by subsection so we can make use of interecept as well as slope
+# center ages by subsection so we can make use of intercept as well as slope
 age_df <- mdata %>% group_by(subsections) %>% mutate(age_c = age - mean(age))
 getcoefs <- function(df) {
   m <- lm(ring.width ~ age_c, data=df)
@@ -79,34 +79,45 @@ getcoefs_dd <- function(df) {
 
 duct_mods <- ductdensity_df %>% group_by(subsections, spcode, tag, mtn) %>% do(getcoefs_dd(.))
 ggplot(duct_mods, aes(subsections, s)) + geom_boxplot() +
-  xlab("Subsection") + ylab("Age coefficients with resin duct
-                            density as response variable")
+  xlab("Subsection") +
+  ylab("Age coefficients with resin duct density as response variable")
 # So it does look like Strobus does decrease at a greater rate than the other two subsections, 
-# but it's not by a large ammount.
+# but it's not by a large amount.
 
 ggplot(duct_mods, aes(subsections, s, color=spcode)) + geom_point(position="jitter") +
-  facet_grid(.~mtn) + xlab("Subsection") + ylab("Age coefficients with resin duct
-                                                 density as response variable")
+  facet_grid(.~mtn) + xlab("Subsection") +
+  ylab("Age coefficients with resin duct density as response variable")
  # Looks like there are two big outliers for P. ponderosa in the GM
-
 
 # Effect of ring width on resin duct density
 ductdensity_rw_df <- mdata %>% group_by(subsections) %>% mutate(ring.width_c = ring.width - mean(ring.width))
 getcoefs_dd_rw <- function(df) {
-  m <- lmer(duct.density.log ~ ring.width_c, data=df)
+  m <- lm(duct.density.log ~ ring.width_c, data=df)
   return(data.frame(i = coef(m)[1], s = coef(m)[2]))
 }
 
-duct_mods_rw <- ductdensity_rw_df %>% group_by(subsections, spcode, tag, mtn) %>% do(getcoefs_dd_rw(.))
-ggplot(duct_mods_rw, aes(subsections, s)) + geom_boxplot()  + xlab("Subsection") +
-ylab("Ring width coefficients with resin duct
-      density as response variable")
+duct_mods_rw <- ductdensity_rw_df %>% group_by(subsections, spcode, tag, mtn) %>%
+  do(getcoefs_dd_rw(.))
+ggplot(duct_mods_rw, aes(subsections, s)) + geom_boxplot() +
+  xlab("Subsection") +
+  ylab("Ring width coefficients with resin duct density as response variable")
+
 ## It looks like resin duct density does increase with ring width in strobus
+## but no effect in other subsections.
 ggplot(duct_mods_rw, aes(subsections, s, color=spcode)) + geom_point(position="jitter") +
   facet_grid(.~mtn) + xlab("Subsection") + ylab("Ring width coefficients with resin duct
                                                  density as response variable")
 ## It looks like each species is behaving similarily according to their subsection.  There is 
 ## one value in arizonica that is really low, though.
+
+## You don't do any filtering of models, however. How many rings were used to
+## fit that coefficient?
+
+##
+
+
+
+
 
 
 
