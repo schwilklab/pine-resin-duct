@@ -12,7 +12,7 @@ loadfonts()
 
 ## The ggplot theme for all figures.
 bestfit <- geom_smooth(method="lm",se = F, color = "black", size=1.5)
-textsize <- 15
+textsize <- 12
 smsize <- textsize-2
 pt2mm <- 0.35146
 smsize.mm <- smsize*pt2mm

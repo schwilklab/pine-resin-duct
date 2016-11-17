@@ -115,6 +115,3 @@ StatSmoothFunc <- ggproto("StatSmooth", Stat,
                           
                           required_aes = c("x", "y")
 )
-
-
-
