@@ -12,7 +12,7 @@ loadfonts()
 
 ## The ggplot theme for all figures.
 bestfit <- geom_smooth(method="lm",se = F, color = "black", size=1.5)
-textsize <- 12
+textsize <- 18
 smsize <- textsize-2
 pt2mm <- 0.35146
 smsize.mm <- smsize*pt2mm
@@ -31,7 +31,7 @@ pubtheme   <-  theme_grey() +
                axis.text.y  = element_text(family=fontfamily, size=smsize, color = "black"),
                strip.text.x = element_text(family=fontfamily, size = textsize, face="italic"),
                strip.text.y = element_text(family=fontfamily, size = textsize, face="italic"),
-               strip.background= element_blank(),
+           #   strip.background = element_blank(),
                legend.title = element_text(family=fontfamily, size=textsize),
                legend.text = element_text(family=fontfamily, size=smsize, face="italic"),
                legend.key = element_rect(fill=NA),
@@ -44,4 +44,5 @@ pubtheme   <-  theme_grey() +
 
 pubtheme.nogridlines <- pubtheme +
     theme(panel.grid.minor = element_blank(),
-          panel.grid.major = element_blank())
+          panel.grid.major = element_blank(),
+          strip.background = element_blank())
