@@ -24,7 +24,6 @@ source("read_rings.R")
 
 ################### 1. Ring Width ###########################################
 
-
 # # random intercept
 # cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
 #                         (1|tag), data=mdata, REML=FALSE)
@@ -60,57 +59,58 @@ source("read_rings.R")
 
 # Include the calendar year aspect as random intercept
 
-cmn.rw.mod.full <- mixed(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s) + mtn +
-                         (age_s + PMDI_3yrlag_s|tag) + (1 | calendar.year), 
+
+# Include the calendar year as random intercept
+
+cmn.rw.mod.full <- mixed(ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BAF_s + elev_s) +
+                         mtn + (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                          data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.full)
 anova(cmn.rw.mod.full)
 
 
-
-
-cmn.rw.mod.simple <- mixed(ring.width_s ~ subsections* (age_s + PMDI_3yrlag_s + age_s:PMDI_3yrlag_s) +
-                           (age_s + PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s +
+                           (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
 
 
-# Create new dataframe with coefficients from summary
-coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
-# use normal distribution to approximate p-value (not very conservative)
-coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs_ringwidth$t.value)))
+## # Create new dataframe with coefficients from summary
+## coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
+## # use normal distribution to approximate p-value (not very conservative)
+## coefs_ringwidth$p.z <- 2 * (1 - pnorm(abs(coefs_ringwidth$t.value)))
 
-# Add a new column with calculations with exact slope and intercept and not just relationship
-coefs_ringwidth$Estimate_calc <- length(coefs_ringwidth$Estimate) # will change numbers
+## # Add a new column with calculations with exact slope and intercept and not just relationship
+## coefs_ringwidth$Estimate_calc <- length(coefs_ringwidth$Estimate) # will change numbers
 
-# select vector elements by position to do calculations
+## # select vector elements by position to do calculations
 
-coefs_ringwidth$Estimate_calc[1] <- coefs_ringwidth$Estimate[1]
-coefs_ringwidth$Estimate_calc[2] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[2]
-coefs_ringwidth$Estimate_calc[3] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[3]
-coefs_ringwidth$Estimate_calc[4] <- coefs_ringwidth$Estimate[4]
-coefs_ringwidth$Estimate_calc[5] <- coefs_ringwidth$Estimate[5]
-coefs_ringwidth$Estimate_calc[6] <- coefs_ringwidth$Estimate[6]
-coefs_ringwidth$Estimate_calc[7] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[7]
-coefs_ringwidth$Estimate_calc[8] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[8]
-coefs_ringwidth$Estimate_calc[9] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[9]
-coefs_ringwidth$Estimate_calc[10] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[10]
-coefs_ringwidth$Estimate_calc[11] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[11]
-coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[12]
+## coefs_ringwidth$Estimate_calc[1] <- coefs_ringwidth$Estimate[1]
+## coefs_ringwidth$Estimate_calc[2] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[2]
+## coefs_ringwidth$Estimate_calc[3] <- coefs_ringwidth$Estimate[1]+ coefs_ringwidth$Estimate[3]
+## coefs_ringwidth$Estimate_calc[4] <- coefs_ringwidth$Estimate[4]
+## coefs_ringwidth$Estimate_calc[5] <- coefs_ringwidth$Estimate[5]
+## coefs_ringwidth$Estimate_calc[6] <- coefs_ringwidth$Estimate[6]
+## coefs_ringwidth$Estimate_calc[7] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[7]
+## coefs_ringwidth$Estimate_calc[8] <- coefs_ringwidth$Estimate[4]+ coefs_ringwidth$Estimate[8]
+## coefs_ringwidth$Estimate_calc[9] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[9]
+## coefs_ringwidth$Estimate_calc[10] <- coefs_ringwidth$Estimate[5]+ coefs_ringwidth$Estimate[10]
+## coefs_ringwidth$Estimate_calc[11] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[11]
+## coefs_ringwidth$Estimate_calc[12] <- coefs_ringwidth$Estimate[6]+ coefs_ringwidth$Estimate[12]
 
 
 # Post-hoc testing
 
 # Subsections
-lsmeans(cmn.rw.mod.simple, pairwise~ subsections)
+lsmeans(cmn.rw.mod.simple, pairwise~ subsection)
 
 # Subsection and age
 pairs(lstrends(cmn.rw.mod.simple, "subsections", var="age_s"))
 # Subsection and drought
-pairs(lstrends(cmn.rw.mod.simple, "subsections", var="PMDI_3yrlag_s"))
+pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 
 # Run the same model as lmer to check heteroscedasticity
 
@@ -124,6 +124,9 @@ pairs(lstrends(cmn.rw.mod.simple, "subsections", var="PMDI_3yrlag_s"))
 # lines(smooth.spline(fitted(cmn.rw.mod.simple.lmer), residuals(cmn.rw.mod.simple.lmer)))
 
 ################### 2. Resin Duct Density ###########################################
+
+
+
 
 
 # cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
@@ -156,7 +159,7 @@ pairs(lstrends(cmn.rw.mod.simple, "subsections", var="PMDI_3yrlag_s"))
 # # AIC values are the same, so I will use the model that specifies the random
 # # effects more in order to specify correct degrees of freedom.
 
-cmn.rwden.mod.full <- mixed(duct.density.log_s ~ subsections*((age_s * (PMDI_3yrlag_s + ring.width_s)) +
+cmn.rwden.mod.full <- mixed(duct.density.log ~ subsection*((age_s * (PMDI_3yrlag_s + ring_width_detrended_s)) +
                             BAF_s + elev_s) + mtn +
                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                             data=mdata, REML=FALSE)
@@ -166,49 +169,49 @@ anova(cmn.rwden.mod.full)
 
 
 # So let's drop non significant interaction terms
-cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsections*(age_s + elev_s + ring.width_s + age_s:ring.width_s) +
-                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
-                              data=mdata, REML=FALSE)
+cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsection*ring_width_detrended_s + age_s +
+                                age_s:ring_width_detrended_s + elev_s*subsection +
+                                (1 | calendar.year), data=mdata, REML=FALSE)
 
 summary(cmn.rwden.mod.simple)
 anova(cmn.rwden.mod.simple)
 
-# Create new dataframe with coefficients from summary
-coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
-# use normal distribution to approximate p-value (not very conservative)
-coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs_ductdensity$t.value)))
+## # Create new dataframe with coefficients from summary
+## coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
+## # use normal distribution to approximate p-value (not very conservative)
+## coefs_ductdensity$p.z <- 2 * (1 - pnorm(abs(coefs_ductdensity$t.value)))
 
-# Add a new column with calculations with exact slope and intercept and not just relationship
-coefs_ductdensity$Estimate_calc <- length(coefs_ductdensity$Estimate) # will change numbers
+## # Add a new column with calculations with exact slope and intercept and not just relationship
+## coefs_ductdensity$Estimate_calc <- length(coefs_ductdensity$Estimate) # will change numbers
 
-# select vector elements by position to do calculations
-coefs_ductdensity$Estimate_calc[1] <- coefs_ductdensity$Estimate[1]
-coefs_ductdensity$Estimate_calc[2] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[2]
-coefs_ductdensity$Estimate_calc[3] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[3]
-coefs_ductdensity$Estimate_calc[4] <- coefs_ductdensity$Estimate[4]
-coefs_ductdensity$Estimate_calc[5] <- coefs_ductdensity$Estimate[5]
-coefs_ductdensity$Estimate_calc[6] <- coefs_ductdensity$Estimate[6]
-coefs_ductdensity$Estimate_calc[7] <- coefs_ductdensity$Estimate[7]
-coefs_ductdensity$Estimate_calc[8] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[8]
-coefs_ductdensity$Estimate_calc[9] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[9]
-coefs_ductdensity$Estimate_calc[10] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[10]
-coefs_ductdensity$Estimate_calc[11] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[11]
-coefs_ductdensity$Estimate_calc[12] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[12]
-coefs_ductdensity$Estimate_calc[13] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[13]
-coefs_ductdensity$Estimate_calc[14] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[14]
-coefs_ductdensity$Estimate_calc[15] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[15]
+## # select vector elements by position to do calculations
+## coefs_ductdensity$Estimate_calc[1] <- coefs_ductdensity$Estimate[1]
+## coefs_ductdensity$Estimate_calc[2] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[2]
+## coefs_ductdensity$Estimate_calc[3] <- coefs_ductdensity$Estimate[1]+ coefs_ductdensity$Estimate[3]
+## coefs_ductdensity$Estimate_calc[4] <- coefs_ductdensity$Estimate[4]
+## coefs_ductdensity$Estimate_calc[5] <- coefs_ductdensity$Estimate[5]
+## coefs_ductdensity$Estimate_calc[6] <- coefs_ductdensity$Estimate[6]
+## coefs_ductdensity$Estimate_calc[7] <- coefs_ductdensity$Estimate[7]
+## coefs_ductdensity$Estimate_calc[8] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[8]
+## coefs_ductdensity$Estimate_calc[9] <- coefs_ductdensity$Estimate[4]+ coefs_ductdensity$Estimate[9]
+## coefs_ductdensity$Estimate_calc[10] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[10]
+## coefs_ductdensity$Estimate_calc[11] <- coefs_ductdensity$Estimate[5]+ coefs_ductdensity$Estimate[11]
+## coefs_ductdensity$Estimate_calc[12] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[12]
+## coefs_ductdensity$Estimate_calc[13] <- coefs_ductdensity$Estimate[6]+ coefs_ductdensity$Estimate[13]
+## coefs_ductdensity$Estimate_calc[14] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[14]
+## coefs_ductdensity$Estimate_calc[15] <- coefs_ductdensity$Estimate[7]+ coefs_ductdensity$Estimate[15]
 
 
 # Post-hoc testing
 
 # Subsections
-lsmeans(cmn.rwden.mod.simple, pairwise~ subsections)
+lsmeans(cmn.rwden.mod.simple, pairwise~ subsection)
 # Subsections and age
-pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="age_s"))
+pairs(lstrends(cmn.rwden.mod.simple, "subsection", var="age_s"))
 # Subsections and ring width
-pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="ring.width_s"))
+pairs(lstrends(cmn.rwden.mod.simple, "subsection", var="ring_width_detrended_s"))
 # Subsections and elevation
-pairs(lstrends(cmn.rwden.mod.simple, "subsections", var="elev_s"))
+pairs(lstrends(cmn.rwden.mod.simple, "subsection", var="elev_s"))
 
 
 # # Create an lmer one to use to test heteroscedasticity

@@ -22,15 +22,11 @@
 #   calculates variables: calendar year, age, ring.dist and ring.width.
 # -"mdata" data frame is added to the global namespace and is used as the
 #   dataframe for models.
-# -"mdata_graphs" data frame is added to the global namespace and is used
-#   for graphs. This needed to be created seperately from mdata because
-#   the scaled values were hindering ggplot2 from creating graphs.
-# -Some exploratory analyses
+
 
 # Sources script that populates yearly precipitation values as well as
 # loading relevant packages for analyses.
 source("./read_precip_drought_data.R")
-
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
@@ -50,11 +46,11 @@ get_widths <- function(distances) {
     c(distances[2:length(distances)], NA) - distances
 }
 
-# Calculates the ring area enclosed between each tree ring using core
-# width, inner radius, and outer radius.  If statements are in place
-# for special case scenarios where radii are less than core width.
-# Calculations assume a perfect circle for each radius and subtracts
-# the area of the circle outside of the core.
+# Calculates the ring area enclosed between each tree ring using core width,
+# inner radius, and outer radius. If statements are in place for special case
+# scenarios where radii are less than core width. Calculations assume a perfect
+# circle for each radius and subtracts the area of the circle outside of the
+# core.
 core.area <- function(cw, r1, r2) {
   area.r1<- (pi*r1^2)
   area.r2<- (pi*r2^2)
@@ -75,12 +71,14 @@ core.area <- function(cw, r1, r2) {
   return(rarea)
 }
 
+
 # Simple function to calculate basal area increment
 bai <- function(r1, r2) {
   area.r1<- (pi*r1^2)
   area.r2<- (pi*r2^2)
   barea <- (area.r2- area.r1)
 }
+
 
 # Reads a ring coordinate file and returns a data frame with several new
 # calculated columns: calendar year, age, ring.dist and ring.width
@@ -98,6 +96,7 @@ read_ring_coord_file <- function(filename) {
                         r2 = r1+ring.width)
     return(subset(df, !is.na(ring.width)) ) # throw away last row in each df
 }
+
 
 # Obtain data from masters_trees.csv to merge with trees.csv data
 trees <- read.csv("../data/masters_trees.csv", stringsAsFactors=FALSE)
@@ -163,13 +162,12 @@ ring_data <- bind_rows(lapply(ring_files, read_ring_coord_file)) %>%
 # ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
 
 # Add drought values to the data frame.
-ring_data<- left_join(ring_data, yearly_drought, by= "calendar.year")
+ring_data <- left_join(ring_data, yearly_drought, by= "calendar.year")
 
-# Lump common species together into three categories using .csv file
+# Obtain species and subsection info
+species <- read.csv("../data/species.csv", stringsAsFactors=FALSE)
 
-lump_names <- read.csv("../data/species.csv", stringsAsFactors=FALSE)
-
-ring_data<- left_join(ring_data, lump_names, by= "spcode")
+ring_data <- left_join(ring_data, species, by= "spcode")
 
 # Calculate ring area and assign value for each year
 ring_data$ring.area <- NA
@@ -189,6 +187,7 @@ ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
 # Creates new column for predicted total resin duct count per ring
 ring_data <- mutate(ring_data, total.duct.count= resin.duct.count*(bai/ring.area))
 
+
 # Remove some columns that don't pertain to analyses, but are in the
 # original data set relegated to notes.
 
@@ -198,6 +197,21 @@ ring_data <- select(ring_data, -x, -y, -core.taken, -pith, -needles.collected, -
 
 # rename rings column to age
 ring_data <- rename(ring_data, age = ring)
+
+
+# detrended ring widths using regional curve standardization (per subsection)
+RCS <- function(rw, age) {
+  df <- data.frame(rw=rw, age=age)
+  mod <- lm(rw ~ poly(age, 4), data=df) # 4 degree polyunomial seems to work. Should justify
+  r <- residuals(mod)
+  mod <- smooth.spline(age, rw, spar=0.67)
+  r <- residuals(mod)
+  return(r)
+}
+
+ring_data <- ring_data %>% group_by(subsection) %>%
+  mutate(ring_width_detrended = RCS(ring.width, ring.age))
+
 
 # Create new data frames to be used for the models and for graphs.
 
@@ -212,7 +226,7 @@ mdata <- ring_data[complete.cases(ring_data), ] %>%
 mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
                                         duct.density.log = log(duct.density+1),
                                         bai.log = log(bai+1),
-                                        log.rw = log(ring.width+1),
+#                                        log.rw = log(ring.width+1),
                                         fyear = as.factor(calendar.year))
 
 # Calculate summaries per tree
@@ -241,7 +255,7 @@ trees.sum <- mdata %>% group_by(tag) %>%
                    PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
                    ) %>% inner_join(trees) %>%
                    left_join(trees.sum, by= "tag") %>%
-                   left_join(lump_names, by= "spcode") %>%
+                   left_join(species, by= "spcode") %>%
                    select(-core.taken, -pith, -needles.collected, -condition,
                           -barkbeetle.attack, -trail.area, -note)
 
@@ -251,10 +265,10 @@ mdata <- mdata %>% left_join(trees.sum)
 # Rescale numeric variables
 zscore <- function(x) (x - mean(x)) / sd(x)  
 mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
-                               -fyear, -subsections, -species_names)
+                               -fyear, -subsection, -species_name)
 
 # clean up unneeded variables
-rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, lump_names)
+rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, species)
 # ring_first, temp_df, temp_df2)
                                
 

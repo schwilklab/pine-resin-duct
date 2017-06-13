@@ -48,7 +48,7 @@ gcd.hf <- function(long1, lat1, long2, lat2) {
 }
 
 # Load .csv file from dropbox
-monthly_precip <- read.csv("https://www.dropbox.com/s/iqi7e4n8sietwtu/precip_data.csv?raw=1",
+monthly_precip <- read.csv("../data/precip_data.csv",
                            stringsAsFactors=FALSE) %>% mutate(YearMonth = DATE)
 monthly_precip <- monthly_precip %>% mutate(DATE=as.character(DATE),
                                             calendar.year = as.integer(str_sub(DATE, 1, 4)),
@@ -100,5 +100,5 @@ yearly_drought <- monthly_drought %>% group_by(calendar.year) %>%
   mutate(PMDI_3yrlag = (PMDI + lag(PMDI) +lag(PMDI, 2)) / 3)
 
 ## ggplot(yearly_drought, aes(calendar.year, PMDI)) +
-##   geom_line()
+##    geom_line()
 
