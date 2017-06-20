@@ -5,22 +5,28 @@
 
 library(ggplot2)
 library(lme4)
-source("read_rings.R")
+source("read_all.R")
 source("ggplot-theme.R")
 
 
 # Create dataframe with information unique to each tree
-unique.trees <- mdata %>% group_by(tag) %>% top_n(1, age) 
+#unique.trees <- mdata %>% group_by(tag) %>% top_n(1, age) 
 
 
 ## Ring width model ##
 
 ####### Figure 1: Drought and Ring Width #########
 
+## rw_year_df <- mutate(mdata, rw_resid=residuals(lmer(ring_width_detrended ~ subsection*BAF_s +
+##                            (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+##                            data=mdata, REML=FALSE))
+## )
+
+## rw_year_df <- rw_year_df %>% group_by(subsection, calendar.year) %>%
+##   summarize(rw_resid = mean(rw_resid), pmdi= mean(PMDI_3yrlag))
+
 rw_year_df <- mdata %>% group_by(subsection, calendar.year) %>%
-  summarize(rw_resid = mean(ring_width_detrended), pmdi= mean(PMDI_3yrlag))
-
-
+   summarize(rw_resid = mean(ring_width_detrended), pmdi= mean(PMDI_3yrlag))
 
 
 # figure with each point a calendar year
@@ -34,14 +40,18 @@ ggplot(rw_year_df, aes(pmdi, rw_resid, shape=subsection, fill=subsection, linety
   ylab("Detrended ring width") +
   xlab("PMDI")+
   pubtheme.nogridlines
-# Strobus most sensitive to pmdi These residuals are after ccounting for age
-# effects with separate slopes and intercepts per tree. Alternatively, one could
-# run an overall age model, eg lm(ring.width ~ age_s, data=mdata)
+
+
+## All subsections strongly sensitive to PMDI
+
 
 ########################################
 # resin duct density
 
 ####### Figure 2: Influence of Age on Resin Duct Density #########
+ggplot(mdata, aes(age, duct.density)) + geom_point() +
+  facet_grid(. ~ subsection)
+
 
 ductdensity_df <- mdata %>% group_by(subsection) %>% mutate(age_c = age - mean(age))
 getcoefs_dd <- function(df) {
@@ -69,9 +79,30 @@ ggplot(duct_mods, aes(subsection, s, color=spcode)) + geom_point(position="jitte
 
 ####### Figure 3: Ring width and age on resin duct density #########
 
+## Age
+
+bytree <- mdata %>%  mutate(age_f = factor(age > 15, labels=c("< 15 yrs", "> 15 yrs"))) %>%
+                   group_by(subsection, tag, age_f, elev) %>%
+                   summarize(rw = mean(ring_width_detrended), dd = mean(duct.density))
+
+ggplot(bytree, aes(subsection, dd)) + geom_boxplot() + facet_grid(. ~ age_f)
+
+bytree <- mdata %>%  mutate(age_f = cut(age, breaks = c(0, 15, 30, 250))) %>%
+                   group_by(subsection, tag, age_f, elev) %>%
+                   summarize(rw = mean(ring_width_detrended), dd = mean(duct.density))
+
+ggplot(bytree, aes(subsection, dd)) + geom_boxplot() + facet_grid(. ~ age_f)
+
+
 #### Effect of ring width on resin duct density ###
 
-ductdensity_rw_df <- mdata %>% mutate(age_f = factor(age <= 10, labels=c("Young", "Mature"))) %>%
+newdata <- mdata %>% 
+  mutate(age_f = factor(age > 15, labels=c("< 15 yrs", "> 15 yrs"))) 
+ggplot(newdata, aes(ring_width_detrended, duct.density)) + geom_point() + facet_grid(subsection ~ age_f)
+
+
+
+ductdensity_rw_df <- mdata %>% mutate(age_f = factor(age <= 10, labels=c("< 10 yrs", "> 10 yrs"))) %>%
   group_by(subsection, age_f)
 
 getcoefs_dd_rw <- function(df) {
@@ -86,20 +117,50 @@ duct_mods_rw <- ductdensity_rw_df %>% group_by(tag, age_f, subsection, spcode, m
 ggplot(filter(duct_mods_rw , R2 >= .15), aes(age_f, s)) +
   geom_abline(intercept = 0, slope = 0, color= "gray") +
   geom_boxplot() + 
-  scale_x_discrete(limits=c("Young", "Mature")) +
+  scale_x_discrete() +
   facet_grid(. ~ subsection) +
   ylab("Slope of ring width and \n resin duct density correlation") +
   xlab("") +
   pubtheme.nogridlines
 
 
+## or
+
+
+ggplot(mdata, aes(age, duct.density)) + geom_point() +
+  geom_smooth(method="lm") + 
+  facet_grid(subsection ~ cut(ring_width_detrended, breaks=c(-1,0,1)))
+
+
+ggplot(mdata, aes(elev, duct.density)) + geom_point() +
+  geom_smooth(method="lm") + 
+  facet_grid(subsection ~ cut(age, breaks=c(0,10,300)))
+
+
+
+ggplot(mdata, aes(ring_width_detrended, duct.density)) + geom_point() +
+  geom_smooth(method="lm") + 
+  facet_grid(subsection ~ cut(age, breaks=c(0, 10, 300))
+)
+
+ggplot(mdata, aes(PMDI_3yrlag, duct.density.log)) + geom_point() +
+  geom_smooth(method="lm") + 
+  facet_grid(subsection ~ .)
+
+ggplot(filter(mdata, subsection=="Strobus"), aes(ring_width_detrended, duct.density)) + geom_point() +
+  geom_smooth(method="lm")
+
+
+
+
 ####### Figure 4 #########
 
 # Resin duct density by subsection accounting for all other factors
-density_mod <- lmer(duct.density.log ~ age_s + elev_s + ring.width_s +
+density_mod <- lmer(duct.density.log ~ age_s + elev_s + ring_width_detrended_s +
                       age_s:ring_width_detrended_s +
                       (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                               data=mdata, REML=FALSE)
+
 mdata$age_elev_rw_resid <- residuals(density_mod)
 dd_subs_df <- mdata %>% group_by(tag, subsection) %>%
   summarize(ducts_resid= mean(age_elev_rw_resid))
@@ -118,4 +179,4 @@ ggplot(dd_subs_df, aes(subsection, ducts_resid)) +
 
 bytree <- mdata %>% group_by(tag, spcode, subsection) %>%
   summarize(dd = mean(duct.density.log))
-ggplot(bytree, aes(subsection, dd)) + geom_boxplot() + ylab("Mean resin duct density (
+ggplot(bytree, aes(subsection, dd)) + geom_boxplot() + ylab("Mean resin duct density")

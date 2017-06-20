@@ -19,7 +19,7 @@ library(MuMIn)
 library(afex) # for p values in lmer/glmer models. 
 afex_options(method_mixed="LRT") #Bootstrapping can be slow, use hrothgar for that.
 
-source("read_rings.R")
+source("read_all.R")
 
 
 ################### 1. Ring Width ###########################################
@@ -70,13 +70,14 @@ summary(cmn.rw.mod.full)
 anova(cmn.rw.mod.full)
 
 
-cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s +
+cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s + subsection*BAF_s +
                            (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
 
+#anova(cmn.rw.mod.simple, cmn.rw.mod.full)
 
 ## # Create new dataframe with coefficients from summary
 ## coefs_ringwidth <- data.frame(coef(summary(cmn.rw.mod.simple)))
@@ -108,7 +109,7 @@ anova(cmn.rw.mod.simple)
 lsmeans(cmn.rw.mod.simple, pairwise~ subsection)
 
 # Subsection and age
-pairs(lstrends(cmn.rw.mod.simple, "subsections", var="age_s"))
+pairs(lstrends(cmn.rw.mod.simple, "subsection", var="BAF_s"))
 # Subsection and drought
 pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 
@@ -169,7 +170,7 @@ anova(cmn.rwden.mod.full)
 
 
 # So let's drop non significant interaction terms
-cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsection*ring_width_detrended_s + age_s +
+cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsection*ring_width_detrended_s*age_s +
                                 age_s:ring_width_detrended_s + elev_s*subsection +
                                 (1 | calendar.year), data=mdata, REML=FALSE)
 

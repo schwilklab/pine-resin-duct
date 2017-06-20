@@ -84,13 +84,13 @@ saveRDS(gm_raster_data, file = "../results/gm_raster_data.rds")
 
 # explore these data
 
-cm_topo <- data.frame(rasterToPoints(cm_raster_stack))
-ggplot(cm_topo, aes(x=slope, y=radiation, color=elev)) +
-    geom_point()
+## cm_topo <- data.frame(rasterToPoints(cm_raster_stack))
+## ggplot(cm_topo, aes(x=slope, y=radiation, color=elev)) +
+##     geom_point()
 
-dm_topo <- data.frame(rasterToPoints(dm_raster_stack))
-ggplot(dm_topo, aes(x=slope, y=radiation, color=elev)) +
-    geom_point()
+## dm_topo <- data.frame(rasterToPoints(dm_raster_stack))
+## ggplot(dm_topo, aes(x=slope, y=radiation, color=elev)) +
+##     geom_point()
 
 # Crap, radiation is useless. Need to check with Helen.
 
@@ -105,11 +105,11 @@ get_gmap <- function(df) {
     }
 
 
-newmap <- get_gmap(cm_raster_data)
-cm.map <- ggmap(newmap) + geom_point(aes(x=lon, y=lat, size=DBH, color=elev), data=trees)
-cm.map
+## newmap <- get_gmap(cm_raster_data)
+## cm.map <- ggmap(newmap) + geom_point(aes(x=lon, y=lat, size=DBH, color=elev), data=trees)
+## cm.map
 
 
-ggplot(subset(ring_data_all, spcode = "PIPO"), aes(x= radiation, y = resin.duct.count/ring.area)) +
-    facet_grid(. ~ mtn) + geom_point()
+## ggplot(subset(ring_data_all, spcode = "PIPO"), aes(x= radiation, y = resin.duct.count/ring.area)) +
+##     facet_grid(. ~ mtn) + geom_point()
 

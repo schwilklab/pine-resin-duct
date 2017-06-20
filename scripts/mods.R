@@ -48,59 +48,61 @@ ggplot(filter(mdata, spcode=="PIED"), aes(calendar.year, r2)) +
 
 
 # and ring width and pmdi?
-ggplot(filter(mdata, spcode=="PIAR5"), aes(PMDI_3yrlag, ring.width)) +
+ggplot(filter(mdata, spcode=="PIAR5"), aes(PMDI_3yrlag, ring_width_detrended)) +
   geom_point() +
   facet_wrap(~ tag) +
   geom_smooth(method="lm")
 
 
-ggplot(filter(mdata, spcode=="PIST3"), aes(PMDI_3yrlag, ring.width)) +
+ggplot(filter(mdata, spcode=="PIST3"), aes(PMDI_3yrlag, ring_width_detrended)) +
   geom_point() +
   facet_wrap(~ tag) +
   geom_smooth(method="lm")
 
-ggplot(filter(mdata, spcode=="PIPO"), aes(PMDI_3yrlag, ring.width)) +
-  geom_point() +
-  facet_wrap(~ tag) +
-  geom_smooth(method="lm")
-
-
-ggplot(filter(mdata, spcode=="PICE"), aes(PMDI_3yrlag, ring.width)) +
-  geom_point() +
-  facet_wrap(~ tag) +
-  geom_smooth(method="lm")
-
-ggplot(filter(mdata, spcode=="PIED"), aes(PMDI, ring.width)) +
+ggplot(filter(mdata, spcode=="PIPO"), aes(PMDI_3yrlag, ring_width_detrended)) +
   geom_point() +
   facet_wrap(~ tag) +
   geom_smooth(method="lm")
 
 
-ggplot(mdata, aes(PMDI_3yrlag_s, ring.width_s, group=tag)) +
+ggplot(filter(mdata, spcode=="PICE"), aes(PMDI_3yrlag, ring_width_detrended)) +
   geom_point() +
-  facet_grid(. ~ spcode) +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+ggplot(filter(mdata, spcode=="PIED"), aes(PMDI, ring_width_detrended)) +
+  geom_point() +
+  facet_wrap(~ tag) +
+  geom_smooth(method="lm")
+
+
+ggplot(mdata, aes(PMDI_3yrlag_s, ring_width_detrended, group=tag)) +
+  geom_point() +
+  facet_grid(. ~ subsection) +
   geom_smooth(method="lm")
 
 # little effect for PIAR5, but looks like positive effect for others
 
-ggplot(mdata, aes(age_s, ring.width_s, group=tag)) +
+ggplot(mdata, aes(age, ring_width_detrended, group=tag)) +
   geom_point() +
-  facet_grid(. ~ spcode) +
+  facet_grid(. ~ subsection) +
   geom_smooth(method="lm", se=FALSE)
 # A triangular relationship.  Hm, max width goes down with age. tricky.
 
 # age and pmdi:
 ggplot(mutate(mdata, fage=cut(age, c(0,10,20,30,40, 50, 60, 70, 80))),
-               aes(PMDI_3yrlag, ring.width, color=fage)) +
+               aes(PMDI_3yrlag, ring_width_detrended, color=fage)) +
   geom_point(alpha=0.2) +
   facet_grid(. ~ spcode) +
   geom_smooth(method="lm", se=FALSE)
 
 
-ggplot(mdata, aes(BAF_s, ring.width_s)) +
+bytree <- mdata %>% group_by(subsection, tag) %>% summarize(rw = mean(ring_width_detrended),
+                                                            baf = mean(BAF))
+ggplot(bytree, aes(baf, rw)) +
   geom_point() +
-  facet_grid(. ~ spcode) +
-  geom_smooth(method="lm", se=FALSE)
+  facet_grid(. ~ subsection) +
+  geom_smooth(method="lm")
 # weak negative?
 
 ggplot(mutate(mdata, fpmdi=cut(PMDI_3yrlag, c(-4,-2,0,2,4))),
@@ -124,7 +126,7 @@ ggplot(mdata, aes(x=(log(bai+1)))) + geom_density() + facet_grid(. ~ spcode)
 ################# 1. Ring Width ##########################
 
 # NOTE: no indication of radiation or slope (not shown), so ommitting
-growth.mod.ri <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +
+growth.mod.ri <- lmer(ring_width_detrended ~ subsection*(age_s + PMDI_3yrlag_s + BAF_s + elev_s + slope_s) +
                          (1|tag), data=mdata, REML=FALSE)
 
 growth.mod.rsi <- lmer(ring.width_s ~ spcode*(age_s + PMDI_3yrlag_s + BAF_s + elev_s) +

@@ -10,23 +10,24 @@
 # files which will be read here.
 
 # What is produced:
+
+# -"mdata" data frame is added to the global namespace and is used as the
+#   dataframe for models.
+
 # -"ring_data"" data frame is added to the global namespace
-# -"trees" data frame is added to the global namespace.  Values obtained
-#   from raster files are added as well from raster_data.R.
-# -"trees.sum" data frame is added to the global namespace
 # -"sdist" and "get_widths" function which calculates distance between rings
 # -"core.area" function that calculates the area in between each tree ring,
 #   accounts for special cases as well.
 # -"bai" function calculates basal area increment
 # -"read_ring_coord_file" function reads in ring data csv files and
 #   calculates variables: calendar year, age, ring.dist and ring.width.
-# -"mdata" data frame is added to the global namespace and is used as the
-#   dataframe for models.
 
 
-# Sources script that populates yearly precipitation values as well as
-# loading relevant packages for analyses.
-source("./read_precip_drought_data.R")
+library(dplyr)
+
+###############################################################################
+## Constants
+###############################################################################
 
 SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # assuming that sampling occured after enough growth to
@@ -35,6 +36,11 @@ SAMPLE_YEAR <- 2015 # year trees were cored, so last full ring will be this one
                     # were sampled in mid-late summer 2015.
 
 BORER_WIDTH = 1.2
+
+
+###############################################################################
+## Functions
+###############################################################################
 
 sdist <- function(x1,y1,x2,y2) {
     sqrt( (x1-x2)^2 + (y1-y2)^2)
@@ -51,7 +57,7 @@ get_widths <- function(distances) {
 # scenarios where radii are less than core width. Calculations assume a perfect
 # circle for each radius and subtracts the area of the circle outside of the
 # core.
-core.area <- function(cw, r1, r2) {
+core.area <- function(r1, r2, cw = BORER_WIDTH) {
   area.r1<- (pi*r1^2)
   area.r2<- (pi*r2^2)
   # special case if both rings are less than core size.
@@ -76,7 +82,7 @@ core.area <- function(cw, r1, r2) {
 bai <- function(r1, r2) {
   area.r1<- (pi*r1^2)
   area.r2<- (pi*r2^2)
-  barea <- (area.r2- area.r1)
+  barea <- (area.r2 - area.r1)
 }
 
 
@@ -98,194 +104,60 @@ read_ring_coord_file <- function(filename) {
 }
 
 
-# Obtain data from masters_trees.csv to merge with trees.csv data
-trees <- read.csv("../data/masters_trees.csv", stringsAsFactors=FALSE)
-
-# Read .rds files created from raster_data.R script for each mtn range  
-cm_raster_data<- readRDS(file="../results/cm_raster_data.rds")
-dm_raster_data<- readRDS(file="../results/dm_raster_data.rds")
-gm_raster_data<- readRDS(file="../results/gm_raster_data.rds")
-
-# Convert tag from integer to character for merging purposes
-cm_raster_data<- mutate(cm_raster_data, tag=as.character(tag))
-dm_raster_data<- mutate(dm_raster_data, tag=as.character(tag))
-gm_raster_data<- mutate(gm_raster_data, tag=as.character(tag))
-
-# Create new data frame with raster info on all trees as well as other 
-# variables measured and calculated
-trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>%
-  inner_join(bind_rows(cm_raster_data, dm_raster_data, gm_raster_data))
+###############################################################################
+## Main script
+###############################################################################
 
 # Creates temporary list of all ring files for later merge
 ring_files <- list.files("../data/tree_ring_coordinates", full.names=TRUE)
 
 # create a list of coordinate dataframes (1 per tree), concatenate these all
-# into one df, then merge (innner_join) with the trees.csv data
+# into one df, merge with data on each tagged tree
 ring_data <- bind_rows(lapply(ring_files, read_ring_coord_file)) %>%
     inner_join(trees)
-
-# Precipitation data in it's current state cannot be used due to the
-# inconsistencies involved with availability and actual values calculated.
-# Code is still included in the script in case we decide to use it later.
-
-# # join precipitation values from dataframe created with precip_data.R into
-# # previously created dataframe and rename it to ring_data.
-# # ring_data <-left_join(ring_data_first, yearly_precip_data, by= c("mtn","calendar.year"))
-# 
-# ring_first <-left_join(ring_data, yearly_precip_data, by= c("mtn","calendar.year"))
-# 
-# # Calculates distance from each tree to the corresponding sensor
-# # in the mountain range.
-#  ring_first$sensor_dist <- NA
-# # lon.x and lat.x are coordinates from the tree, lon.y and lat.y are
-# # coordinates from the precipitation sensor
-# for(i in 1:nrow(ring_first)) {
-#    ring_first$sensor_dist[i] <- gcd.hf(ring_first$lon.x[i], ring_first$lat.x[i], ring_first$lon.y[i], ring_first$lat.y[i])
-# }
-# 
-# # lat approach
-# # tree coords are x, station coords are y
-# ## ring_first <- mutate(ring_first, sensor_dist =  gcd.hf(ring_first$lon.x,
-# ##                                                        ring_first$lat.x,
-# ##                                                        ring_first$lon.y,
-# ##                                                        ring_first$lat.y))
-# 
-#  
-# # temporary dataframe for tree core years that had values for precipitation
-# # based on station location
-# temp_df <- ring_first %>% group_by(tag, ring) %>% slice(which.min(sensor_dist))
-# # temporary dataframe for tree core years that did not have a value for
-# # precipitation based on station location
-# temp_df2 <- filter(ring_first, is.na(ring_first$sensor_dist))
-#  
-# # Combine temporary data frames together and arrange them
-# ring_data <- bind_rows(temp_df, temp_df2) %>% arrange(tag, ring)
-
-# Add drought values to the data frame.
-ring_data <- left_join(ring_data, yearly_drought, by= "calendar.year")
-
-# Obtain species and subsection info
-species <- read.csv("../data/species.csv", stringsAsFactors=FALSE)
-
-ring_data <- left_join(ring_data, species, by= "spcode")
-
-# Calculate ring area and assign value for each year
-ring_data$ring.area <- NA
-for(i in 1:length(ring_data$r1)) {
-  ring_data$ring.area[i] <- core.area(BORER_WIDTH, ring_data$r1[i], ring_data$r2[i])
-}
-
-# Calculates new column for basal area index for each year
-ring_data$bai <- NA
-for(i in 1:length(ring_data$r1)) {
-  ring_data$bai[i] <- bai(ring_data$r1[i], ring_data$r2[i])
-}
-
-# Creates new column for resin duct density at each year
-ring_data <- mutate(ring_data, duct.density=resin.duct.count/ring.area)
-
-# Creates new column for predicted total resin duct count per ring
-ring_data <- mutate(ring_data, total.duct.count= resin.duct.count*(bai/ring.area))
-
-
-# Remove some columns that don't pertain to analyses, but are in the
-# original data set relegated to notes.
-
-ring_data <- select(ring_data, -x, -y, -core.taken, -pith, -needles.collected, -condition,
-                    -barkbeetle.attack, -trail.area, -note)
-#                   , -lat.y, -lon.y)
 
 # rename rings column to age
 ring_data <- rename(ring_data, age = ring)
 
+# Obtain species and subsection info. We need this because we do regional curve
+# standardization by subsection.
+ring_data <- left_join(ring_data, species, by = "spcode")
 
-# detrended ring widths using regional curve standardization (per subsection)
+# Calculate ring area, BAI and resin duct density
+ring_data <- ring_data %>% rowwise() %>% mutate(ring.area = core.area(r1, r2),
+                                                bai = bai(r1, r2),
+                                                duct.density = resin.duct.count/ring.area,
+                                                total.duct.count = resin.duct.count*(bai/ring.area))
+                    
+# Remove some columns that don't pertain to analyses, but are in the
+# original data set relegated to notes.
+
+ring_data <- ring_data %>% ungroup() %>% select(-x, -y, -core.taken, -pith,
+                                                -needles.collected, -condition,
+                                                -barkbeetle.attack, -trail.area, -note)
+
+
+# Detrended ring widths using regional curve standardization (per subsection).
+# I would think residulas would make more sense but the standard dendro way is
+# to DIVIDE the actual rw by the predicted (where predicted is based on
+# polynomial or spline).
 RCS <- function(rw, age) {
   df <- data.frame(rw=rw, age=age)
-  mod <- lm(rw ~ poly(age, 4), data=df) # 4 degree polyunomial seems to work. Should justify
-  r <- residuals(mod)
-  mod <- smooth.spline(age, rw, spar=0.67)
+  mod <- lm(rw ~ poly(age, 4), data=df) # 4 degree polynomial seems to work. Should justify
+  #pred <- predict(mod)
+  #r <- rw / pred
+  ## mod <- smooth.spline(age, rw, spar=0.67)
   r <- residuals(mod)
   return(r)
 }
 
 ring_data <- ring_data %>% group_by(subsection) %>%
-  mutate(ring_width_detrended = RCS(ring.width, ring.age))
+  mutate(ring_width_detrended = RCS(ring.width, ring.age)) %>%
+  ungroup()
 
 
-# Create new data frames to be used for the models and for graphs.
-
-# read data, only select complete cases so no NA's exist
-mdata <- ring_data[complete.cases(ring_data), ] %>%
-  filter(age!=1) %>% # remove the first year of growth since no resin
-  # ducts are present in pith remove last year of
-  # data since these are only partial growth years
-  filter(calendar.year != 2015) 
-
-# transforms
-mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
-                                        duct.density.log = log(duct.density+1),
-                                        bai.log = log(bai+1),
-#                                        log.rw = log(ring.width+1),
-                                        fyear = as.factor(calendar.year))
-
-# Calculate summaries per tree
-
-# Calculate tree age first using ring_data since that retains all years
-trees.sum <- ring_data %>% group_by(tag) %>%
-  dplyr::summarize(avg.age = mean(age),
-                   age.sd = sd(age),
-                   age.min = min(age), max.age = max(age))
-
-# Next perform summary calculations and combine all data together
-trees.sum <- mdata %>% group_by(tag) %>%
-  dplyr::summarize(duct.count.mean = mean(resin.duct.count, na.rm = TRUE),
-                   duct.count.sd = sd(resin.duct.count, na.rm = TRUE),
-                   duct.den.mean = mean(duct.density, na.rm = TRUE),
-                   duct.den.sd = sd(duct.density, na.rm = TRUE),
-                   duct.den.log.mean = mean(duct.density.log, na.rm = TRUE),
-                   duct.den.log.sd = sd(duct.density.log, na.rm = TRUE),
-                   total.duct.count.mean = mean(total.duct.count, na.rm = TRUE),
-                   total.duct.count.sd = sd(total.duct.count, na.rm = TRUE),
-                   ring.width.mean = mean(ring.width),
-                   ring.width.sd = sd(ring.width),
-                   bai.mean = mean(bai),
-                   bai.sd = sd(bai),
-                   PMDI.mean = mean(PMDI_3yrlag, na.rm = TRUE),
-                   PMDI.sd = sd(PMDI_3yrlag, na.rm = TRUE)
-                   ) %>% inner_join(trees) %>%
-                   left_join(trees.sum, by= "tag") %>%
-                   left_join(species, by= "spcode") %>%
-                   select(-core.taken, -pith, -needles.collected, -condition,
-                          -barkbeetle.attack, -trail.area, -note)
-
-# Combine tree.sum into mdata for easier graphing purposes
-mdata <- mdata %>% left_join(trees.sum)
-
-# Rescale numeric variables
-zscore <- function(x) (x - mean(x)) / sd(x)  
-mdata <- mdata %>% mutate_each(funs(s = zscore(.)), -tag, -spcode, -mtn, -date, 
-                               -fyear, -subsection, -species_name)
 
 # clean up unneeded variables
-rm(ring_files, cm_raster_data,dm_raster_data, gm_raster_data, species)
-# ring_first, temp_df, temp_df2)
-                               
+rm(ring_files)
 
-# Exploring data
-
-## # Make sure graph-themes.R is loaded, but if not:
-## source("./graph-themes.R")
-
-## # Age vs. resin duct density
-## ggplot(trees.sum, aes(max.age, duct.den.mean, color=mtn)) +
-##     geom_point() +
-##     scale_y_log10() +
-##     facet_grid(spcode ~ .,labeller = as_labeller(species_names_facet)) +
-##     theme(strip.text.y = element_text(size=5)) +
-##     labs(x= "age",
-##          y= "resin duct density")+
-##     scale_color_manual(name= "Mountain range",
-##                        labels = mountain_names,
-##                        values= mycolours)
 
