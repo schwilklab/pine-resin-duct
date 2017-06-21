@@ -6,6 +6,8 @@
 
 library(dplyr)
 
+BA_TO_METRIC = 0.229568  # 1 ft^2 / acre = 0.229568 m^2 / ha
+
 ## Read and clean individual tree data. Tag is unique row identifier.
 trees <- read.csv("../data/trees.csv", stringsAsFactors=FALSE)
 species <- read.csv("../data/species.csv", stringsAsFactors=FALSE)
@@ -21,6 +23,10 @@ gm_raster_data <- readRDS(file="../results/gm_raster_data.rds")
 # variables measured and calculated
 trees <- trees %>% mutate(gps.elev=elev) %>% dplyr::select(-lat, -lon, -elev) %>%
   inner_join(bind_rows(cm_raster_data, dm_raster_data, gm_raster_data))
+
+
+## calculate basal area from raw cruz-all numbers
+trees <- trees %>% mutate(BA = 10.0*BA_TO_METRIC*BA.raw) %>% select(-BA.raw)
 
 # Get all annual ring calculations
 source("read_rings.R")

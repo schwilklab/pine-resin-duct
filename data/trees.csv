@@ -1,4 +1,4 @@
-tag,spcode,core.taken,pith,lat,lon,elev,DBH,BAF,needles.collected,condition,barkbeetle.attack,mtn,trail.area,date,note
+tag,spcode,core.taken,pith,lat,lon,elev,DBH,BA.raw,needles.collected,condition,barkbeetle.attack,mtn,trail.area,date,note
 EL001,PICE,Y,N,29.27552,-103.28918,1702,22.8,6,TRUE,alive,NO,CM,basin campground,5/19/2015,off road
 EL002,PIAR5,Y,Y,29.26227,-103.25591,1636,9.4,5,TRUE,alive,NO,CM,pine canyon,5/19/2015,south facing slope
 EL003,PIAR5,Y,Y,29.2621,-103.2552,1698,30.9,7,TRUE,alive,NO,CM,pine canyon,5/19/2015,north facing slope

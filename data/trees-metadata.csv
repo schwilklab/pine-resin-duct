@@ -7,7 +7,7 @@ lat,numeric,degrees,"Latitude in decimal degrees, Spheroid WGS84"
 lon,numeric,degrees,"Longitude in decimal degrees, Spheroid WGS84"
 elev,numeric,meters,Elevation where tree was sampled
 DBH,numeric,centimeters,Diameter at breast height of trees sampled
-BAF,numeric,,Basal area factor.   Number of trees surrounding sampled tree based on 10-factor gauge criteria.
+BA.raw,numeric,,Basal area in raw cruz-all counts.   Number of trees surrounding sampled tree based on 10-factor gauge criteria.
 needles.collected,boolean,,Signifies whether needles were collected from tree
 condition,string,,Describes the state the tree is in
 barkbeetle.attack,logical,,Signifies whether bark beetle attack occurred

@@ -18,6 +18,7 @@ library(lme4)
 library(MuMIn)
 library(afex) # for p values in lmer/glmer models. 
 afex_options(method_mixed="LRT") #Bootstrapping can be slow, use hrothgar for that.
+library(xtable)
 
 source("read_all.R")
 
@@ -62,7 +63,7 @@ source("read_all.R")
 
 # Include the calendar year as random intercept
 
-cmn.rw.mod.full <- mixed(ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BAF_s + elev_s) +
+cmn.rw.mod.full <- mixed(ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
                          mtn + (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                          data=mdata, REML=FALSE)
 
@@ -70,12 +71,18 @@ summary(cmn.rw.mod.full)
 anova(cmn.rw.mod.full)
 
 
-cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s + subsection*BAF_s +
+## cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s + subsection*BAF_s +
+##                            (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+##                            data=mdata, REML=FALSE)
+
+cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection + PMDI_3yrlag_s + subsection*BA_s +
                            (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                            data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.simple)
 anova(cmn.rw.mod.simple)
+
+print(xtable(anova(cmn.rw.mod.simple)))
 
 #anova(cmn.rw.mod.simple, cmn.rw.mod.full)
 
@@ -176,6 +183,8 @@ cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsection*ring_width_detrend
 
 summary(cmn.rwden.mod.simple)
 anova(cmn.rwden.mod.simple)
+print(xtable(anova(cmn.rwden.mod.simple)))
+
 
 ## # Create new dataframe with coefficients from summary
 ## coefs_ductdensity <- data.frame(coef(summary(cmn.rwden.mod.simple)))
