@@ -10,6 +10,14 @@ library(extrafont)
 # font_import(pattern="Arial")
 loadfonts()
 
+## # for nicer prebuilt color themes
+## #devtools::install_github('cttobin/ggthemr')
+## library(ggthemr)
+
+
+schwilkcolors <- c("#D68D18", "#836B43", "#A0AE6A", "#437683", "#18B0D6")
+
+
 ## The ggplot theme for all figures.
 bestfit <- geom_smooth(method="lm",se = F, color = "black", size=1.5)
 textsize <- 18
@@ -29,8 +37,8 @@ pubtheme   <-  theme_grey() +
                panel.border = element_rect(size = 1.6, fill=NA),
                axis.text.x  = element_text(family=fontfamily, size=smsize, color="black"),
                axis.text.y  = element_text(family=fontfamily, size=smsize, color = "black"),
-               strip.text.x = element_text(family=fontfamily, size = textsize, face="italic"),
-               strip.text.y = element_text(family=fontfamily, size = textsize, face="italic"),
+               strip.text.x = element_text(family=fontfamily, size = textsize), #, face="italic"),
+               strip.text.y = element_text(family=fontfamily, size = textsize), #, face="italic"),
            #   strip.background = element_blank(),
                legend.title = element_text(family=fontfamily, size=textsize),
                legend.text = element_text(family=fontfamily, size=smsize, face="italic"),
@@ -43,6 +51,31 @@ pubtheme   <-  theme_grey() +
                 )
 
 pubtheme.nogridlines <- pubtheme +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          strip.background = element_blank())
+
+
+prestheme   <- theme(axis.title.y = element_text(family=fontfamily,
+               size = textsize, angle = 90, vjust=0.3),
+               axis.title.x = element_text(family=fontfamily, size = textsize, vjust=-0.3),
+               axis.ticks = element_line(colour = "black"),
+               panel.background = element_rect(size = 1.6, fill = NA),
+               panel.border = element_rect(size = 1.6, fill=NA),
+               axis.text.x  = element_text(family=fontfamily, size=smsize, color="black"),
+               axis.text.y  = element_text(family=fontfamily, size=smsize, color = "black"),
+               strip.text.x = element_text(family=fontfamily, size = textsize),#, face="italic"),
+               strip.text.y = element_text(family=fontfamily, size = textsize),#, face="italic"),
+           #   strip.background = element_blank(),
+               legend.title = element_text(family=fontfamily, size=textsize),
+               legend.text = element_text(family=fontfamily, size=smsize),#, face="italic"),
+               legend.key = element_rect(fill=NA),
+               panel.grid.major = element_line(colour = "grey90", size = 0.2),
+               panel.grid.minor = element_line(colour = "grey95", size =0.5),
+                strip.background = element_rect(fill = "grey80", colour = "grey50")
+                )
+
+prestheme.nogridlines <- prestheme +
     theme(panel.grid.minor = element_blank(),
           panel.grid.major = element_blank(),
           strip.background = element_blank())
