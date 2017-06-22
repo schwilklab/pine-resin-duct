@@ -56,20 +56,29 @@ pubtheme.nogridlines <- pubtheme +
           strip.background = element_blank())
 
 
+# presentation theme.
+# Meant for beamer output with a graph width of "10cm".
+
+prestxsz <- 10
+pressmsz <- 8
+
 prestheme   <- theme(axis.title.y = element_text(family=fontfamily,
-               size = textsize, angle = 90, vjust=0.3),
-               axis.title.x = element_text(family=fontfamily, size = textsize, vjust=-0.3),
+               size = prestxsz, angle = 90, vjust=0.3),
+               axis.title.x = element_text(family=fontfamily, size = prestxsz, vjust=-0.3),
                axis.ticks = element_line(colour = "black"),
                panel.background = element_rect(size = 1.6, fill = NA),
                panel.border = element_rect(size = 1.6, fill=NA),
-               axis.text.x  = element_text(family=fontfamily, size=smsize, color="black"),
-               axis.text.y  = element_text(family=fontfamily, size=smsize, color = "black"),
-               strip.text.x = element_text(family=fontfamily, size = textsize),#, face="italic"),
-               strip.text.y = element_text(family=fontfamily, size = textsize),#, face="italic"),
+               axis.text.x  = element_text(family=fontfamily, size=pressmsz, color="black"),
+               axis.text.y  = element_text(family=fontfamily, size=pressmsz, color = "black"),
+               strip.text.x = element_text(family=fontfamily, size = prestxsz),#, face="italic"),
+               strip.text.y = element_text(family=fontfamily, size = prestxsz),#, face="italic"),
            #   strip.background = element_blank(),
-               legend.title = element_text(family=fontfamily, size=textsize),
-               legend.text = element_text(family=fontfamily, size=smsize),#, face="italic"),
+               legend.title = element_text(family=fontfamily, size=pressmsz),
+               legend.text = element_text(family=fontfamily, size=pressmsz-1),#, face="italic"),
                legend.key = element_rect(fill=NA),
+               legend.key.height = unit(0.5, "lines"),
+               legend.background = element_rect(fill="transparent"),
+              # legend.spacing.y = unit(0.5, 'lines'),
                panel.grid.major = element_line(colour = "grey90", size = 0.2),
                panel.grid.minor = element_line(colour = "grey95", size =0.5),
                 strip.background = element_rect(fill = "grey80", colour = "grey50")
@@ -79,3 +88,4 @@ prestheme.nogridlines <- prestheme +
     theme(panel.grid.minor = element_blank(),
           panel.grid.major = element_blank(),
           strip.background = element_blank())
+
