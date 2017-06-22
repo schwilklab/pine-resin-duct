@@ -138,9 +138,10 @@ ring_data <- ring_data %>% ungroup() %>% select(-x, -y, -core.taken, -pith,
 
 
 # Detrended ring widths using regional curve standardization (per subsection).
-# I would think residulas would make more sense but the standard dendro way is
-# to DIVIDE the actual rw by the predicted (where predicted is based on
-# polynomial or spline).
+# The standard dendro way is to DIVIDE the actual rw by the predicted (where
+# predicted is based on polynomial or spline). But this leads to bias and using
+# residuals is clearly a better method. See Cook and Peters 1997:
+# http://journals.sagepub.com/doi/abs/10.1177/095968369700700314
 RCS <- function(rw, age) {
   df <- data.frame(rw=rw, age=age)
   mod <- lm(rw ~ poly(age, 4), data=df) # 4 degree polynomial seems to work. Should justify
