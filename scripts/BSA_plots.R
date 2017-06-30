@@ -24,13 +24,14 @@ ggplot(rw_year_df, aes(pmdi, rw_resid, color= subsection)) +
   ## scale_linetype_manual(values= c(6,3,1), guide_legend(title = "Subsection"))+
   geom_smooth(method="lm", se=FALSE, size=0.8) +
   ylab("Detrended ring width (cm)") +
-  xlab("Modified Palmer drought severity index")+
+    xlab("Modified Palmer drought severity index")+
+#    ylim(c(-0.1, 0.1)) +
   prestheme.nogridlines +
    theme(legend.justification = c("right", "bottom"),
         legend.key.height = unit(0.5, "lines"),
         legend.position = c(1, 0),
         legend.title=element_blank())
-ggsave("../results/ring_width_PMDI.pdf", width=8, height=7, units="cm")
+ggsave("../results/ring_width_PMDI.pdf", width=8, height=7.25, units="cm")
 ## All subsections strongly sensitive to PMDI
 
 
@@ -48,14 +49,13 @@ ggplot(rw_ss_df, aes(BA, rw, color= subsection)) +
   ## scale_linetype_manual(values= c(6,3,1), guide_legend(title = "Subsection"))+
   geom_smooth(method="lm", se=FALSE, size=0.9) +
   ylab("Detrended ring width (cm)") +
-  xlab(bquote("Basal area ("*m^2~ha^-1*")"))+
+  xlab(bquote("Basal area ("*m^2~ha^-1*")")) +
   prestheme.nogridlines +
   theme(legend.justification = c("right", "top"),
         legend.key.height = unit(0.5, "lines"),
         legend.position = c(1, 1),
         legend.title=element_blank())
-ggsave("../results/ring_width_BAF.pdf", width=8, height=7, units="cm")
-
+ggsave("../results/ring_width_BA.pdf", width=8, height=7.25, units="cm")
 
 
 ########################################
@@ -73,7 +73,7 @@ ggplot(bytree, aes(subsection, dd, fill=subsection)) +
   xlab("") + #"Subsection") + +
   scale_fill_manual(values = schwilkcolors, guide=FALSE) +
   prestheme.nogridlines
-ggsave("../results/rdd_subsection.pdf", width=8, height=7, units="cm")
+ggsave("../results/rdd_subsection.pdf", width=8, height=7.25, units="cm")
                                                             
 
 
@@ -91,7 +91,7 @@ ggplot(bytree, aes(subsection, dd, fill=subsection)) +
   xlab("") + #"Subsection") +
   ylab(expression("Resin duct density ("*cm^-2*")")) +
   prestheme.nogridlines
-ggsave("../results/rdd_age_subsection.pdf", width=8, height=7, units="cm")
+ggsave("../results/rdd_age_subsection.pdf", width=10, height=7.5, units="cm")
 
 
 # rdd by elevation and subsection and age
@@ -109,7 +109,7 @@ ggplot(bytree, aes(elev, dd, color=subsection)) +
         legend.key.height = unit(0.5, "lines"),
         legend.position = c(1, 1),
         legend.title=element_blank())
-ggsave("../results/rdd_elev_age_subsection.pdf", width=10, height=7, units="cm")
+ggsave("../results/rdd_elev_age_subsection.pdf", width=10, height=7.5, units="cm")
 
 
 # rdd by subsection, age and rw
@@ -128,7 +128,7 @@ ggplot(bytree, aes(rw, dd, color=subsection)) +
         legend.position = c(1, 1),
         legend.title=element_blank())
 
-ggsave("../results/rdd_rw_age_subsection.pdf", width=9, height=7, units="cm")
+ggsave("../results/rdd_rw_age_subsection.pdf", width=10, height=7.5, units="cm")
 
 
   ## guides(fill=guide_legend(keywidth=0.1,
@@ -156,7 +156,7 @@ ggplot(bytree, aes(elev, dd, color=subsection)) +
    theme(legend.justification = c("left", "top"),
         legend.position = c(0, 1),
         legend.title=element_blank())
-ggsave("../results/rdd_elev_rwf_subsection.pdf", width=8, height=7, units="cm")
+ggsave("../results/rdd_elev_rwf_subsection.pdf", width=8, height=7.25, units="cm")
 
 
 
@@ -198,7 +198,7 @@ ggplot(byage, aes(age, dd, color=subsection)) + geom_point(size=2)+
   ylim(c(0,300)) +
   xlab("Cambial age (years)") +
   ylab(expression("Resin duct density ("*cm^-2*")")) +
-  prestheme_f.nogridlines
+  prestheme.nogridlines
 ggsave("../results/rdd_byage_subsection.pdf", width=10, height=7, units="cm")
 
 
