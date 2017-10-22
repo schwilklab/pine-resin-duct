@@ -26,11 +26,11 @@ source("read_all.R")
 ################### 1. Ring Width ###########################################
 
 # # random intercept
-# cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+# cmn.rw.mod.ri <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BA_s + elev_s + ldist_valley2_s) + mtn +
 #                         (1|tag), data=mdata, REML=FALSE)
 # 
 # # species as random intercept as well
-# cmn.rw.mod.ri2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+# cmn.rw.mod.ri2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BA_s + elev_s + ldist_valley2_s) + mtn +
 #                         (1|spcode/tag), data=mdata, REML=FALSE)
 # 
 # anova(cmn.rw.mod.ri, cmn.rw.mod.ri2)
@@ -39,20 +39,20 @@ source("read_all.R")
 # # intercept.
 # 
 # # random slope and intercept
-# cmn.rw.mod.rsi <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+# cmn.rw.mod.rsi <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BA_s + elev_s + ldist_valley2_s) + mtn +
 #                          (age_s|tag), data=mdata, REML=FALSE)
 # 
 # # test to see which AIC value is better
 # anova(cmn.rw.mod.ri, cmn.rw.mod.rsi) # so random slope for age much better.
 # 
 # # try random slope for PMDI
-# cmn.rw.mod.rsi2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+# cmn.rw.mod.rsi2 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BA_s + elev_s + ldist_valley2_s) + mtn +
 #                           (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
 # anova(cmn.rw.mod.rsi, cmn.rw.mod.rsi2)
 # 
 # # again, much better model.  We need random slopes for age and PMDI
 # 
-# cmn.rw.mod.rsi3 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BAF_s + elev_s + ldist_valley2_s) + mtn +
+# cmn.rw.mod.rsi3 <- lmer(ring.width_s ~ subsections*((age_s * PMDI_3yrlag_s) + BA_s + elev_s + ldist_valley2_s) + mtn +
 #                           (age_s+PMDI_3yrlag_s|tag) + (1 | calendar.year),
 #                         data=mdata, REML=FALSE)
 # 
@@ -71,7 +71,7 @@ summary(cmn.rw.mod.full)
 anova(cmn.rw.mod.full)
 
 
-## cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s + subsection*BAF_s +
+## cmn.rw.mod.simple <- mixed(ring_width_detrended ~ subsection * PMDI_3yrlag_s + subsection*BA_s +
 ##                            (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
 ##                            data=mdata, REML=FALSE)
 
@@ -116,7 +116,7 @@ print(xtable(anova(cmn.rw.mod.simple)))
 lsmeans(cmn.rw.mod.simple, pairwise~ subsection)
 
 # Subsection and age
-pairs(lstrends(cmn.rw.mod.simple, "subsection", var="BAF_s"))
+pairs(lstrends(cmn.rw.mod.simple, "subsection", var="BA_s"))
 # Subsection and drought
 pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 
@@ -137,22 +137,22 @@ pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 
 
 
-# cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+# cmn.rwden.mod.ri <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BA_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
 #                            (1|tag), data=mdata, REML=FALSE)
 # 
-# cmn.rwden.mod.ri2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+# cmn.rwden.mod.ri2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BA_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
 #                            (1|spcode/tag), data=mdata, REML=FALSE)
 # 
 # anova(cmn.rwden.mod.ri, cmn.rwden.mod.ri2)
 # # AIC values indicate that the best model doesn't include species as random effect
 # 
-# cmn.rwden.mod.rsi <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+# cmn.rwden.mod.rsi <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BA_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
 #                             (age_s|tag), data=mdata, REML=FALSE)
 # 
 # anova(cmn.rwden.mod.ri, cmn.rwden.mod.rsi) # so random slope for age much better.
 # 
 # # try random slope for PMDI
-# cmn.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+# cmn.rwden.mod.rsi2 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BA_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
 #                              (age_s+PMDI_3yrlag_s|tag), data=mdata, REML=FALSE)
 # 
 # anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi2)
@@ -160,7 +160,7 @@ pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 # # Random slope is not better
 # 
 # # try calendar.year random intercept:
-# cmn.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BAF_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
+# cmn.rwden.mod.rsi3 <- lmer(duct.density.log_s ~ subsections*((age_s + PMDI_3yrlag_s) + BA_s + elev_s +ring.width_s + ldist_valley2_s) + mtn +
 #                              (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year), data=mdata, REML=FALSE)
 # 
 # anova(cmn.rwden.mod.rsi, cmn.rwden.mod.rsi3)
@@ -168,7 +168,7 @@ pairs(lstrends(cmn.rw.mod.simple, "subsection", var="PMDI_3yrlag_s"))
 # # effects more in order to specify correct degrees of freedom.
 
 cmn.rwden.mod.full <- mixed(duct.density.log ~ subsection*((age_s * (PMDI_3yrlag_s + ring_width_detrended_s)) +
-                            BAF_s + elev_s) + mtn +
+                            BA_s + elev_s) + mtn +
                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                             data=mdata, REML=FALSE)
 
