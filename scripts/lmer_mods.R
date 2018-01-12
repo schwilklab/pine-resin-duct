@@ -179,6 +179,7 @@ anova(cmn.rwden.mod.full)
 # So let's drop non significant interaction terms
 cmn.rwden.mod.simple <- mixed(duct.density.log_s ~ subsection*ring_width_detrended_s*age_s +
                                 age_s:ring_width_detrended_s + elev_s*subsection +
+                                 (age_s+PMDI_3yrlag_s | tag) +
                                 (1 | calendar.year), data=mdata, REML=FALSE)
 
 summary(cmn.rwden.mod.simple)
