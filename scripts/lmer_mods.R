@@ -64,7 +64,7 @@ source("read_all.R")
 # Include the calendar year as random intercept
 
 cmn.rw.mod.full <- mixed(ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
-                         mtn + (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
+                         (PMDI_3yrlag_s | tag) + (1 | calendar.year), 
                          data=mdata, REML=FALSE)
 
 summary(cmn.rw.mod.full)

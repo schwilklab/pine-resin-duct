@@ -17,16 +17,16 @@ loadfonts()
 
 schwilkcolors <- c("#D68D18", "#836B43", "#A0AE6A", "#437683", "#18B0D6")
 
-
 ## The ggplot theme for all figures.
 bestfit <- geom_smooth(method="lm",se = F, color = "black", size=1.5)
-textsize <- 18
+textsize <- 10
 smsize <- textsize-2
 pt2mm <- 0.35146
 smsize.mm <- smsize*pt2mm
 fontfamily = "Arial"
-col2 <- 17.5 # cm
-col1 <- 8.0 # cm
+col2 <- 18.4 # cm # according to http://www.amjbot.org/site/misc/ifora.xhtml#Figures/Illustrations
+col1 <- 8.9 # cm
+col15 <- 13.0 # cm
 
 pubtheme   <-  theme_grey() +
              theme(axis.title.y = element_text(family=fontfamily,
