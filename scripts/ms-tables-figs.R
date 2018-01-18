@@ -36,7 +36,7 @@ rw.anova.tab <- anova(cmn.rw.mod.full)
 rw.coef.tab
 rw.anova.tab
 print(xtable(rw.coef.tab), type="html", file="../results/rw_coef_tab.html")
-print(xtable(rw.anova.tab), type="html", file="../results/rw_anova_tab.html")
+print(xtable(nice(cmn.rw.mod.full)), type="html", file="../results/rw_anova_tab.html")
 
 system("pandoc -f html -t odt -o ../results/rw_coef_tab.odt ../results/rw_coef_tab.html")
 system("pandoc -f html -t odt -o ../results/rw_anova_tab.odt ../results/rw_anova_tab.html")
@@ -48,7 +48,7 @@ cmn.rdd.mod.full <- mixed(duct.density ~
                             BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
                             (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
                           data=mdata, REML=FALSE)
-writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_kr.RDS")
+writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_s.RDS")
 # cmn.rdd.mod.full <- loadRDS("../results/rdd_mod_full.RDS")
 rdd.coef.tab <- summary(cmn.rdd.mod.full)$coefficients
 rdd.anova.tab <- anova(cmn.rdd.mod.full)
