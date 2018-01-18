@@ -24,38 +24,43 @@ source("read_all.R")
 
 ################### 1. Ring Width ###########################################
 
-# Include the calendar year as random intercept
-cmn.rw.mod.full <- mixed(ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
-                           BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
-                           (PMDI_3yrlag_s | tag) + (1 | calendar.year),
-                         data=mdata, REML=FALSE)
+# Include the calendar year as random intercept and age slope
+cmn.rw.mod.full <- mixed(ring_width_detrended ~  subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
+                          BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                          (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                          data=mdata, REML=FALSE)
 saveRDS(cmn.rw.mod.full, "../results/rw_mod_full.RDS")
 #cmn.rw.mod.full <- readRDS("../results/rw_mod_full_kr.RDS")
 rw.coef.tab <- summary(cmn.rw.mod.full)$coefficients
 rw.anova.tab <- anova(cmn.rw.mod.full)
 rw.coef.tab
 rw.anova.tab
-print(xtable(rw.coef.tab), type="html", file="../results/rw_coef_tab.html")
-print(xtable(rw.anova.tab), type="html", file="../results/rw_anova_tab.html")
+print(xtable(rw.coef.tab, digits=3), type="html", file="../results/rw_coef_tab.html")
+print(xtable(nice(cmn.rw.mod.full)), type="html", file="../results/rw_anova_tab.html")
 
 system("pandoc -f html -t odt -o ../results/rw_coef_tab.odt ../results/rw_coef_tab.html")
 system("pandoc -f html -t odt -o ../results/rw_anova_tab.odt ../results/rw_anova_tab.html")
 
 ################### 2. Resin Duct Density ###########################################
-cmn.rdd.mod.full <- mixed(duct.density ~
-                            subsection*((age_s * (PMDI_3yrlag_s + ring_width_detrended_s)) +
-                            BA_s + elev_s)  +
-                            BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
-                            (age_s+PMDI_3yrlag_s | tag) + (1 | calendar.year),
-                          data=mdata, REML=FALSE)
-writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_kr.RDS")
-# cmn.rdd.mod.full <- loadRDS("../results/rdd_mod_full.RDS")
+cmn.rdd.mod.full <-  mixed(duct.density.log ~
+                     subsection*(age_s + ring_width_detrended_s + BA_s + elev_s + PMDI_3yrlag_s) +
+                     age_s:(PMDI_3yrlag_s +  ring_width_detrended_s + elev_s) +
+                     BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                     #subsection:age_s:PMDI_3yrlag_s +
+                     subsection:age_s:ring_width_detrended_s +
+                            (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                     data=mdata, REML=FALSE)
+
+#writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_kr.RDS")
+
+# run actual mixed model fitting on cluster and read from RDS file:
+#cmn.rdd.mod.full <- readRDS("../results/rdd_mod_full_kr.RDS")
 rdd.coef.tab <- summary(cmn.rdd.mod.full)$coefficients
 rdd.anova.tab <- anova(cmn.rdd.mod.full)
 rdd.coef.tab
 rdd.anova.tab
 print(xtable(rdd.coef.tab), type="html", file="../results/rdd_coef_tab.html")
-print(xtable(rdd.anova.tab), type="html", file="../results/rdd_anova_tab.html")
+print(xtable(nice(rdd.anova.tab)), type="html", file="../results/rdd_anova_tab.html")
 
 system("pandoc -f html -t odt -o ../results/rdd_coef_tab.odt ../results/rdd_coef_tab.html")
 system("pandoc -f html -t odt -o ../results/rdd_anova_tab.odt ../results/rdd_anova_tab.html")
@@ -96,19 +101,15 @@ fig1 <- m +  xlab("Longitude") + ylab("Latitude") +
   pubtheme.nogridlines 
 ggsave("../results/fig1_map.pdf", plot=fig1, width=col1, height=0.9*col1, units="cm")
 
-## CMmap <-  get_map(location = c(lon=mean(subset(trees, mtn=="CM")$lon),
-##                                lat=mean(subset(trees, mtn=="CM")$lat)), zoom=10, color="bw")
-## ggmap(CMmap) +
-##     geom_point(aes(x=lon, y=lat), alpha=0.5, data=trees, size=1)
-
-
-# Fig 2: Ring width by PMDI
-rw_year_df <- mdata %>% group_by(subsection, calendar.year) %>%
+# Fig 2: Ring width by PMDI by elev
+rw_year_df <- mdata %>% mutate(elev_f = cut(elev, breaks=2, labels=c("< 2000 m", "> 2000 m"))) %>%
+  group_by(subsection, calendar.year, elev_f) %>%
    summarize(rw_resid = mean(ring_width_detrended), pmdi= mean(PMDI_3yrlag))
 
 # figure with each point a calendar year
 fig2 <- ggplot(rw_year_df, aes(pmdi, rw_resid, color= subsection)) +
   #  geom_abline(intercept = 0, slope = 0, color= "gray") +
+  facet_grid(. ~ elev_f) +
   geom_point(size=ptsize, alpha=0.8, shape=16) +
   scale_color_manual(values = schwilkcolors, guide_legend(title = "Subsection"))+
   ## scale_shape_manual(values= c(21,22,24), guide_legend(title = "Subsection"))+
@@ -119,12 +120,13 @@ fig2 <- ggplot(rw_year_df, aes(pmdi, rw_resid, color= subsection)) +
   #    ylim(c(-0.1, 0.1)) +
   pubtheme.nogridlines +
   theme(legend.text = element_text(face="italic"),
-        legend.justification = c("right", "bottom"),
+        legend.justification = c("left", "bottom"),
         legend.key.height = unit(0.6, "lines"),
-        legend.position = c(0.99, 0.01),
+        legend.position = c(0.01, 0.01),
         legend.title=element_blank())
-ggsave("../results/fig2_ring_width_PMDI.pdf", plot=fig2, width=col1, height=0.9*col1, units="cm")
+ggsave("../results/fig2_ring_width_PMDI_elev.pdf", plot=fig2, width=col1, height=0.9*col1, units="cm")
 ## All subsections strongly sensitive to PMDI
+
 
 ## devtools::install_github("wilkelab/colorblindr")
 #install.packages("colorspace", repos = "http://R-Forge.R-project.org")
@@ -162,6 +164,7 @@ bytree <- mdata %>% group_by(tag, spcode, subsection) %>%
   summarize(dd = mean(duct.density))
 
 fig4 <- ggplot(bytree, aes(subsection, dd, fill=subsection)) +
+  scale_y_log10(breaks=pretty_breaks()) +
   geom_boxplot(outlier.color=NA) +
   ylab(expression("Resin duct density ("*cm^-2*")")) +
   xlab("") + #"Subsection") + +
@@ -179,11 +182,11 @@ bytree <- mdata %>%  mutate(age_f = factor(age > 15, labels=c("< 15 yrs", "> 15 
 
 # rdd by elevation and subsection and age
 fig5 <- ggplot(bytree, aes(rw, dd, color=subsection)) +
+  scale_y_log10(breaks=pretty_breaks(), limits = c(NA,400)) +
   geom_point(size=ptsize, alpha=0.8, shape=16) +
   scale_color_manual(values = schwilkcolors)+
   facet_grid(. ~ age_f) +
   geom_smooth(method="lm", size = lnsize, se=FALSE) +
-  ylim(c(0,300)) +
   xlim(c(-0.1, 0.2)) +
   xlab("Detrended ring width (cm)") +
   ylab(expression("Resin duct density ("*cm^-2*")")) +
