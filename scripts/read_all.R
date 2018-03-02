@@ -40,7 +40,7 @@ mdata <- left_join(ring_data, yearly_drought, by= "calendar.year")
 
 # transforms
 mdata <- mdata %>% mutate(duct.per.circ = resin.duct.count / ((r2)^2*pi),
-                                        duct.density.log = log(duct.density+10),
+                                        duct.density.log = log(duct.density+2),
                                         bai.log = log(bai+0.0001),
                                         fyear = as.factor(calendar.year))
 

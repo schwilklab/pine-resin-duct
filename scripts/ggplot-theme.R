@@ -41,7 +41,7 @@ pubtheme   <-  theme_grey() +
                strip.text.y = element_text(family=fontfamily, size = textsize), #, face="italic"),
            #   strip.background = element_blank(),
                legend.title = element_text(family=fontfamily, size=textsize),
-               legend.text = element_text(family=fontfamily, size=smsize, face="italic"),
+               legend.text = element_text(family=fontfamily, size=smsize), #, face="italic"),
                legend.key = element_rect(fill=NA),
                panel.grid.major = element_line(colour = "grey90", size = 0.2),
                panel.grid.minor = element_line(colour = "grey95", size =0.5),
