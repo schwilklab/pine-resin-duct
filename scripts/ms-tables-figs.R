@@ -25,18 +25,10 @@ source("read_all.R")
 ################### 1. Ring Width ###########################################
 
 # Include the calendar year as random intercept and age slope
-cmn.rw.mod.full <- mixed(duct.density.log ~
-                            subsection*((age_s * (ring_width_detrended_s)) +
-                                          BA_s + elev_s + PMDI_3yrlag_s)  +
-                            elev_s:age_s +
-                            BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
-                            (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
-                            data=mdata, REML=FALSE)
-
-## (ring_width_detrended ~ subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
-##                            BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
-##                            (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
-##                          data=mdata, REML=FALSE)
+cmn.rw.mod.full <- mixed(ring_width_detrended ~  subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
+                          BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                          (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                          data=mdata, REML=FALSE)
 saveRDS(cmn.rw.mod.full, "../results/rw_mod_full.RDS")
 #cmn.rw.mod.full <- readRDS("../results/rw_mod_full_kr.RDS")
 rw.coef.tab <- summary(cmn.rw.mod.full)$coefficients
@@ -50,16 +42,19 @@ system("pandoc -f html -t odt -o ../results/rw_coef_tab.odt ../results/rw_coef_t
 system("pandoc -f html -t odt -o ../results/rw_anova_tab.odt ../results/rw_anova_tab.html")
 
 ################### 2. Resin Duct Density ###########################################
-cmn.rdd.mod.full <- mixed(duct.density.log ~
-                            subsection*((age_s * (PMDI_3yrlag_s + ring_width_detrended_s)) +
-                            BA_s + elev_s)  +
-                            BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
-                            (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
-                          data=mdata, REML=FALSE)
-writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_kr.RDS")
+cmn.rdd.mod.full <-  mixed(duct.density.log ~
+                     subsection*(age_s + ring_width_detrended_s + BA_s + elev_s + PMDI_3yrlag_s) +
+                     age_s:(PMDI_3yrlag_s +  ring_width_detrended_s + elev_s) +
+                     BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                     subsection:age_s:PMDI_3yrlag_s +
+                     #subsection:age_s:ring_width_detrended_s +
+                            (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                     data=mdata, REML=FALSE)
+
+#writeRDS(cmn.rdd.mod.full, "../results/rdd_mod_full_kr.RDS")
 
 # run actual mixed model fitting on cluster and read from RDS file:
-#cmn.rdd.mod.full <- readRDS("../results/rdd_mod_full_kr.RDS")
+cmn.rdd.mod.full <- readRDS("../results/rdd_mod_full_kr.RDS")
 rdd.coef.tab <- summary(cmn.rdd.mod.full)$coefficients
 rdd.anova.tab <- anova(cmn.rdd.mod.full)
 rdd.coef.tab
@@ -241,23 +236,36 @@ ggsave("../results/fig5_rdd_rw_age_subsection.pdf", plot=fig5, width=col1, heigh
 
 # lmer version of rw model
 
-cmn.rw.mod <- lmer(duct.density.log ~
-                            subsection*((age_s * (ring_width_detrended_s)) +
-                                          BA_s + elev_s + PMDI_3yrlag_s)  +
-                            elev_s:age_s +
-                            BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
-                            (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
-                            data=mdata, REML=FALSE)
+cmn.rw.mod <- lmer(ring_width_detrended ~  subsection*(PMDI_3yrlag_s + BA_s + elev_s) +
+                          BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                          (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                          data=mdata, REML=FALSE)
+
+  ## duct.density.log ~
+  ##                           subsection*((age_s * (ring_width_detrended_s)) +
+  ##                                         BA_s + elev_s + PMDI_3yrlag_s)  +
+  ##                           elev_s:age_s +
+  ##                           BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
+  ##                           (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+  ##                           data=mdata, REML=FALSE)
 
 
 # make lmer version of rdd model
 cmn.rdd.mod <- lmer(duct.density.log ~
-                      subsection*((age_s * (ring_width_detrended_s)) +
-                                    BA_s + elev_s + PMDI_3yrlag_s)  +
-                      elev_s:age_s +
-                      BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
-                            (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+                     subsection*(age_s + ring_width_detrended_s + BA_s + elev_s + PMDI_3yrlag_s) +
+                     age_s:(PMDI_3yrlag_s +  ring_width_detrended_s + elev_s) +
+                     BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s +
+                     subsection:age_s:PMDI_3yrlag_s +
+                     #subsection:age_s:ring_width_detrended_s +
+                            (PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
                           data=mdata, REML=FALSE)
+
+## duct.density.log ~
+##                             subsection*((age_s * (PMDI_3yrlag_s + ring_width_detrended_s)) +
+##                             BA_s + elev_s)  +
+##                             BA_s:PMDI_3yrlag_s + BA_s:elev_s + PMDI_3yrlag_s:elev_s + 
+##                             (age_s+PMDI_3yrlag_s | tag) + (1 + age_s | calendar.year),
+##                           data=mdata, REML=FALSE)
 
 
 newdata <-  mdata %>% mutate(prw = predict(cmn.rw.mod),
@@ -311,7 +319,7 @@ figS4 <- ggplot(newdata, aes(age, prdd, color = pmdi_f)) +
   pubtheme.nogridlines +
   scale_y_log10(breaks=pretty_breaks())
 
-ggsave("../results/figS3_rdd_age_pmdi_predicted.png", plot=figS4, width=col1,
+ggsave("../results/figS4_rdd_age_pmdi_predicted.png", plot=figS4, width=col1,
        height=0.9*col1, units="cm")
 
 figS4
