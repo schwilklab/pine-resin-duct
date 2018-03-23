@@ -1,7 +1,7 @@
 pine-resin-duct
 ===============
 
-This repo contains data, code, figures, and methods for Erik Lindberg's MS thesis on resin duct and growth characteristics of pine trees in west Texas mountains. See [ms-tables-figs.R](https://github.com/schwilklab/pine-resin-duct/blob/master/scripts/ms-tables-figs.R) for a single script that will produce all analyses, tables and figures as submitted to AJB.
+This repo contains data, code, figures, and methods for the Schwilk Lab resin duct project that originated with Erik Lindberg's MS thesis on resin duct and growth characteristics of pine trees in west Texas mountains. See [ms-tables-figs.R](https://github.com/schwilklab/pine-resin-duct/blob/master/scripts/ms-tables-figs.R) for a single script that will produce all analyses, tables and figures as submitted to AJB (authors: Lindberg, Ferrenberg, and Schwilk).
 
 ## Requirements ##
 
