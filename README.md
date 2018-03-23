@@ -1,7 +1,7 @@
 pine-resin-duct
 ===============
 
-This repo contains data, code, figures, and methods for Erik Lindberg's MS thesis on resin duct and growth characteristics of pine trees in west Texas mountains. See [ms-tables-figs.R](../scripts/ms-tables-figs.r) for a single script that will produce all analyses, tables and figures as submitted to AJB.
+This repo contains data, code, figures, and methods for Erik Lindberg's MS thesis on resin duct and growth characteristics of pine trees in west Texas mountains. See [ms-tables-figs.R](https://github.com/schwilklab/pine-resin-duct/blob/master/scripts/ms-tables-figs.R) for a single script that will produce all analyses, tables and figures as submitted to AJB.
 
 ## Requirements ##
 
@@ -14,7 +14,7 @@ These analyses require R and the following packages: dplyr, stringr, ggplot2, rg
 
 ### Topographic variable calculations ###
 
-See [topo_grid methods documentation](https://github.com/schwilklab/skyisland-climate/blob/master/methods/topo_grid_methods.md) located in the skyisland-climate repo hosted by schwilklab.  Documentation provided by Dr. Helen Poulos and Dr. Dylan Schwilk.
+See [topo_grid methods documentation](https://github.com/schwilklab/skyisland-climate/blob/master/methods/topo_grid_methods.md) located in the skyisland-climate repo hosted by schwilklab.
 
 ### Drought value calculations ###
 
@@ -22,7 +22,7 @@ Palmers Modified Drought Index (PMDI) values were obtained from [NOAA website](h
 
 ### Statistical models, tables and figures for manuscript ###
 
-The script [ms-tables-figs.R](./scripts/ms-tables-figs.R). Conducts the necessary final analysis for the manuscript as submitted the AJB.  Some intermediate steps in deciding final model structure are not shown in this code but are descrbed in the manuscript). 
+The script [ms-tables-figs.R](https://github.com/schwilklab/skyisland-climate/blob/master/scripts/ms-tables) conducts the necessary final analysis for the manuscript as submitted the AJB.  Some intermediate steps in deciding final model structure are not shown in this code but are descrbed in the manuscript). 
 
 This script first sources a script to read data and run transformations (`read_all.R`). Then this script fits lmer-models and calculates approximate p-values, produces html and odt tables (tables 1, 2 , S1 and S2), and produces all figures for the submitted ms (Figs1-5).
 
