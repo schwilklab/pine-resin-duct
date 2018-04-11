@@ -95,7 +95,7 @@ read_ring_coord_file <- function(filename) {
     x1 <- df$x[1]
     y1 <- df$y[1]
     df <- df %>% mutate(calendar.year=SAMPLE_YEAR + ring - max(ring) + 1,
-                        ring.age=max(ring)-ring,
+                        ring.age=as.integer(max(ring)-ring),
                         # Convert coordinate pixels from inches to cm
                         r1=sdist(x1, y1, x, y)*2.54,
                         ring.width=get_widths(r1),

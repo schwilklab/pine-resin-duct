@@ -31,6 +31,12 @@ trees <- trees %>% mutate(BA = 10.0*BA_TO_METRIC*BA.raw) %>% select(-BA.raw)
 # Get all annual ring calculations
 source("read_rings.R")
 
+
+# add max tree age to trees data
+trees <- left_join(trees,
+                   summarize(group_by(ring_data, tag), tree.age = as.integer(max(ring.age))),
+                   by = "tag")
+
 # get annual PMDI data
 source("read_climate.R")
 
@@ -94,3 +100,7 @@ trees.sum <- mdata %>% group_by(tag) %>%
                    select(-core.taken, -pith, -needles.collected, -condition,
                           -barkbeetle.attack, -trail.area, -note)
 
+
+# Read duct areas and add to trees data
+source("./read_ring_areas.R")
+mdata <- left_join(mdata, ring_areas_sum, by=c("tag", "ring.age"))
