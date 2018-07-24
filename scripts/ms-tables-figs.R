@@ -22,6 +22,10 @@ library(xtable)
 source("ggplot-theme.R")
 source("read_all.R")
 
+# remove unnecessary data to save memory
+
+rm(monthly_drought, ring_data, ring_areas, core.area, read.area.file, read_ring_coord_file, read.one.tag, trees.sum, trees, gm_raster_data, dm_raster_data, cm_raster_data)
+
 ################### 1. Ring Width ###########################################
 
 # Include the calendar year as random intercept and age slope
